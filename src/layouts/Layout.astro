@@ -4,6 +4,9 @@ interface Props {
 }
 
 import '../styles/styles.scss';
+
+import TopHeader from '../components/common/TopHeader';
+import Banner from '../components/common/Banner.astro';
 const { title } = Astro.props;
 ---
 
@@ -19,6 +22,12 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
+		<div class="relative z-100">
+			<div class="header-dashtop-weap relative w-full">
+				<TopHeader/>
+				<Banner/>
+			</div>
+		</div>
 		<slot />
 	</body>
 </html>
