@@ -1,0 +1,23 @@
+.manu-toggle {
+    .sub-menu {
+        display: none;
+    }
+
+    &:hover {
+        .sub-menu {
+            display: block;
+        }
+    }
+
+    .sub-menu-toggle {
+        .child-sub-menu {
+            display: none;
+        }
+
+        &:hover {
+            .child-sub-menu {
+                display: block;
+            }
+        }
+    }
+}
