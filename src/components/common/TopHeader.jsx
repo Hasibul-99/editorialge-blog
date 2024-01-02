@@ -1,70 +1,67 @@
 import React from 'react'
-import { WiMoonWaxing6 } from "react-icons/wi";
-import { FaFacebookF } from "react-icons/fa";
-import { RiTwitterXLine } from "react-icons/ri";
-import { FaPinterestP } from "react-icons/fa6";
-import { FaLinkedinIn } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 export default function TopHeader() {
-  return (
-    <div className='w-full mx-auto '>
-      <div className='mx-0 py-1 block mb-0 min-h-0'>
-        <div className='min-h-1 float-left px-6 relative align-baseline w-full'>
-          <div className='px-6 block min-h-[1px] float-left relative align-baseline w-full'>
-            <div className='w-auto h-auto'>
-              <div className='text-left inline-block mb-0 clear-none mr-5 align-middle relative' >
-                <div className='flex items-baseline'>
-                  <span className='text-sm mr-1 relative top-0.5'>
-                    <WiMoonWaxing6 />
-                  </span>
-                  <div className='mr-1.5 select-none'>
-                    <span className='font-normal text-[11px] '>11</span>
-                    <span className='font-normal text-[8px] relative top-[-6px] left-px'>C</span>
-                  </div>
-                  <span className='text-[11px] font-normal lg:font-medium leading-[26px] '>London</span>
+    return (
+        <div className="header-top-wrap-four">
+            <div className="container">
+                <div className="row align-items-center">
+                    <div className="col-lg-8">
+                        <div className="header-top-left-four">
+                            <div className="trending-box">
+                                <div className="icon">
+                                    <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0H2.66667L0 7.7H2.66667L1.33333 14L7.33333 4.9H4.00333L8 0Z" fill="white" />
+                                    </svg>
+                                </div>
+                                <span>Trending</span>
+                                <div className="shape">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122 36" preserveAspectRatio="none" fill="none">
+                                        <path d="M0 18C0 8.05888 8.05887 0 18 0H110L121.26 16.8906C121.708 17.5624 121.708 18.4376 121.26 19.1094L110 36H18C8.05888 36 0 27.9411 0 18Z" fill="url(#trending_shape)" />
+                                        <defs>
+                                            <linearGradient id="trending_shape" x1={12} y1={36} x2={132} y2={36} gradientUnits="userSpaceOnUse">
+                                                <stop offset={0} stopColor="#3F6088" />
+                                                <stop offset={1} stopColor="#2A4970" stopOpacity={0} />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                            </div>
+                            {/* <div className="swiper-container ta-trending-slider">
+                                <div className="swiper-wrapper">
+                                    <div className="swiper-slide">
+                                        <div className="trending-content">
+                                            <a href="blog-details.html">Here area brands and designers to look out for next year 2023</a>
+                                        </div>
+                                    </div>
+                                    <div className="swiper-slide">
+                                        <div className="trending-content">
+                                            <a href="blog-details.html">Here area brands and designers to look out for next year 2023</a>
+                                        </div>
+                                    </div>
+                                    <div className="swiper-slide">
+                                        <div className="trending-content">
+                                            <a href="blog-details.html">Here area brands and designers to look out for next year 2023</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> */}
+                        </div>
+                    </div>
+                    <div className="col-lg-4">
+                        <div className="header-top-social header-top-social-two">
+                            <h5 className="title">Follow Us:</h5>
+                            <ul className="list-wrap">
+                                <li><a href="#"><FaFacebookF /></a></li>
+                                <li><a href="#"><FaXTwitter /></a></li>
+                                <li><a href="#"><FaInstagram /></a></li>
+                                <li><a href="#"><FaLinkedin /></a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-              </div>
-
-              <div className='text-left inline-block mb-0 clear-none mr-7 align-middle relative'>
-                <div className='flex items-baseline transform translate-z-0'>
-                  <div className='text-[11px] font-normal lg:font-medium leading-[26px]'>
-                    Sunday, December 17, 2023
-                  </div>
-                </div>
-              </div>
-
-              <div className='text-left mb-0 float-right clear-none relative inline-block'>
-                <div className='inline-block align-left'>
-                  <a href='#' title="Facebook" className='w-[25.2px] h-[25.2px] text-sm m-0 relative top-0.5 inline-block align-middle transition-all duration-200 text-center transform translate-z-0 hover:text-blue-500 no-underline bg-transparent'>
-                    <FaFacebookF />
-                  </a>
-                </div>
-                <div className='inline-block align-left'>
-                  <a href='#' title="Twitter" className='w-[25.2px] h-[25.2px] text-sm m-0 relative top-0.5 inline-block align-middle transition-all duration-200 text-center transform translate-z-0 hover:text-blue-500 no-underline bg-transparent'>
-                    <RiTwitterXLine />
-                  </a>
-                </div>
-                <div className='inline-block align-left'>
-                  <a href='#' title="Pinterest" className='w-[25.2px] h-[25.2px] text-sm m-0 relative top-0.5 inline-block align-middle transition-all duration-200 text-center transform translate-z-0 hover:text-blue-500 no-underline bg-transparent'>
-                    <FaPinterestP />
-                  </a>
-                </div>
-                <div className='inline-block align-left'>
-                  <a href='#' title="Linkedin" className='w-[25.2px] h-[25.2px] text-sm m-0 relative top-0.5 inline-block align-middle transition-all duration-200 text-center transform translate-z-0 hover:text-blue-500 no-underline bg-transparent'>
-                    <FaLinkedinIn />
-                  </a>
-                </div>
-                <div className='inline-block align-left'>
-                  <a href='#' title="Linkedin" className='w-[25.2px] h-[25.2px] text-sm m-0 relative top-0.5 inline-block align-middle transition-all duration-200 text-center transform translate-z-0 hover:text-blue-500 no-underline bg-transparent'>
-                    <FaYoutube />
-                  </a>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  )
+    )
 }

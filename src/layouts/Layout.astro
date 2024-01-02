@@ -1,35 +1,31 @@
 ---
+import '../assets/css/bootstrap.min.css';
+import '../assets/css/animate.min.css';
+import '../assets/css/default.css';
+import '../assets/css/style.css';
+import '../assets/css/responsive.css';
+
+import Header from "../components/common/Header.astro";
+
 interface Props {
-	title: string;
+  title: string;
 }
 
-import '../styles/styles.scss';
-
-import TopHeader from '../components/common/TopHeader';
-import Banner from '../components/common/Banner.astro';
-import Navbar from '../components/common/Navbar.astro';
 const { title } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Verdana|Geneva">
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<div class="relative z-100">
-			<div class="header-dashtop-weap relative w-full">
-				<TopHeader/>
-				<Banner/>
-				<Navbar/>
-			</div>
-		</div>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header/>
+    <slot />
+  </body>
 </html>
