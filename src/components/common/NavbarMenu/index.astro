@@ -1,0 +1,108 @@
+---
+import { IoSearchOutline } from "react-icons/io5";
+import { FaBars } from "react-icons/fa";
+import LeftToggleMenu from "./LeftToggleMenu";
+import Logo from "../../../assets/img/logo/logo.png";
+import WLogo from "../../../assets/img/logo/w_logo.png";
+---
+<div id="sticky-header" class="menu-area menu-style-six">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="menu-wrap">
+                    <nav class="menu-nav">
+                        <div class="logo d-none">
+                            <a href="index.html"><img src={Logo.src} alt=""></a>
+                        </div>
+                        <div class="logo d-none white-logo">
+                            <a href="index.html"><img src={WLogo.src} alt=""></a>
+                        </div>
+                        <div class="offcanvas-toggle">
+                            <!-- <a href="javascript:void(0)" class="menu-tigger">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a> -->
+                            <LeftToggleMenu client:load/>
+                        </div>
+                        <div class="navbar-wrap main-menu d-none d-lg-flex">
+                            <ul class="navigation">
+                                <li class="active menu-item-has-children"><a href="#">Home</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="index.html">Home 01 - Default</a></li>
+                                        <li><a href="index-2.html">Home 02 - Gaming</a></li>
+                                        <li><a href="index-3.html">Home 03 - Technology</a></li>
+                                        <li><a href="index-4.html">Home 04 - Travel</a></li>
+                                        <li><a href="index-5.html">Home 05 - Crypto</a></li>
+                                        <li class="active"><a href="index-6.html">Home 06 - Newspaper</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="about.html">About Us</a></li>
+                                <li class="menu-item-has-children"><a href="#">Features</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item-has-children"><a href="#">Single Post Layout</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="blog-details.html">Single post 01</a></li>
+                                                <li><a href="blog-details-two.html">Single post 02</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="author.html">Author Details</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children"><a href="#">Categories</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="blog.html">Blog Default</a></li>
+                                        <li><a href="blog-2.html">Blog Layout 02</a></li>
+                                        <li><a href="blog-3.html">Blog Layout 03</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="header-search-wrap header-search-wrap-three">
+                            <form action="#">
+                                <input type="text" placeholder="Search here . . .">
+                                <button type="submit"><IoSearchOutline /></button>
+                            </form>
+                        </div>
+                        <div class="mobile-nav-toggler"><FaBars /></div>
+                    </nav>
+                </div>
+
+                <!-- Mobile Menu  -->
+                <div class="mobile-menu">
+                    <nav class="menu-box" style="opacity: 1; visibility: visible;">
+                        <div class="close-btn"><i class="fas fa-times"></i></div>
+                        <div class="nav-logo">
+                            <a href="index.html"><img src="assets/img/logo/logo.png" alt="Logo"></a>
+                        </div>
+                        <div class="nav-logo d-none">
+                            <a href="index.html"><img src="assets/img/logo/w_logo.png" alt="Logo"></a>
+                        </div>
+                        <div class="mobile-search">
+                            <form action="#">
+                                <input type="text" placeholder="Search here...">
+                                <button><i class="flaticon-search"></i></button>
+                            </form>
+                        </div>
+                        <div class="menu-outer">
+                            <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
+                        </div>
+                        <div class="social-links">
+                            <ul class="clearfix list-wrap">
+                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="menu-backdrop"></div>
+                <!-- End Mobile Menu -->
+
+            </div>
+        </div>
+    </div>
+</div>

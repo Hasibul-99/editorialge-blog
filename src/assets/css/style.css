@@ -1588,6 +1588,9 @@ label {
 /*=============================
 	05. OffCanvas
 ===============================*/
+.offCanvas-sheet .close-button {
+    display: none;
+}
 .offCanvas-wrap {
     position: fixed;
     overflow-y: auto;
@@ -1595,7 +1598,7 @@ label {
     left: 0px;
     width: 395px;
     padding: 80px 58px 75px;
-    transform: translateX(-100%);
+    transform: translateX();
     height: 100%;
     background-color: var(--tg-white);
     z-index: 1020;
