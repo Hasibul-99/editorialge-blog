@@ -1,7 +1,7 @@
 ---
 import { IoSearchOutline } from "react-icons/io5";
-import { FaBars } from "react-icons/fa";
 import LeftToggleMenu from "./LeftToggleMenu";
+import MobileMenuToggle from "./MobileMenuToggle";
 import Logo from "../../../assets/img/logo/logo.png";
 import WLogo from "../../../assets/img/logo/w_logo.png";
 ---
@@ -18,11 +18,6 @@ import WLogo from "../../../assets/img/logo/w_logo.png";
                             <a href="index.html"><img src={WLogo.src} alt=""></a>
                         </div>
                         <div class="offcanvas-toggle">
-                            <!-- <a href="javascript:void(0)" class="menu-tigger">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </a> -->
                             <LeftToggleMenu client:load/>
                         </div>
                         <div class="navbar-wrap main-menu d-none d-lg-flex">
@@ -65,43 +60,12 @@ import WLogo from "../../../assets/img/logo/w_logo.png";
                                 <button type="submit"><IoSearchOutline /></button>
                             </form>
                         </div>
-                        <div class="mobile-nav-toggler"><FaBars /></div>
-                    </nav>
-                </div>
-
-                <!-- Mobile Menu  -->
-                <div class="mobile-menu">
-                    <nav class="menu-box" style="opacity: 1; visibility: visible;">
-                        <div class="close-btn"><i class="fas fa-times"></i></div>
-                        <div class="nav-logo">
-                            <a href="index.html"><img src="assets/img/logo/logo.png" alt="Logo"></a>
-                        </div>
-                        <div class="nav-logo d-none">
-                            <a href="index.html"><img src="assets/img/logo/w_logo.png" alt="Logo"></a>
-                        </div>
-                        <div class="mobile-search">
-                            <form action="#">
-                                <input type="text" placeholder="Search here...">
-                                <button><i class="flaticon-search"></i></button>
-                            </form>
-                        </div>
-                        <div class="menu-outer">
-                            <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
-                        </div>
-                        <div class="social-links">
-                            <ul class="clearfix list-wrap">
-                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                            </ul>
+                        <div class="mobile-nav-toggler">
+                            <!-- <FaBars /> -->
+                            <MobileMenuToggle client:load/>
                         </div>
                     </nav>
                 </div>
-                <div class="menu-backdrop"></div>
-                <!-- End Mobile Menu -->
-
             </div>
         </div>
     </div>
