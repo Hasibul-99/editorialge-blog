@@ -5,8 +5,9 @@ import '../assets/css/animate.min.css';
 import '../assets/css/default.css';
 import '../assets/css/style.css';
 import '../assets/css/responsive.css';
-import Header from "../components/common/Header.astro";
 
+import Header from "../components/common/Header.astro";
+import HeaderLogo from "../components/common/HeaderLogo.astro";
 interface Props {
 	title: string;
 }
@@ -26,6 +27,7 @@ const { title } = Astro.props;
 	</head>
 	<body>
 		<Header/>
+		<HeaderLogo/>
 		<slot />
 	</body>
 </html>
