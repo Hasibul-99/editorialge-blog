@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import BannerO1 from "@/assets/img/blog/author_post01.jpg"
+
+type Props = {
+
+}
+
+const {} = Astro.props
+
+---
+<div class="weekly-post-three">
+    <div class="weekly-post-thumb">
+        <a href="blog-details.html">
+            <Image src={BannerO1} alt="">
+        </a>
+        <a href="blog.html" class="post-tag">Politics</a>
+    </div>
+    <div class="weekly-post-content">
+        <h2 class="post-title"><a href="blog-details.html">Fluid Sizing Instead Of Multiple Media Queries?</a></h2>
+        <div class="blog-post-meta">
+            <ul class="list-wrap">
+                <li><i class="flaticon-calendar"></i>27 August, 2024</li>
+                <li><i class="flaticon-history"></i>20 Mins</li>
+            </ul>
+        </div>
+        <p>Browned butter and brown sugar caramelly oodness crispy edgesthick and soft centers and melty little puddles of chocolate y first favorite.</p>
+    </div>
+</div>
