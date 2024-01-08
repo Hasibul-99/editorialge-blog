@@ -9,6 +9,8 @@ import StoriesPostTwo from "@/components/cards/StoriesPostTwo.astro";
 import EditorPostThree from "@/components/cards/EditorPostThree.astro";
 import TopNewsPost from "@/components/cards/TopNewsPost.astro";
 import HorizontalPostFour from "@/components/cards/HorizontalPostFour.astro";
+import SportsPost from "@/components/cards/SportsPost.astro";
+import HotPostItemTwo from "@/components/cards/HotPostItemTwo.astro";
 ---
 
 <Layout title="Welcome to Astro.">
@@ -32,11 +34,11 @@ import HorizontalPostFour from "@/components/cards/HorizontalPostFour.astro";
 					</div>
 					
 					<!-- Start Ad  -->
-					<div class="ad-banner-img ad-banner-img-two text-center pt-20 pb-50">
+					<!-- <div class="ad-banner-img ad-banner-img-two text-center pt-20 pb-50">
 						<a href="#">
 							<img src="assets/img/images/advertisement13.jpg" alt="">
 						</a>
-					</div>
+					</div> -->
 					<!-- End Ad  -->
 
 					<!-- politics-post-area -->
@@ -210,15 +212,15 @@ import HorizontalPostFour from "@/components/cards/HorizontalPostFour.astro";
 					</div>
 					
 					<!-- Start  Ad  -->
-					<div class="ad-banner-area pt-20 pb-50">
+					<!-- <div class="ad-banner-area pt-20 pb-50">
 						<div class="ad-banner-img ad-banner-img-two text-center">
 							<a href="#">
 								<img src="assets/img/images/advertisement15.jpg" alt="">
 							</a>
 						</div>
-					</div>
+					</div> -->
 					<!-- End Start  -->
-					
+
 					<div class="sports-post-wrap">
 						<div class="section-title-wrap mb-30">
 							<div class="section-title section-title-four">
@@ -228,79 +230,14 @@ import HorizontalPostFour from "@/components/cards/HorizontalPostFour.astro";
 						</div>
 						<div class="row">
 							<div class="col-lg-8">
-								<div class="sports-post">
-									<div class="sports-post-thumb">
-										<a href="blog-details.html"><img src="assets/img/blog/sports_post01.jpg" alt=""></a>
-									</div>
-									<div class="sports-post-content">
-										<a href="blog.html" class="post-tag-four">Swimming</a>
-										<h4 class="post-title bold-underline"><a href="blog-details.html">How To Protect Your App With Threat Model Based On w To Protect Your App With Based</a></h4>
-										<div class="blog-post-meta">
-											<ul class="list-wrap">
-												<li><i class="flaticon-calendar"></i>27 August, 2024</li>
-											</ul>
-										</div>
-									</div>
-								</div>
+								<SportsPost/>
 							</div>
 							<div class="col-lg-4">
 								<div class="sidebar-wrap sidebar-wrap-four">
-									<div class="horizontal-post-four horizontal-post-five">
-										<div class="horizontal-post-thumb-four">
-											<a href="blog-details.html"><img src="assets/img/blog/sports_post02.jpg" alt=""></a>
-										</div>
-										<div class="horizontal-post-content-four">
-											<a href="blog.html" class="post-tag-four">basket Ball</a>
-											<h4 class="post-title"><a href="blog-details.html">Using Instagram tawo promote your</a></h4>
-											<div class="blog-post-meta">
-												<ul class="list-wrap">
-													<li><i class="flaticon-calendar"></i>27 August, 2024</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="horizontal-post-four horizontal-post-five">
-										<div class="horizontal-post-thumb-four">
-											<a href="blog-details.html"><img src="assets/img/blog/sports_post03.jpg" alt=""></a>
-										</div>
-										<div class="horizontal-post-content-four">
-											<a href="blog.html" class="post-tag-four">Boxing</a>
-											<h4 class="post-title"><a href="blog-details.html">Implementing Okta Authentication</a></h4>
-											<div class="blog-post-meta">
-												<ul class="list-wrap">
-													<li><i class="flaticon-calendar"></i>27 August, 2024</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="horizontal-post-four horizontal-post-five">
-										<div class="horizontal-post-thumb-four">
-											<a href="blog-details.html"><img src="assets/img/blog/sports_post04.jpg" alt=""></a>
-										</div>
-										<div class="horizontal-post-content-four">
-											<a href="blog.html" class="post-tag-four">Football</a>
-											<h4 class="post-title"><a href="blog-details.html">Core Web Vitals Tools To Boost Your</a></h4>
-											<div class="blog-post-meta">
-												<ul class="list-wrap">
-													<li><i class="flaticon-calendar"></i>27 August, 2024</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="horizontal-post-four horizontal-post-five">
-										<div class="horizontal-post-thumb-four">
-											<a href="blog-details.html"><img src="assets/img/blog/sports_post05.jpg" alt=""></a>
-										</div>
-										<div class="horizontal-post-content-four">
-											<a href="blog.html" class="post-tag-four">Politics</a>
-											<h4 class="post-title"><a href="blog-details.html">Migration From jQuery to Next.js: A Guide</a></h4>
-											<div class="blog-post-meta">
-												<ul class="list-wrap">
-													<li><i class="flaticon-calendar"></i>27 August, 2024</li>
-												</ul>
-											</div>
-										</div>
-									</div>
+									<HorizontalPostFour/>
+									<HorizontalPostFour/>
+									<HorizontalPostFour/>
+									<HorizontalPostFour/>
 								</div>
 							</div>
 						</div>
@@ -333,82 +270,31 @@ import HorizontalPostFour from "@/components/cards/HorizontalPostFour.astro";
 								<h2 class="title">Business</h2>
 							</div>
 							<div class="hot-post-wrap">
-								<div class="hot-post-item hot-post-item-two">
-									<div class="hot-post-thumb">
-										<a href="blog-details.html"><img src="assets/img/blog/nw_banner_post01.jpg" alt=""></a>
-									</div>
-									<div class="hot-post-content">
-										<a href="blog.html" class="post-tag-four">Audit</a>
-										<h4 class="post-title"><a href="blog-details.html">Take a Look Back at the Moseret Gala Red Carpet Ever</a></h4>
-										<div class="blog-post-meta">
-											<ul class="list-wrap">
-												<li><i class="flaticon-calendar"></i>27 August, 2024</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="hot-post-item hot-post-item-two">
-									<div class="hot-post-content">
-										<a href="blog.html" class="post-tag-four">Marketing</a>
-										<h4 class="post-title"><a href="blog-details.html">Take a Look Back at the Moseret Gala Red Carpet Ever</a></h4>
-										<div class="blog-post-meta">
-											<ul class="list-wrap">
-												<li><i class="flaticon-calendar"></i>27 August, 2024</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="hot-post-item hot-post-item-two">
-									<div class="hot-post-content">
-										<a href="blog.html" class="post-tag-four">Marketing</a>
-										<h4 class="post-title"><a href="blog-details.html">Take a Look Back at the Moseret Gala Red Carpet Ever</a></h4>
-										<div class="blog-post-meta">
-											<ul class="list-wrap">
-												<li><i class="flaticon-calendar"></i>27 August, 2024</li>
-											</ul>
-										</div>
-									</div>
-								</div>
+								<!-- Start Ad  -->
+								<!-- <div class="hot-post-thumb">
+									<a href="blog-details.html"><img src="assets/img/blog/nw_banner_post01.jpg" alt=""></a>
+								</div> -->
+								<!-- End Ad  -->
+								<HotPostItemTwo/>
+								<HotPostItemTwo/>
+								<HotPostItemTwo/>
+								<HotPostItemTwo/>
 							</div>
 						</div>
-						<div class="sidebar-widget sidebar-widget-two">
+
+						<!-- Start Ad  -->
+						<!-- <div class="sidebar-widget sidebar-widget-two">
 							<div class="sidebar-img">
 								<a href="#">
 									<img src="assets/img/images/sidebar_img06.jpg" alt="">
 								</a>
 							</div>
-						</div>
+						</div> -->
+						<!-- End Ad  -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	<!-- top-news-post-end -->
-
-	<!-- newsletter-area -->
-	<section class="newsletter-area-four">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="newsletter-wrap-four">
-						<div class="newsletter-content">
-							<h2 class="title">Get Subscribe To Our Latest News & Update</h2>
-						</div>
-						<div class="newsletter-form">
-							<form action="#">
-								<div class="form-grp">
-									<input type="text" placeholder="Name">
-								</div>
-								<div class="form-grp">
-									<input type="email" placeholder="E-mail">
-								</div>
-								<button type="submit" class="btn">Submit Now</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- newsletter-area-end -->
 </Layout>

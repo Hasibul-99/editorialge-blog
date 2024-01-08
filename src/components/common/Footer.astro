@@ -1,5 +1,7 @@
 ---
-
+import { Image } from 'astro:assets';
+import Logo from "@/assets/img/logo/logo.png"
+import WLogo from "@/assets/img/logo/w_logo.png"
 ---
 
 <div>
@@ -11,14 +13,14 @@
             <div class="col-lg-3 col-md-7">
               <div class="footer-widget">
                 <div class="fw-logo">
-                  <a href="index.html"
-                    ><img src="assets/img/logo/logo.png" alt="" /></a
-                  >
+                  <a href="index.html">
+                    <Image src={Logo} alt="" />
+                  </a>
                 </div>
                 <div class="fw-logo d-none">
-                  <a href="index.html"
-                    ><img src="assets/img/logo/w_logo.png" alt="" /></a
-                  >
+                  <a href="index.html">
+                    <Image src={WLogo} alt="" />
+                  </a>
                 </div>
                 <div class="footer-content">
                   <p>
