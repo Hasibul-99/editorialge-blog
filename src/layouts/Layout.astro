@@ -7,9 +7,13 @@ import '../assets/css/default.css';
 import '../assets/css/style.css';
 import '../assets/css/responsive.css';
 
-import Header from "../components/common/Header.astro";
-import HeaderLogo from "../components/common/HeaderLogo.astro";
+import Header from "@/components/common/Header.astro";
+import HeaderLogo from "@/components/common/HeaderLogo.astro";
 import NavbarMenu from '@/components/common/NavbarMenu/index.astro';
+import Footer from '@/components/common/Footer.astro';
+import Preloader from '@/components/common/Preloader';
+import DarkLightToggle from '@/components/common/DarkLightToggle';
+import ScrollTop from '@/components/common/ScrollTop';
 interface Props {
 	title: string;
 }
@@ -28,9 +32,15 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
+		<!-- <Preloader/> -->
+		<DarkLightToggle/>
+		<ScrollTop/>
 		<Header/>
 		<HeaderLogo/>
 		<NavbarMenu/>
-		<slot />
+		<main class="fix">
+			<slot />
+		</main>
+		<Footer/>
 	</body>
 </html>
