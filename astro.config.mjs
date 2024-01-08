@@ -11,6 +11,11 @@ export default defineConfig({
   experimental: {
     // assets: true,
   },
+  vite: {
+    ssr: {
+      noExternal: ["react-icons"],
+    },
+  },
   integrations: [
     react(),
     tailwind({

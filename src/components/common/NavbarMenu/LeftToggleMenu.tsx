@@ -16,7 +16,7 @@ export default function LeftToggleMenu({ }: Props) {
         <>
             <Sheet>
                 <SheetTrigger asChild>
-                    <a href="javascript:void(0)" className="menu-tigger">
+                    <a href="#!" className="menu-tigger">
                         <span></span>
                         <span></span>
                         <span></span>
