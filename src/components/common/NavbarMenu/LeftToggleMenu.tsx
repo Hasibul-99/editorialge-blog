@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     Sheet,
     SheetClose,
@@ -8,10 +8,29 @@ import {
 import Logo from "../../../assets/img/logo/logo.png"
 import WLogo from "../../../assets/img/logo/w_logo.png"
 import demoImg from "../../../assets/img/blog/hr_post01.jpg";
+import { addActiveClass, removeActiveClass } from '@/scripts/helpets';
 
 type Props = {}
 
 export default function LeftToggleMenu({ }: Props) {
+    const handleScroll = () => {
+        const scroll = window.pageYOffset;
+
+        if (scroll < 245) {
+            removeActiveClass(document.getElementById('sticky-header'), "sticky-menu");
+            removeActiveClass(document.getElementById('header-fixed-height'), "active-height");
+            removeActiveClass(document.getElementById('scroll-to-target'), "open");
+    
+        } else {
+            addActiveClass(document.getElementById('sticky-header'), 'sticky-menu');
+            addActiveClass(document.getElementById('header-fixed-height'), 'active-height');
+            addActiveClass(document.getElementById('scroll-to-target'), 'open');
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+    }, [])
     return (
         <>
             <Sheet>
