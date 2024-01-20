@@ -1,11 +1,11 @@
 ---
 import { changeLanguage } from "i18next";
-import Layout from "../../layouts/Layout.astro";
-import Breadcrumb from "../../components/common/Breadcrumb.astro";
+import Layout from "../../../layouts/Layout.astro";
+import Breadcrumb from "../../../components/common/Breadcrumb.astro";
 import WeeklyPostThree from "@/components/cards/WeeklyPostThree.astro";
 import SidebarWrap from "@/components/sidebar-wrap/index.astro";
 
-changeLanguage("en");
+changeLanguage("bn");
 
 export const getStaticPaths = async () => {
     const pages = [

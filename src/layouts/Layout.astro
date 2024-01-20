@@ -6,7 +6,7 @@ import '../assets/css/animate.min.css';
 import '../assets/css/default.css';
 import '../assets/css/style.css';
 import '../assets/css/responsive.css';
-
+import i18next, { t } from "i18next";
 import Header from "@/components/common/Header.astro";
 import HeaderLogo from "@/components/common/HeaderLogo.astro";
 import NavbarMenu from '@/components/common/NavbarMenu/index.astro';
@@ -23,7 +23,7 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={i18next.language}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description" />
