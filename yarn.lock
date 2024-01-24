@@ -366,15 +366,34 @@
   resolved "https://registry.npmjs.org/@emmetio/scanner/-/scanner-1.0.4.tgz"
   integrity sha512-IqRuJtQff7YHHBk4G8YZ45uB9BaAGcwQeVzgj/zj8/UdOhtQpEIupUhSk8dys6spFIWVZVeK20CzGEnqR5SbqA==
 
-"@esbuild/win32-x64@0.19.11":
+"@esbuild/linux-x64@0.19.11":
   version "0.19.11"
-  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.19.11.tgz"
-  integrity sha512-vfkhltrjCAb603XaFhqhAF4LGDi2M4OrCRrFusyQ+iTLQ/o60QQXxc9cZC/FFpihBI9N1Grn6SMKVJ4KP7Fuiw==
+  resolved "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.19.11.tgz"
+  integrity sha512-grbyMlVCvJSfxFQUndw5mCtWs5LO1gUlwP4CDi4iJBbVpZcqLVT29FxgGuBJGSzyOxotFG4LoO5X+M1350zmPA==
 
-"@img/sharp-win32-x64@0.33.1":
+"@img/sharp-libvips-linux-x64@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@img/sharp-libvips-linux-x64/-/sharp-libvips-linux-x64-1.0.0.tgz"
+  integrity sha512-naldaJy4hSVhWBgEjfdBY85CAa4UO+W1nx6a1sWStHZ7EUfNiuBTTN2KUYT5dH1+p/xij1t2QSXfCiFJoC5S/Q==
+
+"@img/sharp-libvips-linuxmusl-x64@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@img/sharp-libvips-linuxmusl-x64/-/sharp-libvips-linuxmusl-x64-1.0.0.tgz"
+  integrity sha512-FW8iK6rJrg+X2jKD0Ajhjv6y74lToIBEvkZhl42nZt563FfxkCYacrXZtd+q/sRQDypQLzY5WdLkVTbJoPyqNg==
+
+"@img/sharp-linux-x64@0.33.1":
   version "0.33.1"
-  resolved "https://registry.npmjs.org/@img/sharp-win32-x64/-/sharp-win32-x64-0.33.1.tgz"
-  integrity sha512-XaM69X0n6kTEsp9tVYYLhXdg7Qj32vYJlAKRutxUsm1UlgQNx6BOhHwZPwukCGXBU2+tH87ip2eV1I/E8MQnZg==
+  resolved "https://registry.npmjs.org/@img/sharp-linux-x64/-/sharp-linux-x64-0.33.1.tgz"
+  integrity sha512-4y8osC0cAc1TRpy02yn5omBeloZZwS62fPZ0WUAYQiLhSFSpWJfY/gMrzKzLcHB9ulUV6ExFiu2elMaixKDbeg==
+  optionalDependencies:
+    "@img/sharp-libvips-linux-x64" "1.0.0"
+
+"@img/sharp-linuxmusl-x64@0.33.1":
+  version "0.33.1"
+  resolved "https://registry.npmjs.org/@img/sharp-linuxmusl-x64/-/sharp-linuxmusl-x64-0.33.1.tgz"
+  integrity sha512-LOGKNu5w8uu1evVqUAUKTix2sQu1XDRIYbsi5Q0c/SrXhvJ4QyOx+GaajxmOg5PZSsSnCYPSmhjHHsRBx06/wQ==
+  optionalDependencies:
+    "@img/sharp-libvips-linuxmusl-x64" "1.0.0"
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -603,10 +622,15 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
-"@rollup/rollup-win32-x64-msvc@4.9.4":
+"@rollup/rollup-linux-x64-gnu@4.9.4":
   version "4.9.4"
-  resolved "https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.9.4.tgz"
-  integrity sha512-LfdGXCV9rdEify1oxlN9eamvDSjv9md9ZVMAbNHA87xqIfFCxImxan9qZ8+Un54iK2nnqPlbnSi4R54ONtbWBw==
+  resolved "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.9.4.tgz"
+  integrity sha512-dIYgo+j1+yfy81i0YVU5KnQrIJZE8ERomx17ReU4GREjGtDW4X+nvkBak2xAUpyqLs4eleDSj3RrV72fQos7zw==
+
+"@rollup/rollup-linux-x64-musl@4.9.4":
+  version "4.9.4"
+  resolved "https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.9.4.tgz"
+  integrity sha512-RoaYxjdHQ5TPjaPrLsfKqR3pakMr3JGqZ+jZM0zP2IkDtsGa4CqYaWSfQmZVgFUCgLrTnzX+cnHS3nfl+kB6ZQ==
 
 "@types/babel__core@^7.20.4", "@types/babel__core@^7.20.5":
   version "7.20.5"
@@ -1457,10 +1481,10 @@ es-module-lexer@^1.4.1:
   resolved "https://registry.npmjs.org/es-module-lexer/-/es-module-lexer-1.4.1.tgz"
   integrity sha512-cXLGjP0c4T3flZJKQSuziYoq7MlT+rnvfZjfp7h+I7K9BNX54kP9nyWvdbwjQ4u1iWbOL4u96fgeZLToQlZC7w==
 
-esbuild-windows-64@0.15.18:
+esbuild-linux-64@0.15.18:
   version "0.15.18"
-  resolved "https://registry.npmjs.org/esbuild-windows-64/-/esbuild-windows-64-0.15.18.tgz"
-  integrity sha512-qinug1iTTaIIrCorAUjR0fcBk24fjzEedFYhhispP8Oc7SFvs+XeW3YpAKiKp8dRpizl4YYAhxMjlftAMJiaUw==
+  resolved "https://registry.npmjs.org/esbuild-linux-64/-/esbuild-linux-64-0.15.18.tgz"
+  integrity sha512-hNSeP97IviD7oxLKFuii5sDPJ+QHeiFTFLoLm7NZQligur8poNOWGIgpQ7Qf8Balb69hptMZzyOBIPtY09GZYw==
 
 esbuild@^0.15.16:
   version "0.15.18"
