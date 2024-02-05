@@ -10,7 +10,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.2",
     "@astrojs/check": "^0.3.4",
+    "@astrojs/node": "^8.2.0",
     "@astrojs/react": "^3.0.9",
     "@astrojs/tailwind": "^5.1.0",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -23,6 +25,9 @@
     "clsx": "^2.1.0",
     "embla-carousel-autoplay": "^8.0.0-rc18",
     "embla-carousel-react": "^8.0.0-rc18",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
+    "graphql-yoga": "^5.1.1",
     "lucide-react": "^0.307.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
