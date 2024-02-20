@@ -13,8 +13,11 @@ export const removeActiveClass = (e, className = "") => {
 } 
 
 export const tansation = (data, context) => {
-    console.log("i18next.language", i18next.language);
     let lan = i18next.language;
-
     return data[`${context}_${lan}`] ? data[`${context}_${lan}`] : data[`${context}_en`];  
+}
+
+export const showImage = (data) => {
+
+    return "http://localhost:1337" + data.data.at(0).attributes.url;
 }

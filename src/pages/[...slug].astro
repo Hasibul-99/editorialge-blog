@@ -4,7 +4,7 @@ import { changeLanguage } from "i18next";
 import Breadcrumb from "@/components/common/Breadcrumb.astro";
 import Layout from "../layouts/Layout.astro";
 import SidebarWrap from "@/components/sidebar-wrap/index.astro";
-import {tansation} from "@/scripts/helpets";
+import {tansation, showImage} from "@/scripts/helpets";
 import BlogDetailsSocial from "@/components/social/BlogDetailsSocial.astro";
 
 changeLanguage("en");
@@ -87,13 +87,11 @@ export const getStaticPaths = async () => {
                     description
                     keywords
                     image {
-                    data {
+                      data {
                         attributes {
-                        url
-                        width
-                        height
+                          url
                         }
-                    }
+                      }
                     }
                 }
                 }
@@ -160,7 +158,7 @@ const { id, attributes } = Astro.props;
                   </div>
                 </div>
                 <div class="blog-details-thumb">
-                  <img src="assets/img/blog/blog_details01.jpg" alt="" />
+                  <img src={showImage(attributes.image)} alt="" />
                 </div>
                 <p class="first-info">
                   Browned butter and brown sugar caramelly oodness crispy
