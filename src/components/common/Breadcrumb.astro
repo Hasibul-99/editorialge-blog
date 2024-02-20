@@ -1,7 +1,5 @@
 ---
-type Props = {};
-
-const {} = Astro.props;
+const {data} = Astro.props;
 ---
 
 <!-- breadcrumb-area -->
@@ -11,10 +9,15 @@ const {} = Astro.props;
       <div class="col-lg-12">
         <div class="breadcrumb-content">
           <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Blogs</li>
-            </ol>
+            {
+              data?.length ? <ol class="breadcrumb">
+                {
+                  data.map((item: {value: string, src: string}, idx: number) => <li class={`breadcrumb-item ${data.length === idx+1 ? 'active' : ''}` }>
+                      <a href={item.src}>{item.value}</a>
+                    </li>)
+                }
+              </ol> : ''
+            }
           </nav>
         </div>
       </div>
@@ -22,3 +25,6 @@ const {} = Astro.props;
   </div>
 </div>
 <!-- breadcrumb-area-end -->
+
+
+<!-- <li class="breadcrumb-item active" aria-current="page">Blogs</li> -->

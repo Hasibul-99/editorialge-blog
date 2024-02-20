@@ -1,8 +1,11 @@
 ---
+import dayjs from 'dayjs'
 import { changeLanguage } from "i18next";
 import Breadcrumb from "@/components/common/Breadcrumb.astro";
 import Layout from "../layouts/Layout.astro";
 import SidebarWrap from "@/components/sidebar-wrap/index.astro";
+import {tansation} from "@/scripts/helpets";
+import BlogDetailsSocial from "@/components/social/BlogDetailsSocial.astro";
 
 changeLanguage("en");
 
@@ -34,8 +37,6 @@ export const getStaticPaths = async () => {
 
   for (let i = 0; i < slugs.data.posts.data.length; i++) {
     const slug = slugs.data.posts.data[i].attributes.slug;
-
-    console.log("item--", slug);
 
     const res = await fetch("http://localhost:1337/graphql", {
       method: "POST",
@@ -114,10 +115,12 @@ export const getStaticPaths = async () => {
 
 type Props = any;
 const { id, attributes } = Astro.props;
+
+
 ---
 
 <Layout title="Welcome to Astro.">
-  <Breadcrumb />
+  <Breadcrumb data={tansation(attributes, 'breadcrumb')} />
 
   <!-- blog-details-area -->
   <section class="blog-details-area pt-60 pb-60">
@@ -130,39 +133,30 @@ const { id, attributes } = Astro.props;
                 <div class="blog-details-content-top">
                   <a href="blog.html" class="post-tag">Appitizer</a>
                   <h2 class="title">
-                    {attributes.title_en}
+                    {tansation(attributes, 'title')}
                   </h2>
                   <div class="bd-content-inner">
                     <div class="blog-post-meta">
                       <ul class="list-wrap">
+                        {
+                          attributes?.createdBy?.firstname ? <li>
+                            <i class="flaticon-user"></i>by
+                            <a href="#">{attributes?.createdBy?.firstname}</a>
+                          </li> : ''
+                        }
                         <li>
-                          <i class="flaticon-user"></i>by<a href="author.html"
-                            >Admin</a>
+                          <i class="flaticon-calendar"></i>
+                          {dayjs(attributes.PublishedDate).format("DD MMMM, YYYY")}
                         </li>
-                        <li>
-                          <i class="flaticon-calendar"></i>27 August, 2024
-                        </li>
-                        <li>
+                        <!-- <li>
                           <i class="flaticon-chat"></i><a
                             href="blog-details.html">05 Comments</a>
-                        </li>
-                        <li><i class="flaticon-history"></i>20 Mins</li>
+                        </li> -->
+                        <!-- <li><i class="flaticon-history"></i>20 Mins</li> -->
                       </ul>
                     </div>
-                    <div class="blog-details-social">
-                      <ul class="list-wrap">
-                        <li>
-                          <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        </li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li>
-                          <a href="#"><i class="fab fa-instagram"></i></a>
-                        </li>
-                        <li>
-                          <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        </li>
-                      </ul>
-                    </div>
+                    
+                    <BlogDetailsSocial/>
                   </div>
                 </div>
                 <div class="blog-details-thumb">
