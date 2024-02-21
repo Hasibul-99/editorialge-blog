@@ -18,6 +18,5 @@ export const tansation = (data, context) => {
 }
 
 export const showImage = (data) => {
-
-    return "http://localhost:1337" + data.data.at(0).attributes.url;
+    return import.meta.env.PUBLIC_BASEURL + data.data.at(0).attributes.url;
 }

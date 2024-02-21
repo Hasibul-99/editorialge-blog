@@ -13,7 +13,7 @@ const {data} = Astro.props;
               data?.length ? <ol class="breadcrumb">
                 {
                   data.map((item: {value: string, src: string}, idx: number) => <li class={`breadcrumb-item ${data.length === idx+1 ? 'active' : ''}` }>
-                      <a href={item.src}>{item.value}</a>
+                      {data.length === idx+1 ? item.value : <a href={item.src}>{item.value}</a> }
                     </li>)
                 }
               </ol> : ''
