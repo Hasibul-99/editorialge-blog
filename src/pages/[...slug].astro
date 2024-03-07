@@ -6,6 +6,7 @@ import Layout from "../layouts/Layout.astro";
 import SidebarWrap from "@/components/sidebar-wrap/index.astro";
 import {tansation, showImage} from "@/scripts/helpets";
 import BlogDetailsSocial from "@/components/social/BlogDetailsSocial.astro";
+import RTEDrawer from "@/components/RTE-drawer/index.astro";
 
 changeLanguage("en");
 
@@ -160,96 +161,16 @@ const { id, attributes } = Astro.props;
                 <div class="blog-details-thumb">
                   <img src={showImage(attributes.image)} alt="" />
                 </div>
-                <p class="first-info">
-                  Browned butter and brown sugar caramelly oodness crispy
-                  edgesthick and soft centers andey melty little puddles of
-                  chocolate y first favorite.dolor sit amet, consectetuer
-                  adipiscing elitter Aenean commodo ligula eget dolor Aenean
-                  massa.
-                </p>
-                <p>
-                  Growned butter and brown sugar caramelly oodness crispy
-                  edgesthick and soft centers andey meltpuddles of chocolate y
-                  first favorite.dolor sit amet, consectetuer adipiscing elitter
-                  Aenean commodo ligula eget doloawr Aenean massa.m Ipsum has
-                  been the industry’s standard dummy.
-                </p>
-                <blockquote>
-                  <p>
-                    Grursus mal suada faci lisis orem ipsum dola onsectetur
-                    elittery Vestey bulum the ipsumm ipsum that dolocons rsus
-                    mal suada and there fadolorit to the consectetur elite.
-                  </p>
-                  <cite>Thomas A. Edison</cite>
-                </blockquote>
-                <p>
-                  Growned butter and brown sugar caramelly oodness crispy
-                  edgesthick and soft centers andey meltpuddles offer chocolate
-                  y first favorite.dolor sit amet, consectetuer adipiscing
-                  elitter Aenean commodo ligula egette doloawr Aenean massa.m
-                  Ipsum has been the industry’s standard dummy.should never
-                  complain, complaining is a weak emotion, you got life, we
-                  breathing, we blessed. Surround yourself with angels.
-                </p>
-                <div class="blog-details-inner">
-                  <div class="row align-items-center">
-                    <div class="col-md-6">
-                      <div class="blog-details-inner-img">
-                        <img src="assets/img/blog/blog_details02.jpg" alt="" />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="blog-details-inner-content">
-                        <h3 class="title-two">
-                          Customer Engagement Marketing New Strategy for the
-                          Economy
-                        </h3>
-                        <p>
-                          Pellentesque iaculis gravida nulla ac hendrerit
-                          Vestiabulum faucibus neque at lacus tristique eu
-                          ultrices area ipsum mollis Praesent pharetra semper
-                          purusPellentesque iaculis gravida nulla ac hendrerit.
-                        </p>
-                        <ul class="list-wrap">
-                          <li>
-                            <i class="fas fa-check"></i>Gutenberg Integration
-                          </li>
-                          <li>
-                            <i class="fas fa-check"></i>Gutenberg Integration
-                          </li>
-                          <li>
-                            <i class="fas fa-check"></i>Gutenberg Integration
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p>
-                  Growned butter and brown sugar caramelly oodness crispy
-                  edgesthick and soft centers andey meltpuddles offer chocolate
-                  y first favorite.dolor sit amet, consectetuer adipiscing
-                  elitter Aenean commodo ligula egette doloawr Aenean massa.m
-                  Ipsum has been the industry’s standard dummy.should never
-                  complain, complaining is a weak emotion, you got life, we
-                  breathing, we blessed. Surround yourself with angels.
-                </p>
-                <div class="blog-details-video">
-                  <img src="assets/img/blog/blog_details03.jpg" alt="" />
-                  <a
-                    href="https://www.youtube.com/watch?v=G_AEL-Xo5l8"
-                    class="paly-btn popup-video"><i class="fas fa-play"></i></a
-                  >
-                </div>
-                <p>
-                  Growned butter and brown sugar caramelly oodness crispy
-                  edgesthick and soft centers andey meltpuddles offer chocolate
-                  y first favorite.dolor sit amet, consectetuer adipiscing
-                  elitter Aenean commodo ligula egette doloawr Aenean massa.m
-                  Ipsum has been the industry’s standard dummy.should never
-                  complain, complaining is a weak emotion, you got life, we
-                  breathing, we blessed. Surround yourself with angels.
-                </p>
+                
+                <RTEDrawer 
+                  content={tansation(attributes, 'content_first')} 
+                  showFirst={true}/>
+
+
+                <RTEDrawer 
+                  content={tansation(attributes, 'content_sec')} 
+                  showFirst={true}/>
+
                 <div class="blog-details-bottom">
                   <div class="row align-items-center">
                     <div class="col-lg-6">
