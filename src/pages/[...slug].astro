@@ -1,11 +1,12 @@
 ---
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 import { changeLanguage } from "i18next";
 import Breadcrumb from "@/components/common/Breadcrumb.astro";
 import Layout from "../layouts/Layout.astro";
 import SidebarWrap from "@/components/sidebar-wrap/index.astro";
-import {tansation, showImage} from "@/scripts/helpets";
+import { tansation, showImage } from "@/scripts/helpets";
 import BlogDetailsSocial from "@/components/social/BlogDetailsSocial.astro";
+import PostShare from "@/components/social/PostShare.astro";
 import RTEDrawer from "@/components/RTE-drawer/index.astro";
 
 changeLanguage("en");
@@ -20,7 +21,7 @@ export const getStaticPaths = async () => {
       Accept: "application/json",
     },
     body: JSON.stringify({
-        query: `{
+      query: `{
         posts(filters: {status: {eq: true}}) {
             data {
                 attributes {
@@ -97,6 +98,23 @@ export const getStaticPaths = async () => {
                 }
                 }
             }
+            categories(filters: {is_hot: {eq: true}}) {
+              data {
+                id,
+                attributes {
+                  title_en,
+                  title_bn,
+                  cover_image{
+                    data {
+                      attributes {
+                        url
+                      }
+                    }
+                  }
+                  slug
+                }
+              }
+            }
         }`,
       }),
     });
@@ -104,22 +122,25 @@ export const getStaticPaths = async () => {
     const data = await res.json();
 
     contents.push({
-        params: { slug },
-        props: data?.data.posts.data[0],
-    })
+      params: { slug },
+      props: {
+        post: data?.data.posts.data[0],
+        hotCategories: data?.data.categories.data
+      }
+    });
   }
 
   return contents;
 };
 
 type Props = any;
-const { id, attributes } = Astro.props;
+const { post, hotCategories } = Astro.props;
 
-
+const {id, attributes,} = post;
 ---
 
 <Layout title="Welcome to Astro.">
-  <Breadcrumb data={tansation(attributes, 'breadcrumb')} />
+  <Breadcrumb data={tansation(attributes, "breadcrumb")} />
 
   <!-- blog-details-area -->
   <section class="blog-details-area pt-60 pb-60">
@@ -132,20 +153,29 @@ const { id, attributes } = Astro.props;
                 <div class="blog-details-content-top">
                   <a href="blog.html" class="post-tag">Appitizer</a>
                   <h2 class="title">
-                    {tansation(attributes, 'title')}
+                    {tansation(attributes, "title")}
                   </h2>
                   <div class="bd-content-inner">
                     <div class="blog-post-meta">
                       <ul class="list-wrap">
                         {
-                          attributes?.createdBy?.firstname ? <li>
-                            <i class="flaticon-user"></i>by
-                            <a href="#">{attributes?.createdBy?.firstname}</a>
-                          </li> : ''
+                          attributes?.createdBy?.firstname ? (
+                            <li>
+                              <i class="flaticon-user" />
+                              by
+                              <a href="#">{attributes?.createdBy?.firstname}</a>
+                            </li>
+                          ) : (
+                            ""
+                          )
                         }
                         <li>
                           <i class="flaticon-calendar"></i>
-                          {dayjs(attributes.PublishedDate).format("DD MMMM, YYYY")}
+                          {
+                            dayjs(attributes.PublishedDate).format(
+                              "DD MMMM, YYYY"
+                            )
+                          }
                         </li>
                         <!-- <li>
                           <i class="flaticon-chat"></i><a
@@ -154,60 +184,56 @@ const { id, attributes } = Astro.props;
                         <!-- <li><i class="flaticon-history"></i>20 Mins</li> -->
                       </ul>
                     </div>
-                    
-                    <BlogDetailsSocial/>
+
+                    <BlogDetailsSocial />
                   </div>
                 </div>
                 <div class="blog-details-thumb">
                   <img src={showImage(attributes.image)} alt="" />
                 </div>
-                
-                <RTEDrawer 
-                  content={tansation(attributes, 'content_first')} 
-                  showFirst={true}/>
 
+                <RTEDrawer
+                  content={tansation(attributes, "content_first")}
+                  showFirst={true}
+                />
 
-                <RTEDrawer 
-                  content={tansation(attributes, 'content_sec')} 
-                  showFirst={true}/>
+                <RTEDrawer
+                  content={tansation(attributes, "content_sec")}
+                  showFirst={true}
+                />
 
                 <div class="blog-details-bottom">
                   <div class="row align-items-center">
                     <div class="col-lg-6">
-                      <div class="post-tags">
-                        <h5 class="title">Tags:</h5>
-                        <ul class="list-wrap">
-                          <li><a href="blog.html">Art & Design</a></li>
-                          <li><a href="blog.html">Video</a></li>
-                        </ul>
-                      </div>
+                      {
+                        attributes.tags?.data.length ? (
+                          <div class="post-tags">
+                            <h5 class="title">Tags:</h5>
+                            <ul class="list-wrap">
+                              {attributes.tags.data.map(
+                                (tag: any, idx: number) => (
+                                  <li>
+                                    <a href="#">
+                                      {tansation(tag.attributes, "title")}
+                                    </a>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                        ) : (
+                          ""
+                        )
+                      }
                     </div>
                     <div class="col-lg-6">
-                      <div class="post-share">
-                        <h5 class="title">Share:</h5>
-                        <ul class="list-wrap">
-                          <li>
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                          </li>
-                          <li>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                          </li>
-                          <li>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                          </li>
-                          <li>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                          </li>
-                          <li>
-                            <a href="#"><i class="fab fa-youtube"></i></a>
-                          </li>
-                        </ul>
-                      </div>
+                      <PostShare />
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="blog-avatar-wrap mb-50">
+
+              <!-- <div class="blog-avatar-wrap mb-50">
                 <div class="blog-avatar-img">
                   <a href="#"
                     ><img src="assets/img/images/avatar.png" alt="img" /></a
@@ -224,8 +250,9 @@ const { id, attributes } = Astro.props;
                     Awaitingare really.
                   </p>
                 </div>
-              </div>
-              <div class="pev-next-post-wrap">
+              </div> -->
+
+              <!-- <div class="pev-next-post-wrap">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="post-item">
@@ -238,7 +265,8 @@ const { id, attributes } = Astro.props;
                         <span>Previous Post</span>
                         <h5 class="post-title">
                           <a href="blog-details.html"
-                            >Make May Magnificent <br /> Wallpapers Edition</a>
+                            >Make May Magnificent <br /> Wallpapers Edition</a
+                          >
                         </h5>
                       </div>
                     </div>
@@ -254,14 +282,16 @@ const { id, attributes } = Astro.props;
                         <span>Next Post</span>
                         <h5 class="post-title">
                           <a href="blog-details.html"
-                            >Write Better By Borrowing <br /> Ideas JavaScript Functions</a>
+                            >Write Better By Borrowing <br /> Ideas JavaScript Functions</a
+                          >
                         </h5>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="comments-wrap">
+              </div> -->
+
+              <!-- <div class="comments-wrap">
                 <h3 class="comments-wrap-title">02 Comments</h3>
                 <div class="latest-comments">
                   <ul class="list-wrap">
@@ -313,8 +343,9 @@ const { id, attributes } = Astro.props;
                     </li>
                   </ul>
                 </div>
-              </div>
-              <div class="comment-respond">
+              </div> -->
+
+              <!-- <div class="comment-respond">
                 <h3 class="comment-reply-title">Post a comment</h3>
                 <form action="#" class="comment-form">
                   <p class="comment-notes">
@@ -351,11 +382,11 @@ const { id, attributes } = Astro.props;
                   <button type="submit" class="btn btn-two">Post Comment</button
                   >
                 </form>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="col-30">
-            <SidebarWrap />
+            <SidebarWrap categories={hotCategories} />
           </div>
         </div>
       </div>

@@ -1,0 +1,27 @@
+---
+const { url=Astro.request.url} = Astro.props;
+
+let FBURL = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+let LinkURL = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+let TwiURL = `https://twitter.com/intent/tweet?url=${url}`;
+---
+<div class="post-share">
+    <h5 class="title">Share:</h5>
+    <ul class="list-wrap">
+      <li>
+        <a href={FBURL} target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+      </li>
+      <li>
+        <a href={TwiURL} target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+      </li>
+      <!-- <li>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </li> -->
+      <li>
+        <a href={LinkURL} target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+      </li>
+      <!-- <li>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </li> -->
+    </ul>
+</div>

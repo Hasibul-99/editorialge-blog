@@ -3,10 +3,12 @@ import SidebarCategories from "@/components/cards/SidebarCategories.astro";
 import HotPostThumb from "@/components/cards/HotPostThumb.astro";
 
 type Props = {
-
+    categories: any
 }
 
-const {} = Astro.props
+const {categories} = Astro.props
+
+console.log("props", categories);
 
 ---
 <div class="sidebar-wrap">
@@ -17,10 +19,14 @@ const {} = Astro.props
         </div>
         <div class="sidebar-categories">
             <ul class="list-wrap">
-                <SidebarCategories/>
-                <SidebarCategories/>
-                <SidebarCategories/>
-                <SidebarCategories/>
+                {
+                    categories?.length ? <>
+                     {
+                        categories.map((cat: any) => <SidebarCategories {...cat}/>)
+                     }
+                    </> : null
+                }
+
                 <!-- <li>
                     <a href="blog.html" data-background="assets/img/images/t_cat_img02.jpg">
                         <span class="post-tag post-tag-three">Mobile</span>
