@@ -1,16 +1,20 @@
 ---
-import { Image } from 'astro:assets';
-import Banner from "@/assets/img/blog/blog_rc_post.jpg"
+import { Image } from "astro:assets";
+import Banner from "@/assets/img/blog/blog_rc_post.jpg";
+import { showImage } from "@/scripts/helpets";
 
-type Props = {
+type Props = { image: any; slug: string };
 
-}
-
-const {} = Astro.props
-
+const { image, slug } = Astro.props;
 ---
+
 <div class="hot-post-thumb">
-    <a href="blog-details.html">
-        <Image src={Banner} alt="">
-    </a>
+  <a href={"/" + slug || "#"}>
+    <Image
+      src={showImage(image) || Banner}
+      width={200}
+      height={220}
+      alt="Banner"
+    />
+  </a>
 </div>

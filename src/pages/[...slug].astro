@@ -42,7 +42,7 @@ type Props = any;
 const { slug } = Astro.params;
 
 // Initialize the GraphQL client inside the function
-const client = new GraphQLClient("http://localhost:1337/graphql");
+const client = new GraphQLClient(`${import.meta.env.PUBLIC_BASEURL}/graphql`);
 // Define the query to fetch blog details by slug
 const queryPostBySlug = gql`
   query {
@@ -118,11 +118,40 @@ const queryPostBySlug = gql`
         }
       }
     }
+    latestPosts: posts(
+    sort: ["createdAt:desc"]
+    pagination: { limit: 5 }
+  ) {
+    data {
+      attributes {
+        title_en
+        title_bn
+        slug
+        category {
+          data {
+              attributes {
+                title_en
+                title_bn
+                slug
+              }
+          }
+        }
+        PublishedDate
+        image {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
   }
 `;
 const data: any = await client.request(queryPostBySlug);
 
-const {posts, categories} = data;
+const {posts, categories, latestPosts} = data;
 const post = posts.data[0];
 
 const { id, attributes } = post;
@@ -376,7 +405,7 @@ const hotCategories = categories.data;
             </div>
           </div>
           <div class="col-30">
-            <SidebarWrap categories={hotCategories} />
+            <SidebarWrap categories={hotCategories} latestPosts={latestPosts}/>
           </div>
         </div>
       </div>
