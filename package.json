@@ -28,6 +28,7 @@
     "embla-carousel-autoplay": "^8.0.0-rc18",
     "embla-carousel-react": "^8.0.0-rc18",
     "graphql": "^16.8.1",
+    "graphql-request": "^7.1.0",
     "graphql-tag": "^2.12.6",
     "graphql-yoga": "^5.1.1",
     "lucide-react": "^0.307.0",

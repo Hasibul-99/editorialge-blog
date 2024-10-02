@@ -1,4 +1,5 @@
 ---
+import { gql, GraphQLClient } from "graphql-request";
 import dayjs from "dayjs";
 import { changeLanguage } from "i18next";
 import Breadcrumb from "@/components/common/Breadcrumb.astro";
@@ -13,130 +14,119 @@ changeLanguage("en");
 
 export const prerender = true;
 
-export const getStaticPaths = async () => {
-  const response = await fetch("http://localhost:1337/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      query: `{
-        posts(filters: {status: {eq: true}}) {
+// Fetch all slugs during build time for static paths
+export async function getStaticPaths() {
+  // Initialize the GraphQL client inside the function
+  const client = new GraphQLClient("http://localhost:1337/graphql");
+  // Define the query to fetch all blog slugs for generating static paths
+  const queryAllSlugs = gql`
+    query {
+      posts(filters: { status: { eq: true } }) {
+        data {
+          attributes {
+            slug
+          }
+        }
+      }
+    }
+  `;
+  const data: any = await client.request(queryAllSlugs);
+
+  const paths = data.posts.data.map((post: any) => ({
+    params: { slug: post.attributes.slug },
+  }));
+
+  return paths;
+}
+type Props = any;
+const { slug } = Astro.params;
+
+// Initialize the GraphQL client inside the function
+const client = new GraphQLClient("http://localhost:1337/graphql");
+// Define the query to fetch blog details by slug
+const queryPostBySlug = gql`
+  query {
+    posts(
+      filters: {
+        slug: { eq: "${slug}" }
+        status: { eq: true }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          createdBy {
+            id
+            firstname
+            lastname
+          }
+          title_en
+          title_bn
+          breadcrumb_en
+          breadcrumb_bn
+          content_first_en
+          content_first_bn
+          content_sec_en
+          content_sec_bn
+          rating
+          category {
             data {
-                attributes {
+              attributes {
+                title_en
+                title_bn
                 slug
-                }
-            }
-            }
-        }`,
-    }),
-  });
-
-  const slugs = await response.json();
-
-  let contents: any = [];
-
-  for (let i = 0; i < slugs.data.posts.data.length; i++) {
-    const slug = slugs.data.posts.data[i].attributes.slug;
-
-    const res = await fetch("http://localhost:1337/graphql", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        query: `{
-            posts(filters: {slug: {eq: "10-ways-to-reduce-your-stress-this-year"}, status: {eq: true}}) {
-                data {
-                id
-                attributes {
-                    createdBy {
-                    id
-                    firstname
-                    lastname
-                    }
-                    title_en
-                    title_bn
-                    breadcrumb_en
-                    breadcrumb_bn
-                    content_first_en
-                    content_first_bn
-                    content_sec_en
-                    content_sec_bn
-                    rating
-                    category {
-                        data {
-                        attributes {
-                        title_en
-                        title_bn
-                        slug
-                        }
-                    }
-                    }
-                    tags {
-                    data {
-                        attributes {
-                        title_en
-                        title_bn
-                        }
-                    }
-                    }
-                    createdAt
-                    PublishedDate
-                    updatedAt
-                    description
-                    keywords
-                    image {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                }
-                }
-            }
-            categories(filters: {is_hot: {eq: true}}) {
-              data {
-                id,
-                attributes {
-                  title_en,
-                  title_bn,
-                  cover_image{
-                    data {
-                      attributes {
-                        url
-                      }
-                    }
-                  }
-                  slug
-                }
               }
             }
-        }`,
-      }),
-    });
-
-    const data = await res.json();
-
-    contents.push({
-      params: { slug },
-      props: {
-        post: data?.data.posts.data[0],
-        hotCategories: data?.data.categories.data
+          }
+          tags {
+            data {
+              attributes {
+                title_en
+                title_bn
+              }
+            }
+          }
+          createdAt
+          PublishedDate
+          updatedAt
+          description
+          keywords
+          image {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
       }
-    });
+    }
+    categories(filters: { is_hot: { eq: true } }) {
+      data {
+        id
+        attributes {
+          title_en
+          title_bn
+          cover_image {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          slug
+        }
+      }
+    }
   }
+`;
+const data: any = await client.request(queryPostBySlug);
 
-  return contents;
-};
+const {posts, categories} = data;
+const post = posts.data[0];
 
-type Props = any;
-const { post, hotCategories } = Astro.props;
-
-const {id, attributes,} = post;
+const { id, attributes } = post;
+const hotCategories = categories.data;
 ---
 
 <Layout title="Welcome to Astro.">
