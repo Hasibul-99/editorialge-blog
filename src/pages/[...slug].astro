@@ -101,7 +101,9 @@ const queryPostBySlug = gql`
         }
       }
     }
-    categories(filters: { is_hot: { eq: true } }) {
+    categories(filters: { is_hot: { eq: true } }
+    sort: ["createdAt:desc"]
+    pagination: { limit: 5 }) {
       data {
         id
         attributes {

@@ -1,24 +1,51 @@
 ---
-import { Image } from 'astro:assets';
-import BannerO1 from "@/assets/img/blog/nw_banner_post01.jpg"
----
-<div class="banner-post-five">
-    <div class="banner-post-thumb-five">
-        <a href="blog-details.html">
-            <Image src={BannerO1} alt="">
-        </a>
+import { Image } from "astro:assets";
+import BannerO1 from "@/assets/img/blog/nw_banner_post01.jpg";
+import {
+  getImageHeightAndWeight,
+  showImage,
+  tansation,
+} from "@/scripts/helpets";
+import dayjs from "dayjs";
 
-        <!-- <a href="https://www.youtube.com/watch?v=G_AEL-Xo5l8" class="paly-btn popup-video"><i class="fas fa-play"></i></a> -->
-    </div>
-    <div class="banner-post-content-five">
-        <a href="blog.html" class="post-tag-four">Business</a>
-        <h2 class="post-title"><a href="blog-details.html">A Pragmatist’s Guide To Theire Lean User Research</a>
-        </h2>
-        <div class="blog-post-meta">
+const { post } = Astro.props;
+
+console.log("post", post);
+---
+
+<div class="banner-post-five">
+  {
+    post ? (
+      <div class="banner-post-thumb-five">
+        <a href={post.slug}>
+          <Image
+            src={showImage(post.image)}
+            height={getImageHeightAndWeight(post.image, "height")}
+            width={getImageHeightAndWeight(post.image, "width")}
+            alt="image"
+          />
+        </a>
+        <div class="banner-post-content-five">
+          <a href={post?.category?.data?.attributes.slug} class="post-tag-four">
+            {tansation(post?.category?.data?.attributes, "title")}
+          </a>
+          <h2 class="post-title">
+            <a href={post.slug}>{tansation(post, "title")}</a>
+          </h2>
+          <div class="blog-post-meta">
             <ul class="list-wrap">
-                <li><i class="flaticon-user"></i>by<a href="author.html">Admin</a></li>
-                <li><i class="flaticon-calendar"></i>27 August, 2024</li>
+              <li>
+                <i class="flaticon-user" />
+                by<a href="#">{post.createdBy?.firstname}</a>
+              </li>
+              <li>
+                <i class="flaticon-calendar" />
+                {dayjs(post.PublishedDate).format("DD MMMM, YYYY")}
+              </li>
             </ul>
+          </div>
         </div>
-    </div>
+      </div>
+    ) : null
+  }
 </div>

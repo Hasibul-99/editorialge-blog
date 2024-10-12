@@ -1,24 +1,53 @@
 ---
-import { Image } from 'astro:assets';
-import Banner from "@/assets/img/blog/nw_banner_post03.jpg";
+import { Image } from "astro:assets";
+import {
+  showImage,
+  tansation,
+  getImageHeightAndWeight,
+} from "@/scripts/helpets";
+import dayjs from "dayjs";
+import RTEDrawer from "@/components/RTE-drawer/index.astro";
+
+const { post } = Astro.props;
 ---
+
 <div class="banner-post-six">
-    <div class="banner-post-thumb-six">
-        <a href="blog-details.html">
-            <Image src={Banner} alt="" format='avif' quality={'mid'}/>
-        </a>
+  <div class="banner-post-thumb-six">
+    <a href={post.slug}>
+      <Image
+        src={showImage(post.image)}
+        height={getImageHeightAndWeight(post.image, "height")}
+        width={getImageHeightAndWeight(post.image, "width")}
+        alt="image"
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
+  </div>
+  <div class="banner-post-content-six">
+    <a href={post?.category?.data?.attributes.slug} class="post-tag-two"
+      >{tansation(post?.category?.data?.attributes, "title")}</a
+    >
+    <h2 class="post-title bold-underline">
+      <a href={post.slug}>{tansation(post, "title")}</a>
+    </h2>
+    <div class="blog-post-meta">
+      <ul class="list-wrap">
+        <li>
+          <i class="flaticon-user"></i>by<a href="#"
+            >{post.createdBy?.firstname}</a
+          >
+        </li>
+        <li>
+          <i class="flaticon-calendar"></i>{
+            dayjs(post.PublishedDate).format("DD MMMM, YYYY")
+          }
+        </li>
+      </ul>
     </div>
-    <div class="banner-post-content-six">
-        <a href="blog.html" class="post-tag-two">Politics</a>
-        <h2 class="post-title bold-underline"><a href="blog-details.html">Beyond Algorithms Skills Of Designers That AI Can’t Replicate</a>
-        </h2>
-        <div class="blog-post-meta">
-            <ul class="list-wrap">
-                <li><i class="flaticon-user"></i>by<a href="author.html">Admin</a></li>
-                <li><i class="flaticon-calendar"></i>27 August, 2024</li>
-                <li><i class="flaticon-history"></i>20 Mins</li>
-            </ul>
-        </div>
-        <p>Browned butter and brown sugar caramelly goodness, crispy edgend software centers and melty little puddles of chocolate first favorite.</p>
-    </div>
+    <RTEDrawer
+      content={tansation(post, "content_first")}
+      className="line-ellipsis-4"
+    />
+  </div>
 </div>

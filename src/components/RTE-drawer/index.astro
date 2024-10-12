@@ -1,23 +1,25 @@
 ---
-const {content, showFirst: boolean} = Astro.props;
+const { content, showFirst: boolean, className } = Astro.props;
 
 const resolveRichText = (nodes: any) => {
-    if (nodes?.length) {
-        return nodes.map((c: any) => resolveRichTextNode(c)).join('');
-    } else return content
-}
+  if (nodes?.length) {
+    return nodes.map((c: any) => resolveRichTextNode(c)).join("");
+  } else return content;
+};
 
-const resolveRichTextNode = (node : any) => {
-  let html = '';
-  const children = node.children ? node.children.map((c: any) => resolveRichTextNode(c)).join('') : '';
+const resolveRichTextNode = (node: any) => {
+  let html = "";
+  const children = node.children
+    ? node.children.map((c: any) => resolveRichTextNode(c)).join("")
+    : "";
 
   switch (node.type) {
-    case 'heading':
+    case "heading":
       html = `<h${node.level}>${children}</h${node.level}>`;
       break;
-    case 'text':
+    case "text":
       if (node.text) {
-        let tmp = node.text.replaceAll('\n', '<br />');
+        let tmp = node.text.replaceAll("\n", "<br />");
 
         if (node.bold) tmp = `<b>${tmp}</b>`;
         if (node.code) tmp = `<code>${tmp}</code>`;
@@ -28,32 +30,32 @@ const resolveRichTextNode = (node : any) => {
         html = tmp;
       }
       break;
-    case 'paragraph':
+    case "paragraph":
       html = `<p>${children}</p>`;
       break;
-    case 'link':
+    case "link":
       html = `<a href="${node.url}">${children}</a>`;
       break;
-    case 'list':
+    case "list":
       switch (node.format) {
-        case 'ordered':
+        case "ordered":
           html = `<ol>${children}</ol>`;
           break;
-        case 'unordered':
+        case "unordered":
           html = `<ul>${children}</ul>`;
           break;
       }
       break;
-    case 'list-item':
+    case "list-item":
       html = `<li>${children}</li>`;
       break;
-    case 'quote':
+    case "quote":
       html = `<blockquote>${children}</blockquote>`;
       break;
-    case 'code':
+    case "code":
       html = `<pre>${children}</pre>`;
       break;
-    case 'image':
+    case "image":
       if (node.image) {
         html = `<img src="${node.image.url}" height="${node.image.height}" width="${node.image.width}" alt="${node.image.alternativeText}" />`;
       }
@@ -61,8 +63,7 @@ const resolveRichTextNode = (node : any) => {
   }
 
   return html;
-}
-
-
+};
 ---
-<div set:html={resolveRichText(content)} ></div>
+
+<div class={className} set:html={resolveRichText(content)} />

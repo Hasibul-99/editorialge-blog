@@ -24,3 +24,9 @@ export const showImage = (data) => {
         return import.meta.env.PUBLIC_BASEURL + data.data.at(0).attributes.url;
     }
 }
+
+export const getImageHeightAndWeight = (image, context) => {
+    if (context === 'height') {
+        return image.data.at(0).attributes.height
+    } else return image.data.at(0).attributes.width
+}
