@@ -25,9 +25,9 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
 });
 
 const json = await response.json();
-const { topPost, justInRecent, hotCategories } = json.data;
+const { topPost, justInRecent, hotCategories, topRating } = json.data;
 
-console.log("data", topPost);
+console.log("data", justInRecent);
 ---
 
 <Layout title="Welcome to Astro.">
@@ -116,14 +116,17 @@ console.log("data", topPost);
             <div class="sidebar-widget-three">
               <div class="widget-title widget-title-three mb-20">
                 <div class="section-title-line"></div>
-                <h2 class="title">Top Stories</h2>
+                <h2 class="title">Just In</h2>
               </div>
-              <div class="stories-post-wrap">
-                <StoriesPost />
-                <StoriesPost />
-                <StoriesPost />
-                <StoriesPost />
-              </div>
+              {
+                justInRecent?.data?.length ? (
+                  <div class="stories-post-wrap">
+                    {justInRecent.data.map((item: any) => (
+                      <StoriesPost post={item.attributes} />
+                    ))}
+                  </div>
+                ) : null
+              }
             </div>
 
             <!-- Start Ad  -->
@@ -139,13 +142,15 @@ console.log("data", topPost);
                 <div class="section-title-line"></div>
                 <h2 class="title">Top Stories</h2>
               </div>
-              <div class="stories-post-wrap-two">
-                <StoriesPostTwo />
-                <StoriesPostTwo />
-                <StoriesPostTwo />
-                <StoriesPostTwo />
-                <StoriesPostTwo />
-              </div>
+              {
+                topRating?.data?.length ? (
+                  <div class="stories-post-wrap-two">
+                    {topRating.data.map((item: any, idx: number) => (
+                      <StoriesPostTwo post={item.attributes} idx={idx} />
+                    ))}
+                  </div>
+                ) : null
+              }
             </div>
           </div>
         </div>

@@ -175,6 +175,15 @@ export const home = () => {
                         }
                     }
                 }
+                image {
+                    data {
+                        attributes{
+                            url
+                            width
+                            height
+                        }
+                    }
+                }
                 publishedAt
             }
         }
@@ -214,6 +223,16 @@ export const home = () => {
                         }
                     }
                 }
+            }
+        }
+    }
+    topRating:posts( sort: "createdAt:desc"
+        pagination: { limit: 5 }, filters: { rating: { gte: 4 } }) {
+        data {
+            attributes {
+                title_en
+                title_bn
+                createdAt
             }
         }
     }

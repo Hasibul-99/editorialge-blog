@@ -4,8 +4,6 @@ type Props = {}
 
 export default function DarkLightToggle({ }: Props) {
     const handelModeChange = () => {
-        console.log("hello");
-        
         if (localStorage.getItem('tg_theme_scheme') === 'dark') {
             tg_set_scheme('light');
         } else {

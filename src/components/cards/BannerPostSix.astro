@@ -12,7 +12,8 @@ const { post } = Astro.props;
 ---
 
 <div class="banner-post-six">
-  <div class="banner-post-thumb-six">
+  {
+    post ? (<div class="banner-post-thumb-six">
     <a href={post.slug}>
       <Image
         src={showImage(post.image)}
@@ -49,5 +50,6 @@ const { post } = Astro.props;
       content={tansation(post, "content_first")}
       className="line-ellipsis-4"
     />
-  </div>
+  </div>) : null
+  }
 </div>
