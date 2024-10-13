@@ -2,17 +2,16 @@
 import Layout from "../layouts/Layout.astro";
 import BannerPostSix from "@/components/cards/BannerPostSix.astro";
 import BannerPostFive from "@/components/cards/BannerPostFive.astro";
-import PoliticsPost from "@/components/cards/PoliticsPost.astro";
-import PoliticsPostTwo from "@/components/cards/PoliticsPostTwo.astro";
 import StoriesPost from "@/components/cards/StoriesPost.astro";
 import StoriesPostTwo from "@/components/cards/StoriesPostTwo.astro";
-import EditorPostThree from "@/components/cards/EditorPostThree.astro";
-import TopNewsPost from "@/components/cards/TopNewsPost.astro";
-import HorizontalPostFour from "@/components/cards/HorizontalPostFour.astro";
-import SportsPost from "@/components/cards/SportsPost.astro";
-import HotPostItemTwo from "@/components/cards/HotPostItemTwo.astro";
 import { t, changeLanguage } from "i18next";
 import { home } from "@/scripts/graphql-query";
+import PostAreaOne from "@/components/post-areas/PostAreaOne.astro";
+import PostAreaTwo from "@/components/post-areas/PostAreaTwo.astro";
+import PostAreaThree from "@/components/post-areas/PostAreaThree.astro";
+import PostAreaFour from "@/components/post-areas/PostAreaFour.astro";
+import PostAreaFive from "@/components/post-areas/PostAreaFive.astro";
+import PostAreaSix from "@/components/post-areas/PostAreaSix.astro";
 
 changeLanguage("en");
 
@@ -27,7 +26,7 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
 const json = await response.json();
 const { topPost, justInRecent, hotCategories, topRating } = json.data;
 
-console.log("data", justInRecent);
+console.log("data", hotCategories);
 ---
 
 <Layout title="Welcome to Astro.">
@@ -63,52 +62,11 @@ console.log("data", justInRecent);
           <!-- End Ad  -->
 
           <!-- politics-post-area -->
-          <section class="politics-post-area">
-            <div class="section-title-wrap">
-              <div class="section-title section-title-four">
-                <h2 class="title">Politics</h2>
-                <div class="section-title-line"></div>
-              </div>
-            </div>
-            <div class="politics-post-wrap">
-              <div class="row">
-                <div class="col-69">
-                  <PoliticsPost />
-                </div>
-                <div class="col-31">
-                  <div class="politics-post-wrap-two">
-                    <PoliticsPostTwo />
-                    <PoliticsPostTwo />
-                    <PoliticsPostTwo />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+          <PostAreaOne />
           <!-- politics-post-area-end -->
 
           <!-- today-post-area -->
-          <section class="today-post-area pt-50">
-            <div class="section-title-wrap">
-              <div class="section-title section-title-four">
-                <h2 class="title">Today’s Hot Spot</h2>
-                <div class="section-title-line"></div>
-              </div>
-            </div>
-            <div class="today-post-wrap">
-              <div class="row gutter-40 justify-content-center">
-                <div class="col-lg-4 col-md-6">
-                  <BannerPostFive />
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <BannerPostFive />
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <BannerPostFive />
-                </div>
-              </div>
-            </div>
-          </section>
+          <PostAreaTwo />
           <!-- today-post-area-end -->
         </div>
         <div class="col-xl-3 col-lg-8">
@@ -172,38 +130,7 @@ console.log("data", justInRecent);
   <!-- ad-banner-area-end -->
 
   <!-- editor-post-area -->
-  <section class="editor-post-area-three">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="section-title-wrap mb-30">
-            <div class="section-title section-title-four">
-              <h2 class="title">Editors' Picks</h2>
-              <div class="editor-nav-two"></div>
-            </div>
-            <div class="section-title-line"></div>
-          </div>
-        </div>
-      </div>
-      <div class="row gutter-40 editor-post-active-two">
-        <div class="col-lg-3">
-          <EditorPostThree />
-        </div>
-        <div class="col-lg-3">
-          <EditorPostThree />
-        </div>
-        <div class="col-lg-3">
-          <EditorPostThree />
-        </div>
-        <div class="col-lg-3">
-          <EditorPostThree />
-        </div>
-        <!-- <div class="col-lg-3">
-					<EditorPostThree/>
-				</div> -->
-      </div>
-    </div>
-  </section>
+  <PostAreaThree />
   <!-- editor-post-area-end -->
 
   <!-- top-news-post -->
@@ -211,30 +138,7 @@ console.log("data", justInRecent);
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-xl-9">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="section-title-wrap mb-30">
-                <div class="section-title section-title-four">
-                  <h2 class="title">World Top News</h2>
-                </div>
-                <div class="section-title-line"></div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <TopNewsPost />
-            </div>
-            <div class="col-lg-4">
-              <HorizontalPostFour />
-            </div>
-            <div class="col-lg-4">
-              <HorizontalPostFour />
-            </div>
-            <div class="col-lg-4">
-              <HorizontalPostFour />
-            </div>
-          </div>
+          <PostAreaFour />
 
           <!-- Start  Ad  -->
           <!-- <div class="ad-banner-area pt-20 pb-50">
@@ -246,31 +150,11 @@ console.log("data", justInRecent);
 					</div> -->
           <!-- End Start  -->
 
-          <div class="sports-post-wrap">
-            <div class="section-title-wrap mb-30">
-              <div class="section-title section-title-four">
-                <h2 class="title">Sports</h2>
-              </div>
-              <div class="section-title-line"></div>
-            </div>
-            <div class="row">
-              <div class="col-lg-8">
-                <SportsPost />
-              </div>
-              <div class="col-lg-4">
-                <div class="sidebar-wrap sidebar-wrap-four">
-                  <HorizontalPostFour />
-                  <HorizontalPostFour />
-                  <HorizontalPostFour />
-                  <HorizontalPostFour />
-                </div>
-              </div>
-            </div>
-          </div>
+          <PostAreaFive />
         </div>
         <div class="col-xl-3 col-lg-8">
           <div class="sidebar-wrap-three">
-            <div class="sidebar-widget-three">
+            <!-- <div class="sidebar-widget-three">
               <div class="sidebar-newsletter sidebar-newsletter-two">
                 <div class="icon"><i class="flaticon-envelope"></i></div>
                 <h4 class="title">Daily Newsletter</h4>
@@ -294,24 +178,8 @@ console.log("data", justInRecent);
                   </form>
                 </div>
               </div>
-            </div>
-            <div class="sidebar-widget-three">
-              <div class="widget-title widget-title-three mb-20">
-                <div class="section-title-line"></div>
-                <h2 class="title">Business</h2>
-              </div>
-              <div class="hot-post-wrap">
-                <!-- Start Ad  -->
-                <!-- <div class="hot-post-thumb">
-									<a href="blog-details.html"><img src="assets/img/blog/nw_banner_post01.jpg" alt=""></a>
-								</div> -->
-                <!-- End Ad  -->
-                <HotPostItemTwo />
-                <HotPostItemTwo />
-                <HotPostItemTwo />
-                <HotPostItemTwo />
-              </div>
-            </div>
+            </div> -->
+            <PostAreaSix />
 
             <!-- Start Ad  -->
             <!-- <div class="sidebar-widget sidebar-widget-two">
