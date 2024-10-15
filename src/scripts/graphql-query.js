@@ -240,7 +240,7 @@ export const home = () => {
 }
 
 export const categoryList = () => {
-    return gql`
+    return `
         query {
             categories(filters: {status: {eq: true}}){
                 data {
@@ -253,42 +253,46 @@ export const categoryList = () => {
     `
 }
 
-export const categoryDeatails = (slug) => {
-    return gql`
+export const categoryDeatails = (slug, $page) => {
+    return `
         query {
-            categoryPost:categories(filters: {slug: {eq: "${slug}"}}) {
+            category:categories(filters: {slug: {eq: "${slug}"}}) {
                 data {
                     attributes {
                         breadcrumb_en
                         breadcrumb_bn
-                        posts(filters: {status: {eq: true}}, sort: "createdAt:desc", pagination: { page: 1, pageSize: 5 }) {
-                            data {
-                                attributes {
-                                    title_en
-                                    title_bn
-                                    image{
-                                        data{
-                                            attributes {
-                                                url
-                                            }
-                                        }
-                                    }
-                                    cover_image{
-                                        data{
-                                            attributes {
-                                                url
-                                            }
-                                        }
-                                    }
-                                    createdBy {
-                                        firstname
-                                        lastname
-                                    }
-                                    publishedAt
-                                    description 
-                                }
+                    }
+                }
+            }
+            categoryPost:posts(
+                filters: { status: { eq: true }, category: { slug: { eq: "${slug}" } } }
+                sort: "createdAt:desc"
+                pagination: { page: 1, pageSize: 12 }
+            ) {
+                data {
+                    attributes {
+                        title_en
+                        title_bn
+                        image {
+                        data {
+                            attributes {
+                            url
+                            width
+                            height
                             }
                         }
+                        }
+                        content_first_en
+                        content_first_bn
+                        createdAt
+                    }
+                }
+                meta {
+                    pagination {
+                        total         
+                        page          
+                        pageSize      
+                        pageCount     
                     }
                 }
             }
