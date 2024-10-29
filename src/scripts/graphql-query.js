@@ -1,9 +1,7 @@
-import { gql } from "graphql-request";
-
 export const postList = () => {
-    return gql`
+    return `
         query {
-            posts(filters: { status: { eq: true } }) {
+            posts(filters: { status: { eq: true } }, pagination: { limit: -1 }) {
                 data {
                     attributes {
                         slug
@@ -11,11 +9,11 @@ export const postList = () => {
                 }
             }
         }
-  `
+    `
 }
 
 export const postDetails = (slug) => {
-    return gql`
+    return `
     query {
       posts(
         filters: {
@@ -58,7 +56,6 @@ export const postDetails = (slug) => {
               }
             }
             createdAt
-            PublishedDate
             updatedAt
             description
             keywords
@@ -109,7 +106,6 @@ export const postDetails = (slug) => {
                 }
             }
           }
-          PublishedDate
           image {
             data {
               attributes {

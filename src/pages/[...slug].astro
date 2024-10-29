@@ -1,5 +1,4 @@
 ---
-import { gql, GraphQLClient } from "graphql-request";
 import dayjs from "dayjs";
 import { changeLanguage } from "i18next";
 import Breadcrumb from "@/components/common/Breadcrumb.astro";
@@ -9,6 +8,8 @@ import { tansation, showImage } from "@/scripts/helpets";
 import BlogDetailsSocial from "@/components/social/BlogDetailsSocial.astro";
 import PostShare from "@/components/social/PostShare.astro";
 import RTEDrawer from "@/components/RTE-drawer/index.astro";
+import { postList } from "@/scripts/graphql-query";
+import { postDetails } from "@/scripts/graphql-query";
 
 changeLanguage("en");
 
@@ -16,23 +17,18 @@ export const prerender = true;
 
 // Fetch all slugs during build time for static paths
 export async function getStaticPaths() {
-  // Initialize the GraphQL client inside the function
-  const client = new GraphQLClient("http://localhost:1337/graphql");
-  // Define the query to fetch all blog slugs for generating static paths
-  const queryAllSlugs = gql`
-    query {
-      posts(filters: { status: { eq: true } }) {
-        data {
-          attributes {
-            slug
-          }
-        }
-      }
-    }
-  `;
-  const data: any = await client.request(queryAllSlugs);
+  const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: postList(),
+    }),
+  });
 
-  const paths = data.posts.data.map((post: any) => ({
+  const json = await response.json();
+  const { posts } = json.data;
+
+  const paths = posts.data.map((post: any) => ({
     params: { slug: post.attributes.slug },
   }));
 
@@ -42,118 +38,127 @@ type Props = any;
 const { slug } = Astro.params;
 
 // Initialize the GraphQL client inside the function
-const client = new GraphQLClient(`${import.meta.env.PUBLIC_BASEURL}/graphql`);
-// Define the query to fetch blog details by slug
-const queryPostBySlug = gql`
-  query {
-    posts(
-      filters: {
-        slug: { eq: "${slug}" }
-        status: { eq: true }
-      }
-    ) {
-      data {
-        id
-        attributes {
-          createdBy {
-            id
-            firstname
-            lastname
-          }
-          title_en
-          title_bn
-          breadcrumb_en
-          breadcrumb_bn
-          content_first_en
-          content_first_bn
-          content_sec_en
-          content_sec_bn
-          rating
-          category {
-            data {
-              attributes {
-                title_en
-                title_bn
-                slug
-              }
-            }
-          }
-          tags {
-            data {
-              attributes {
-                title_en
-                title_bn
-              }
-            }
-          }
-          createdAt
-          PublishedDate
-          updatedAt
-          description
-          keywords
-          image {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-        }
-      }
-    }
-    categories(filters: { is_hot: { eq: true } }
-    sort: ["createdAt:desc"]
-    pagination: { limit: 5 }) {
-      data {
-        id
-        attributes {
-          title_en
-          title_bn
-          cover_image {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-          slug
-        }
-      }
-    }
-    latestPosts: posts(
-    sort: ["createdAt:desc"]
-    pagination: { limit: 5 }
-  ) {
-    data {
-      attributes {
-        title_en
-        title_bn
-        slug
-        category {
-          data {
-              attributes {
-                title_en
-                title_bn
-                slug
-              }
-          }
-        }
-        PublishedDate
-        image {
-          data {
-            attributes {
-              url
-            }
-          }
-        }
-      }
-    }
-  }
-  }
-`;
-const data: any = await client.request(queryPostBySlug);
+// const client = new GraphQLClient(`${import.meta.env.PUBLIC_BASEURL}/graphql`);
+// // Define the query to fetch blog details by slug
+// const queryPostBySlug = gql`
+//   query {
+//     posts(
+//       filters: {
+//         slug: { eq: "${slug}" }
+//         status: { eq: true }
+//       }
+//     ) {
+//       data {
+//         id
+//         attributes {
+//           createdBy {
+//             id
+//             firstname
+//             lastname
+//           }
+//           title_en
+//           title_bn
+//           breadcrumb_en
+//           breadcrumb_bn
+//           content_first_en
+//           content_first_bn
+//           content_sec_en
+//           content_sec_bn
+//           rating
+//           category {
+//             data {
+//               attributes {
+//                 title_en
+//                 title_bn
+//                 slug
+//               }
+//             }
+//           }
+//           tags {
+//             data {
+//               attributes {
+//                 title_en
+//                 title_bn
+//               }
+//             }
+//           }
+//           createdAt
+//           updatedAt
+//           description
+//           keywords
+//           image {
+//             data {
+//               attributes {
+//                 url
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//     categories(filters: { is_hot: { eq: true } }
+//     sort: ["createdAt:desc"]
+//     pagination: { limit: 5 }) {
+//       data {
+//         id
+//         attributes {
+//           title_en
+//           title_bn
+//           cover_image {
+//             data {
+//               attributes {
+//                 url
+//               }
+//             }
+//           }
+//           slug
+//         }
+//       }
+//     }
+//     latestPosts: posts(
+//     sort: ["createdAt:desc"]
+//     pagination: { limit: 5 }
+//   ) {
+//     data {
+//       attributes {
+//         title_en
+//         title_bn
+//         slug
+//         category {
+//           data {
+//               attributes {
+//                 title_en
+//                 title_bn
+//                 slug
+//               }
+//           }
+//         }
+//         createdAt
+//         image {
+//           data {
+//             attributes {
+//               url
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+//   }
+// `;
+// const data: any = await client.request(queryPostBySlug);
 
-const {posts, categories, latestPosts} = data;
+const data = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    query: postDetails(slug),
+  }),
+});
+
+const json = await data.json();
+
+const { posts, categories, latestPosts } = json.data;
 const post = posts.data[0];
 
 const { id, attributes } = post;
@@ -192,11 +197,7 @@ const hotCategories = categories.data;
                         }
                         <li>
                           <i class="flaticon-calendar"></i>
-                          {
-                            dayjs(attributes.PublishedDate).format(
-                              "DD MMMM, YYYY"
-                            )
-                          }
+                          {dayjs(attributes.createdAt).format("DD MMMM, YYYY")}
                         </li>
                         <!-- <li>
                           <i class="flaticon-chat"></i><a
@@ -407,7 +408,7 @@ const hotCategories = categories.data;
             </div>
           </div>
           <div class="col-30">
-            <SidebarWrap categories={hotCategories} latestPosts={latestPosts}/>
+            <SidebarWrap categories={hotCategories} latestPosts={latestPosts} />
           </div>
         </div>
       </div>
