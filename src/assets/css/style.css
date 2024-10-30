@@ -5489,12 +5489,12 @@ label {
 }
 .pagination-wrap .pagination .page-link {
     margin-left: 0;
-    padding: 0 0;
+    /* padding: 0 0; */
     color: var(--tg-black-two);
     font-weight: 500;
     font-size: 20px;
     line-height: 1;
-    width: 40px;
+    /* width: 40px; */
     height: 40px;
     font-family: var(--tg-heading-font-family);
     display: flex;

@@ -249,7 +249,7 @@ export const categoryList = () => {
     `
 }
 
-export const categoryDeatails = (slug, $page) => {
+export const categoryDeatails = (slug, page) => {
     return `
         query {
             category:categories(filters: {slug: {eq: "${slug}"}}) {
@@ -263,7 +263,7 @@ export const categoryDeatails = (slug, $page) => {
             categoryPost:posts(
                 filters: { status: { eq: true }, category: { slug: { eq: "${slug}" } } }
                 sort: "createdAt:desc"
-                pagination: { page: 1, pageSize: 12 }
+                pagination: { page: ${page}, pageSize: 12 }
             ) {
                 data {
                     attributes {

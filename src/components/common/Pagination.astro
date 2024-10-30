@@ -1,0 +1,41 @@
+---
+type Props = {
+  pagination: any;
+};
+
+const { pagination } = Astro.props;
+const currentPath = Astro.url.pathname;
+const page = parseInt(Astro.url.searchParams.get("page") || "1");
+---
+
+<div class="pagination-wrap mt-30">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination list-wrap">
+      <li class={`page-item ${page <= 1 ? "disabled" : "active"}`}>
+        <a
+          href={`${currentPath}?page=${page <= 1 ? pagination.page : pagination.page - 1}`}
+          class={`page-link w-full`}
+          aria-label="Go to previous page"
+          rel={page > 1 ? "prev" : null}
+        >
+          Previous
+        </a>
+      </li>
+      <span class="pagination-info px-3 mt-1">
+        Page {page} of {pagination.pageCount}
+      </span>
+      <li
+        class={`page-item ${page >= pagination.pageCount ? "disabled" : "active"}`}
+      >
+        <a
+          href={`${currentPath}?page=${page >= pagination.pageCount ? pagination.page : pagination.page + 1}`}
+          class={`page-link w-full  ${page >= pagination.pageCount ? "disabled" : ""}`}
+          aria-label="Go to next page"
+          rel={page < pagination.pageCount ? "next" : null}
+        >
+          Next
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
