@@ -14,6 +14,9 @@ type Props = {
 };
 
 const { post } = Astro.props;
+
+console.log('post',post);
+
 ---
 {
     post ? <div class="weekly-post-three">
@@ -29,7 +32,7 @@ const { post } = Astro.props;
     </a>
     <div class="weekly-post-content">
       <h2 class="post-title">
-        <a href={post.slug}>{tansation(post, "title")}</a>
+        <a href={'/' + post.slug}>{tansation(post, "title")}</a>
       </h2>
       <div class="blog-post-meta">
         <ul class="list-wrap">

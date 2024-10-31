@@ -16,16 +16,14 @@ import PostAreaSix from "@/components/post-areas/PostAreaSix.astro";
 changeLanguage("en");
 
 const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    query: home(),
-  }),
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        query: home(),
+    }),
 });
-
 const json = await response.json();
 const { topPost, justInRecent, hotCategories, topRating } = json.data;
-
 console.log("data", hotCategories);
 ---
 

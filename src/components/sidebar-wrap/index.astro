@@ -5,11 +5,11 @@ import { tansation } from "@/scripts/helpets";
 import dayjs from "dayjs";
 
 type Props = {
-  categories: any;
-  latestPosts: any;
+  categories?: any;
+  latestPosts?: any;
 };
 
-const { categories, latestPosts } = Astro.props;
+const { categories = [], latestPosts } = Astro.props;
 ---
 
 <div class="sidebar-wrap">

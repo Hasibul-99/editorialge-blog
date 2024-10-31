@@ -1,48 +1,44 @@
 ---
-import '../styles/globals.css'
-import '../assets/css/bootstrap.min.css';
-import '../assets/css/fontawesome-all.min.css';
-import '../assets/css/animate.min.css';
-import '../assets/css/default.css';
-import '../assets/css/style.css';
-import '../assets/css/responsive.css';
+import "../styles/globals.css";
+import "../assets/css/bootstrap.min.css";
+import "../assets/css/fontawesome-all.min.css";
+import "../assets/css/animate.min.css";
+import "../assets/css/default.css";
+import "../assets/css/style.css";
+import "../assets/css/responsive.css";
 import i18next, { t } from "i18next";
 import Header from "@/components/common/Header.astro";
 import HeaderLogo from "@/components/common/HeaderLogo.astro";
-import NavbarMenu from '@/components/common/NavbarMenu/index.astro';
-import Footer from '@/components/common/Footer.astro';
-import Preloader from '@/components/common/Preloader';
-import DarkLightToggle from '@/components/common/DarkLightToggle';
-import ScrollTop from '@/components/common/ScrollTop';
-import Subscribe from '@/components/common/Subscribe.astro';
+import NavbarMenu from "@/components/common/NavbarMenu/index.astro";
+import Footer from "@/components/common/Footer.astro";
+import Preloader from "@/components/common/Preloader";
+import DarkLightToggle from "@/components/common/DarkLightToggle";
+import ScrollTop from "@/components/common/ScrollTop";
+import Subscribe from "@/components/common/Subscribe.astro";
+import PageSeo from "@/components/common/PageSeo.astro";
+import { page } from "dist/server/chunks/node_TJGWkfJf.mjs";
+
 interface Props {
-	title: string;
+  pageData?: any;
 }
 
-const { title } = Astro.props;
+const { pageData } = Astro.props;
 ---
 
 <!doctype html>
 <html lang={i18next.language}>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<!-- <Preloader/> -->
-		<DarkLightToggle client:load/>
-		<ScrollTop client:load/>
-		<Header/>
-		<HeaderLogo/>
-		<NavbarMenu/>
-		<main class="fix">
-			<slot />
-		</main>
-		<Subscribe/>
-		<Footer/>
-	</body>
+  <PageSeo slot="head" data={pageData} />
+  <body>
+    <!-- <Preloader/> -->
+    <DarkLightToggle client:load />
+    <ScrollTop client:load />
+    <Header />
+    <HeaderLogo />
+    <NavbarMenu />
+    <main class="fix">
+      <slot />
+    </main>
+    <Subscribe />
+    <Footer />
+  </body>
 </html>

@@ -255,8 +255,20 @@ export const categoryDeatails = (slug, page) => {
             category:categories(filters: {slug: {eq: "${slug}"}}) {
                 data {
                     attributes {
+                        title_en
+                        title_bn
+                        slug
                         breadcrumb_en
                         breadcrumb_bn
+                        description
+                        keywords
+                        image {
+                            data {
+                                attributes {
+                                    url
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -269,14 +281,15 @@ export const categoryDeatails = (slug, page) => {
                     attributes {
                         title_en
                         title_bn
+                        slug
                         image {
-                        data {
-                            attributes {
-                            url
-                            width
-                            height
+                            data {
+                                attributes {
+                                    url
+                                    width
+                                    height
+                                }
                             }
-                        }
                         }
                         content_first_en
                         content_first_bn

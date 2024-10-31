@@ -1,27 +1,37 @@
 ---
-import { Image } from 'astro:assets';
-import Banner from "@/assets/img/images/t_cat_img01.jpg"
-import { tansation, showImage } from '@/scripts/helpets';
+import { Image } from "astro:assets";
+import Banner from "@/assets/img/images/t_cat_img01.jpg";
+import { tansation, showImage } from "@/scripts/helpets";
 
 type Props = {
-    id: string,
-    attributes: any
-}
+  id: string;
+  attributes: any;
+};
 
-const {id, attributes} = Astro.props
+const { id, attributes } = Astro.props;
 
+console.log("attributes", attributes);
 ---
+
 <li>
-    <a href="blog.html" style={{
-        backgroundImage: `url(${showImage(attributes?.cover_image)})`,
-        //  height: "972px",
-        }}>
-        <span class="post-tag post-tag-three">{tansation(attributes, 'title')}</span>
-        <span class="right-arrow">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
-                <path d="M1.72308 16L0 14.2769L11.8154 2.46154H1.23077V0H16V14.7692H13.5385V4.18462L1.72308 16Z" fill="currentcolor"></path>
-                <path d="M1.72308 16L0 14.2769L11.8154 2.46154H1.23077V0H16V14.7692H13.5385V4.18462L1.72308 16Z" fill="currentcolor"></path>
-            </svg>
-        </span>
-    </a>
+  <a
+    href={"/" + attributes?.slug}
+    style={{
+      backgroundImage: `url(${showImage(attributes?.cover_image)})`,
+      //  height: "972px",
+    }}
+  >
+    <span class="post-tag post-tag-three">{tansation(attributes, "title")}</span
+    >
+    <span class="right-arrow">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
+        <path
+          d="M1.72308 16L0 14.2769L11.8154 2.46154H1.23077V0H16V14.7692H13.5385V4.18462L1.72308 16Z"
+          fill="currentcolor"></path>
+        <path
+          d="M1.72308 16L0 14.2769L11.8154 2.46154H1.23077V0H16V14.7692H13.5385V4.18462L1.72308 16Z"
+          fill="currentcolor"></path>
+      </svg>
+    </span>
+  </a>
 </li>

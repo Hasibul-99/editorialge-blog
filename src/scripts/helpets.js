@@ -22,11 +22,31 @@ export const tansation = (data, context) => {
 export const showImage = (data) => {
     if (data) {
         return import.meta.env.PUBLIC_BASEURL + data.data.at(0).attributes.url;
-    } else return '';
+    } else return '/hello';
 }
 
 export const getImageHeightAndWeight = (image, context) => {
     if (context === 'height') {
         return image.data.at(0).attributes.height
     } else return image.data.at(0).attributes.width
+}
+
+export const getCategorySEOmeta = (data) => {
+    return {
+        title: tansation(data, 'title'),
+        description: data.description,
+        keywords: data.keywords,
+        image: showImage(data.image),
+        slug: data.slug
+    };
+}
+
+export const getPostSEOMeta = (data, slug) => {
+    return {
+        title: tansation(data, 'title'),
+        description: data.description,
+        keywords: data.keywords,
+        image: showImage(data.image),
+        slug: slug
+    }
 }

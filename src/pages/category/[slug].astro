@@ -6,16 +6,15 @@ import WeeklyPostThree from "@/components/cards/WeeklyPostThree.astro";
 import SidebarWrap from "@/components/sidebar-wrap/index.astro";
 import { categoryList } from "@/scripts/graphql-query";
 import { categoryDeatails } from "@/scripts/graphql-query";
-import { tansation } from "@/scripts/helpets";
+import { tansation, getCategorySEOmeta } from "@/scripts/helpets";
 import Pagination from "@/components/common/Pagination.astro";
+
+changeLanguage("en");
 
 // Get the `page` parameter from the URL
 const url = new URL(Astro.request.url);
 const page = parseInt(url.searchParams.get("page") || "1");
-
-changeLanguage("en");
 export const prerender = true;
-
 export async function getStaticPaths() {
   const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
     method: "POST",
@@ -24,18 +23,14 @@ export async function getStaticPaths() {
       query: categoryList(),
     }),
   });
-
   const json = await response.json();
   const { categories } = json.data;
-
   const paths = categories.data.map((category: any) => ({
     params: { slug: category.attributes.slug },
   }));
   return paths;
 }
-
 const { slug } = Astro.params;
-
 const data = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
@@ -43,13 +38,12 @@ const data = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
     query: categoryDeatails(slug, page),
   }),
 });
-
 const json = await data.json();
 const { hotCategories, justInRecent, categoryPost, category } = json.data;
 const { attributes } = category.data?.at(0);
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout pageData={getCategorySEOmeta(attributes)}>
   <Breadcrumb data={tansation(attributes, "breadcrumb")} />
 
   <!-- blog-area -->
