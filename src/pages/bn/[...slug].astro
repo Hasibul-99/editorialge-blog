@@ -4,7 +4,7 @@ import { changeLanguage } from "i18next";
 import Breadcrumb from "@/components/common/Breadcrumb.astro";
 import Layout from "../../layouts/Layout.astro";
 import SidebarWrap from "@/components/sidebar-wrap/index.astro";
-import { tansation, showImage } from "@/scripts/helpets";
+import { tansation, showImage, getPostSEOMeta } from "@/scripts/helpets";
 import BlogDetailsSocial from "@/components/social/BlogDetailsSocial.astro";
 import PostShare from "@/components/social/PostShare.astro";
 import RTEDrawer from "@/components/RTE-drawer/index.astro";
@@ -32,116 +32,6 @@ export async function getStaticPaths() {
 }
 type Props = any;
 const { slug } = Astro.params;
-// Initialize the GraphQL client inside the function
-// const client = new GraphQLClient(`${import.meta.env.PUBLIC_BASEURL}/graphql`);
-// // Define the query to fetch blog details by slug
-// const queryPostBySlug = gql`
-//   query {
-//     posts(
-//       filters: {
-//         slug: { eq: "${slug}" }
-//         status: { eq: true }
-//       }
-//     ) {
-//       data {
-//         id
-//         attributes {
-//           createdBy {
-//             id
-//             firstname
-//             lastname
-//           }
-//           title_en
-//           title_bn
-//           breadcrumb_en
-//           breadcrumb_bn
-//           content_first_en
-//           content_first_bn
-//           content_sec_en
-//           content_sec_bn
-//           rating
-//           category {
-//             data {
-//               attributes {
-//                 title_en
-//                 title_bn
-//                 slug
-//               }
-//             }
-//           }
-//           tags {
-//             data {
-//               attributes {
-//                 title_en
-//                 title_bn
-//               }
-//             }
-//           }
-//           createdAt
-//           updatedAt
-//           description
-//           keywords
-//           image {
-//             data {
-//               attributes {
-//                 url
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//     categories(filters: { is_hot: { eq: true } }
-//     sort: ["createdAt:desc"]
-//     pagination: { limit: 5 }) {
-//       data {
-//         id
-//         attributes {
-//           title_en
-//           title_bn
-//           cover_image {
-//             data {
-//               attributes {
-//                 url
-//               }
-//             }
-//           }
-//           slug
-//         }
-//       }
-//     }
-//     latestPosts: posts(
-//     sort: ["createdAt:desc"]
-//     pagination: { limit: 5 }
-//   ) {
-//     data {
-//       attributes {
-//         title_en
-//         title_bn
-//         slug
-//         category {
-//           data {
-//               attributes {
-//                 title_en
-//                 title_bn
-//                 slug
-//               }
-//           }
-//         }
-//         createdAt
-//         image {
-//           data {
-//             attributes {
-//               url
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-//   }
-// `;
-// const data: any = await client.request(queryPostBySlug);
 const data = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -156,7 +46,7 @@ const { id, attributes } = post;
 const hotCategories = categories.data;
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout pageData={getPostSEOMeta(attributes, slug)}>
   <Breadcrumb data={tansation(attributes, "breadcrumb")} />
 
   <!-- blog-details-area -->

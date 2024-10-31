@@ -6,7 +6,7 @@ import WeeklyPostThree from "@/components/cards/WeeklyPostThree.astro";
 import SidebarWrap from "@/components/sidebar-wrap/index.astro";
 import { categoryList } from "@/scripts/graphql-query";
 import { categoryDeatails } from "@/scripts/graphql-query";
-import { tansation } from "@/scripts/helpets";
+import { tansation, getCategorySEOmeta } from "@/scripts/helpets";
 import Pagination from "@/components/common/Pagination.astro";
 
 changeLanguage("bn");
@@ -43,7 +43,7 @@ const { hotCategories, justInRecent, categoryPost, category } = json.data;
 const { attributes } = category.data?.at(0);
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout pageData={getCategorySEOmeta(attributes)}>
   <Breadcrumb data={tansation(attributes, "breadcrumb")} />
 
   <!-- blog-area -->

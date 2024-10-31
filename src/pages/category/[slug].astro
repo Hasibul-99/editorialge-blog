@@ -16,27 +16,27 @@ const url = new URL(Astro.request.url);
 const page = parseInt(url.searchParams.get("page") || "1");
 export const prerender = true;
 export async function getStaticPaths() {
-  const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: categoryList(),
-    }),
-  });
-  const json = await response.json();
-  const { categories } = json.data;
-  const paths = categories.data.map((category: any) => ({
-    params: { slug: category.attributes.slug },
-  }));
-  return paths;
+    const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            query: categoryList(),
+        }),
+    });
+    const json = await response.json();
+    const { categories } = json.data;
+    const paths = categories.data.map((category: any) => ({
+        params: { slug: category.attributes.slug },
+    }));
+    return paths;
 }
 const { slug } = Astro.params;
 const data = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    query: categoryDeatails(slug, page),
-  }),
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        query: categoryDeatails(slug, page),
+    }),
 });
 const json = await data.json();
 const { hotCategories, justInRecent, categoryPost, category } = json.data;

@@ -16,29 +16,28 @@ changeLanguage("en");
 export const prerender = true;
 // Fetch all slugs during build time for static paths
 export async function getStaticPaths() {
-  const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: postList(),
-    }),
-  });
-  const json = await response.json();
-  const { posts } = json.data;
-  const paths = posts.data.map((post: any) => ({
-    params: { slug: post.attributes.slug },
-  }));
-  return paths;
+    const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            query: postList(),
+        }),
+    });
+    const json = await response.json();
+    const { posts } = json.data;
+    const paths = posts.data.map((post: any) => ({
+        params: { slug: post.attributes.slug },
+    }));
+    return paths;
 }
 type Props = any;
 const { slug } = Astro.params;
-
 const data = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    query: postDetails(slug),
-  }),
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        query: postDetails(slug),
+    }),
 });
 const json = await data.json();
 const { posts, categories, latestPosts } = json.data;
