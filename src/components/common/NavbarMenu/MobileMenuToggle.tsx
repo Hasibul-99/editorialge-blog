@@ -22,10 +22,10 @@ export default function MobileMenuToggle({ }: Props) {
                     <nav className="menu-box">
                         {/* <div className="close-btn"><i className="fas fa-times" /></div> */}
                         <div className="nav-logo">
-                            <a href="index.html"><img src={Logo.src} alt="Logo" /></a>
+                            <a href="/"><img src={Logo.src} alt="Logo" /></a>
                         </div>
                         <div className="nav-logo d-none">
-                            <a href="index.html"><img src={WLogo.src} alt="Logo" /></a>
+                            <a href="/"><img src={WLogo.src} alt="Logo" /></a>
                         </div>
                         <div className="mobile-search">
                             <form action="#">
@@ -37,34 +37,34 @@ export default function MobileMenuToggle({ }: Props) {
                             <ul className="navigation">
                                 <li className="active menu-item-has-children"><a href="#">Home</a>
                                     <ul className="sub-menu" style={{ display: 'block' }}>
-                                        <li><a href="index.html">Home 01 - Default</a></li>
-                                        <li><a href="index-2.html">Home 02 - Gaming</a></li>
-                                        <li><a href="index-3.html">Home 03 - Technology</a></li>
-                                        <li><a href="index-4.html">Home 04 - Travel</a></li>
-                                        <li><a href="index-5.html">Home 05 - Crypto</a></li>
-                                        <li className="active"><a href="index-6.html">Home 06 - Newspaper</a></li>
+                                        <li><a href="/">Home 01 - Default</a></li>
+                                        <li><a href="/">Home 02 - Gaming</a></li>
+                                        <li><a href="/">Home 03 - Technology</a></li>
+                                        <li><a href="/">Home 04 - Travel</a></li>
+                                        <li><a href="/">Home 05 - Crypto</a></li>
+                                        <li className="active"><a href="/">Home 06 - Newspaper</a></li>
                                     </ul>
                                     <div className="dropdown-btn open"><span className="fas fa-angle-down" /></div></li>
-                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="/">About Us</a></li>
                                 <li className="menu-item-has-children"><a href="#">Features</a>
                                     <ul className="sub-menu">
                                         <li className="menu-item-has-children"><a href="#">Single Post Layout</a>
                                             <ul className="sub-menu">
-                                                <li><a href="blog-details.html">Single post 01</a></li>
-                                                <li><a href="blog-details-two.html">Single post 02</a></li>
+                                                <li><a href="/">Single post 01</a></li>
+                                                <li><a href="/">Single post 02</a></li>
                                             </ul>
                                             <div className="dropdown-btn"><span className="fas fa-angle-down" /></div></li>
-                                        <li><a href="author.html">Author Details</a></li>
+                                        <li><a href="/">Author Details</a></li>
                                     </ul>
                                     <div className="dropdown-btn"><span className="fas fa-angle-down" /></div></li>
                                 <li className="menu-item-has-children"><a href="#">Categories</a>
                                     <ul className="sub-menu">
-                                        <li><a href="blog.html">Blog Default</a></li>
-                                        <li><a href="blog-2.html">Blog Layout 02</a></li>
-                                        <li><a href="blog-3.html">Blog Layout 03</a></li>
+                                        <li><a href="/">Blog Default</a></li>
+                                        <li><a href="/">Blog Layout 02</a></li>
+                                        <li><a href="/">Blog Layout 03</a></li>
                                     </ul>
                                     <div className="dropdown-btn"><span className="fas fa-angle-down" /></div></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="/">Contact</a></li>
                             </ul>
 
                         </div>

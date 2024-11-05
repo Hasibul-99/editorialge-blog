@@ -54,8 +54,8 @@ export default function LeftToggleMenu({ }: Props) {
 
                             <div className="offCanvas-content">
                                 <div className="offCanvas-logo logo">
-                                    <a href="index.html" className="logo-dark"><img src={Logo.src} alt="Logo" /></a>
-                                    <a href="index.html" className="logo-light"><img src={WLogo.src} alt="Logo" /></a>
+                                    <a href="/" className="logo-dark"><img src={Logo.src} alt="Logo" /></a>
+                                    <a href="/" className="logo-light"><img src={WLogo.src} alt="Logo" /></a>
                                 </div>
                                 <p>The argument in favor of using filler text goes something like this: If you use any real content in the Consulting Process anytime you reach.</p>
                                 <ul className="offCanvas-instagram list-wrap">
