@@ -24,7 +24,6 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
 });
 const json = await response.json();
 const { topPost, justInRecent, hotCategories, topRating } = json.data;
-console.log("data", hotCategories);
 const firstCategory = hotCategories?.data?.at(0)?.attributes;
 const secCategory = hotCategories?.data?.at(1)?.attributes;
 const thirdCategory = hotCategories?.data?.at(2)?.attributes;

@@ -5,8 +5,7 @@ import PoliticsPostTwo from "../cards/PoliticsPostTwo.astro";
 
 const { category } = Astro.props;
 const firstPost = category?.posts?.data?.at(0);
-const otherPosts = category?.posts?.data?.slice(0, 3);
-console.log("category", { otherPosts });
+const otherPosts = category?.posts?.data?.slice(1, 4);
 ---
 
 <section class="politics-post-area">

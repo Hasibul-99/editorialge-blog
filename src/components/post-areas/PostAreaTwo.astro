@@ -1,25 +1,28 @@
 ---
+import { tansation } from "@/scripts/helpets";
 import BannerPostFive from "../cards/BannerPostFive.astro";
+const { category } = Astro.props;
+const posts = category?.posts?.data?.slice(0, 3);
 ---
 
 <section class="today-post-area pt-50">
   <div class="section-title-wrap">
     <div class="section-title section-title-four">
-      <h2 class="title">Today’s Hot Spot</h2>
+      <h2 class="title">{tansation(category, "title")}</h2>
       <div class="section-title-line"></div>
     </div>
   </div>
   <div class="today-post-wrap">
-    <div class="row gutter-40 justify-content-center">
-      <div class="col-lg-4 col-md-6">
-        <BannerPostFive />
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <BannerPostFive />
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <BannerPostFive />
-      </div>
-    </div>
+    {
+      posts?.length ? (
+        <div class="row gutter-40 justify-content-center">
+          {posts?.map((post: any) => (
+            <div class="col-lg-4 col-md-6">
+              <BannerPostFive post={post.attributes} />
+            </div>
+          ))}
+        </div>
+      ) : null
+    }
   </div>
 </section>

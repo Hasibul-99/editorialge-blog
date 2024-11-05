@@ -233,6 +233,7 @@ export const home = () => {
             attributes {
                 title_en
                 title_bn
+                slug
                 createdAt
             }
         }
