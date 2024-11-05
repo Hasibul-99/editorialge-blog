@@ -24,10 +24,18 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
 });
 const json = await response.json();
 const { topPost, justInRecent, hotCategories, topRating } = json.data;
-console.log("data", hotCategories);
+const firstCategory = hotCategories?.data?.at(0)?.attributes;
+const secCategory = hotCategories?.data?.at(1)?.attributes;
+const thirdCategory = hotCategories?.data?.at(2)?.attributes;
+const fourthCategory = hotCategories?.data?.at(3)?.attributes;
+const fifthCategory = hotCategories?.data?.at(4)?.attributes;
+const sixthCategory = hotCategories?.data?.at(5)?.attributes;
+const fifthSixthCategory = hotCategories?.data?.slice(4, 6);
+const seventhEighthCategory = hotCategories?.data?.slice(6, 8);
+console.log("seventhEighthCategory", seventhEighthCategory);
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout>
   <!-- banner-post-area -->
   <section class="banner-post-area-five pt-50">
     <div class="container">
@@ -60,11 +68,11 @@ console.log("data", hotCategories);
           <!-- End Ad  -->
 
           <!-- politics-post-area -->
-          <PostAreaOne />
+          <PostAreaOne category={firstCategory} />
           <!-- politics-post-area-end -->
 
           <!-- today-post-area -->
-          <PostAreaTwo />
+          <PostAreaTwo category={secCategory} />
           <!-- today-post-area-end -->
         </div>
         <div class="col-xl-3 col-lg-8">
@@ -128,7 +136,7 @@ console.log("data", hotCategories);
   <!-- ad-banner-area-end -->
 
   <!-- editor-post-area -->
-  <PostAreaThree />
+  <PostAreaThree category={thirdCategory} />
   <!-- editor-post-area-end -->
 
   <!-- top-news-post -->
@@ -136,7 +144,7 @@ console.log("data", hotCategories);
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-xl-9">
-          <PostAreaFour />
+          <PostAreaFour category={fourthCategory} />
 
           <!-- Start  Ad  -->
           <!-- <div class="ad-banner-area pt-20 pb-50">
@@ -148,7 +156,15 @@ console.log("data", hotCategories);
 					</div> -->
           <!-- End Start  -->
 
-          <PostAreaFive />
+          {
+            fifthSixthCategory?.length ? (
+              <>
+                {fifthSixthCategory.map((item: any) => (
+                  <PostAreaFive category={item.attributes} />
+                ))}
+              </>
+            ) : null
+          }
         </div>
         <div class="col-xl-3 col-lg-8">
           <div class="sidebar-wrap-three">
@@ -177,7 +193,16 @@ console.log("data", hotCategories);
                 </div>
               </div>
             </div> -->
-            <PostAreaSix />
+            {
+              seventhEighthCategory?.length ? (
+                <>
+                  {seventhEighthCategory.map((item: any, idx: number) => (
+                    <PostAreaSix category={item.attributes} idx={idx} />
+                  ))}
+                </>
+              ) : null
+            }
+            <!-- <PostAreaSix category={sixthCategory} /> -->
 
             <!-- Start Ad  -->
             <!-- <div class="sidebar-widget sidebar-widget-two">

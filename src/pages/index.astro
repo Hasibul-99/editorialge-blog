@@ -16,11 +16,11 @@ import PostAreaSix from "@/components/post-areas/PostAreaSix.astro";
 changeLanguage("en");
 
 const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    query: home(),
-  }),
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        query: home(),
+    }),
 });
 const json = await response.json();
 const { topPost, justInRecent, hotCategories, topRating } = json.data;
@@ -28,8 +28,11 @@ const firstCategory = hotCategories?.data?.at(0)?.attributes;
 const secCategory = hotCategories?.data?.at(1)?.attributes;
 const thirdCategory = hotCategories?.data?.at(2)?.attributes;
 const fourthCategory = hotCategories?.data?.at(3)?.attributes;
-
-// console.log("FirstCategory", firstCategory);
+const fifthCategory = hotCategories?.data?.at(4)?.attributes;
+const sixthCategory = hotCategories?.data?.at(5)?.attributes;
+const fifthSixthCategory = hotCategories?.data?.slice(4, 6);
+const seventhEighthCategory = hotCategories?.data?.slice(6, 8);
+console.log("seventhEighthCategory", seventhEighthCategory);
 ---
 
 <Layout>
@@ -141,7 +144,7 @@ const fourthCategory = hotCategories?.data?.at(3)?.attributes;
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-xl-9">
-          <PostAreaFour />
+          <PostAreaFour category={fourthCategory} />
 
           <!-- Start  Ad  -->
           <!-- <div class="ad-banner-area pt-20 pb-50">
@@ -153,7 +156,15 @@ const fourthCategory = hotCategories?.data?.at(3)?.attributes;
 					</div> -->
           <!-- End Start  -->
 
-          <PostAreaFive />
+          {
+            fifthSixthCategory?.length ? (
+              <>
+                {fifthSixthCategory.map((item: any) => (
+                  <PostAreaFive category={item.attributes} />
+                ))}
+              </>
+            ) : null
+          }
         </div>
         <div class="col-xl-3 col-lg-8">
           <div class="sidebar-wrap-three">
@@ -182,7 +193,16 @@ const fourthCategory = hotCategories?.data?.at(3)?.attributes;
                 </div>
               </div>
             </div> -->
-            <PostAreaSix />
+            {
+              seventhEighthCategory?.length ? (
+                <>
+                  {seventhEighthCategory.map((item: any, idx: number) => (
+                    <PostAreaSix category={item.attributes} idx={idx} />
+                  ))}
+                </>
+              ) : null
+            }
+            <!-- <PostAreaSix category={sixthCategory} /> -->
 
             <!-- Start Ad  -->
             <!-- <div class="sidebar-widget sidebar-widget-two">

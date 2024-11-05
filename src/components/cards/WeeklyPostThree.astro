@@ -14,41 +14,39 @@ type Props = {
 };
 
 const { post } = Astro.props;
-
-console.log('post',post);
-
 ---
-{
-    post ? <div class="weekly-post-three">
-  <div class="weekly-post-thumb">
-    <a href={post.slug}>
-      <Image
-        src={showImage(post.image)}
-        height={getImageHeightAndWeight(post.image, "height")}
-        width={getImageHeightAndWeight(post.image, "width")}
-        alt="image"
-      />
-      <!-- <a href="blog.html" class="post-tag">Politics</a> -->
-    </a>
-    <div class="weekly-post-content">
-      <h2 class="post-title">
-        <a href={'/' + post.slug}>{tansation(post, "title")}</a>
-      </h2>
-      <div class="blog-post-meta">
-        <ul class="list-wrap">
-          <li>
-            <i class="flaticon-calendar"></i>{
-              dayjs(post.createdAt).format("DD MMMM, YYYY")
-            }
-          </li>
-        </ul>
-      </div>
-      <RTEDrawer
-      content={tansation(post, "content_first")}
-      className="line-ellipsis-3"
-    />
-    </div>
-  </div>
-</div> : null
-}
 
+{
+  post ? (
+    <div class="weekly-post-three">
+      <div class="weekly-post-thumb">
+        <a href={post.slug}>
+          <Image
+            src={showImage(post.image)}
+            height={getImageHeightAndWeight(post.image, "height")}
+            width={getImageHeightAndWeight(post.image, "width")}
+            alt="image"
+          />
+          {/* <!-- <a href="blog.html" class="post-tag">Politics</a> --> */}
+        </a>
+        <div class="weekly-post-content">
+          <h2 class="post-title">
+            <a href={"/" + post.slug}>{tansation(post, "title")}</a>
+          </h2>
+          <div class="blog-post-meta">
+            <ul class="list-wrap">
+              <li>
+                <i class="flaticon-calendar" />
+                {dayjs(post.createdAt).format("DD MMMM, YYYY")}
+              </li>
+            </ul>
+          </div>
+          <RTEDrawer
+            content={tansation(post, "content_first")}
+            className="line-ellipsis-3"
+          />
+        </div>
+      </div>
+    </div>
+  ) : null
+}
