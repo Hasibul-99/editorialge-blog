@@ -38,7 +38,7 @@ const { post } = Astro.props;
               </li>
               <li>
                 <i class="flaticon-calendar" />
-                {dayjs(post.PublishedDate).format("DD MMMM, YYYY")}
+                {dayjs(post.createdAt).format("DD MMMM, YYYY")}
               </li>
             </ul>
           </div>

@@ -76,7 +76,7 @@ const { categories = [], latestPosts } = Astro.props;
                   <ul class="list-wrap">
                     <li>
                       <i class="flaticon-calendar" />
-                      {dayjs(post?.attributes?.PublishedDate).format(
+                      {dayjs(post?.attributes?.createdAt).format(
                         "DD MMMM, YYYY"
                       )}
                     </li>

@@ -16,18 +16,24 @@ import PostAreaSix from "@/components/post-areas/PostAreaSix.astro";
 changeLanguage("en");
 
 const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-        query: home(),
-    }),
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    query: home(),
+  }),
 });
 const json = await response.json();
 const { topPost, justInRecent, hotCategories, topRating } = json.data;
 console.log("data", hotCategories);
+const firstCategory = hotCategories?.data?.at(0)?.attributes;
+const secCategory = hotCategories?.data?.at(1)?.attributes;
+const thirdCategory = hotCategories?.data?.at(2)?.attributes;
+const fourthCategory = hotCategories?.data?.at(3)?.attributes;
+
+// console.log("FirstCategory", firstCategory);
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout>
   <!-- banner-post-area -->
   <section class="banner-post-area-five pt-50">
     <div class="container">
@@ -60,11 +66,11 @@ console.log("data", hotCategories);
           <!-- End Ad  -->
 
           <!-- politics-post-area -->
-          <PostAreaOne />
+          <PostAreaOne category={firstCategory} />
           <!-- politics-post-area-end -->
 
           <!-- today-post-area -->
-          <PostAreaTwo />
+          <PostAreaTwo category={secCategory} />
           <!-- today-post-area-end -->
         </div>
         <div class="col-xl-3 col-lg-8">
@@ -128,7 +134,7 @@ console.log("data", hotCategories);
   <!-- ad-banner-area-end -->
 
   <!-- editor-post-area -->
-  <PostAreaThree />
+  <PostAreaThree category={thirdCategory} />
   <!-- editor-post-area-end -->
 
   <!-- top-news-post -->

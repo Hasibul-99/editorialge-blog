@@ -21,7 +21,7 @@ export const tansation = (data, context) => {
 
 export const showImage = (data) => {
     if (data) {
-        return import.meta.env.PUBLIC_BASEURL + data.data.at(0).attributes.url;
+        return import.meta.env.PUBLIC_BASEURL + data.data?.at(0)?.attributes.url;
     } else return '/hello';
 }
 

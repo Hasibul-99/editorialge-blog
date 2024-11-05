@@ -150,7 +150,7 @@ export const home = () => {
                     firstname
                     lastname
                 }
-                publishedAt
+                createdAt
                 content_first_en
                 content_first_bn 
             }
@@ -180,11 +180,11 @@ export const home = () => {
                         }
                     }
                 }
-                publishedAt
+                createdAt
             }
         }
     }
-    hotCategories:categories(sort: "createdAt:desc", pagination: { limit: 8 }) {
+    hotCategories:categories(sort: "rating:desc", pagination: { limit: 8 }) {
         data {
             attributes {
                 title_en
@@ -199,14 +199,18 @@ export const home = () => {
                             image{
                                 data{
                                     attributes {
-                                        url
+                                        url                                        
+                                        width
+                                        height
                                     }
                                 }
                             }
                             cover_image{
                                 data{
                                     attributes {
-                                        url
+                                        url                                        
+                                        width
+                                        height
                                     }
                                 }
                             }
@@ -214,8 +218,9 @@ export const home = () => {
                                 firstname
                                 lastname
                             }
-                            publishedAt
-                            description 
+                            createdAt
+                            content_first_en
+                            content_first_bn 
                         }
                     }
                 }
@@ -343,7 +348,7 @@ export const categoryDeatails = (slug, page) => {
                                 }
                             }
                         }
-                        publishedAt
+                        createdAt
                     }
                 }
             }
