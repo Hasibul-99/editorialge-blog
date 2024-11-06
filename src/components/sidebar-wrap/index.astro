@@ -63,30 +63,44 @@ const { categories = [], latestPosts } = Astro.props;
           />
           {latestPosts?.data.map((post: any, idx: number) => (
             <div class="hot-post-item">
-              <div class="hot-post-content">
-                <a href="blog.html" class="post-tag">
-                  {tansation(post.attributes.category.data.attributes, "title")}
-                </a>
-                <h4 class="post-title">
-                  <a href={post.attributes.slug || "#"}>
-                    {tansation(post.attributes, "title")}
-                  </a>
-                </h4>
-                <div class="blog-post-meta">
-                  <ul class="list-wrap">
-                    <li>
-                      <i class="flaticon-calendar" />
-                      {dayjs(post?.attributes?.createdAt).format(
-                        "DD MMMM, YYYY"
+              {post?.attributes ? (
+                <div class="hot-post-content">
+                  {post.attributes?.category?.data?.attributes ? (
+                    <a
+                      href={
+                        "/category/" +
+                        post.attributes?.category?.data?.attributes?.slug
+                      }
+                      class="post-tag"
+                    >
+                      {tansation(
+                        post.attributes?.category?.data?.attributes,
+                        "title"
                       )}
-                    </li>
-                    {/* <li>
+                    </a>
+                  ) : null}
+
+                  <h4 class="post-title">
+                    <a href={"/" + post.attributes.slug}>
+                      {tansation(post.attributes, "title")}
+                    </a>
+                  </h4>
+                  <div class="blog-post-meta">
+                    <ul class="list-wrap">
+                      <li>
+                        <i class="flaticon-calendar" />
+                        {dayjs(post?.attributes?.createdAt).format(
+                          "DD MMMM, YYYY"
+                        )}
+                      </li>
+                      {/* <li>
                       <i class="flaticon-history" />
                       20 Mins
                     </li> */}
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
-              </div>
+              ) : null}
             </div>
           ))}
         </div>

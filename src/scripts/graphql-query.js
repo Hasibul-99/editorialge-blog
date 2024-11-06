@@ -244,7 +244,7 @@ export const home = () => {
 export const categoryList = () => {
     return `
         query {
-            categories(filters: {status: {eq: true}}){
+            categories(filters: {status: {eq: true}}, pagination: { limit: -1 }){
                 data {
                     attributes {
                         slug

@@ -54,4 +54,19 @@ const { data } = Astro.props;
   <meta name="twitter:image:alt" content="10 Minute School" />
   <meta property="al:web:url" content="https://10minuteschool.com" />
   <meta property="al:web:should_fallback" content="true" />
+
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src=`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_G_ANALYTICS}`
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", import.meta.env.PUBLIC_G_ANALYTICS);
+  </script>
 </head>

@@ -13,7 +13,7 @@ const { id, attributes } = Astro.props;
 
 <li>
   <a
-    href={"/" + attributes?.slug}
+    href={"/category/" + attributes?.slug}
     style={{
       backgroundImage: `url(${showImage(attributes?.cover_image)})`,
       //  height: "972px",
