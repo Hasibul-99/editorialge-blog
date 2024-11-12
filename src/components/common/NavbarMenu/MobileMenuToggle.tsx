@@ -64,7 +64,7 @@ export default function MobileMenuToggle({ }: Props) {
                                         <li><a href="/">Blog Layout 03</a></li>
                                     </ul>
                                     <div className="dropdown-btn"><span className="fas fa-angle-down" /></div></li>
-                                <li><a href="/">Contact</a></li>
+                                <li><a href="/contact">Contact</a></li>
                             </ul>
 
                         </div>
