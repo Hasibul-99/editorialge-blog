@@ -28,10 +28,10 @@ export default function MobileMenuToggle({ }: Props) {
                             <a href="/"><img src={WLogo.src} alt="Logo" /></a>
                         </div>
                         <div className="mobile-search">
-                            <form action="#">
+                            {/* <form action="#">
                                 <input type="text" placeholder="Search here..." />
                                 <button><i className="flaticon-search" /></button>
-                            </form>
+                            </form> */}
                         </div>
                         <div className="menu-outer">
                             <ul className="navigation">
