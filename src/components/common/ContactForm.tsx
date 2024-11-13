@@ -1,6 +1,5 @@
 import { CREATE_CONTACT } from '@/scripts/api';
 import { postData } from '@/scripts/api-service';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 
 type Inputs = {
@@ -22,8 +21,6 @@ function ContactForm() {
         } else {
             alert("Message failed to send");
         }
-
-
     };
 
     return (
