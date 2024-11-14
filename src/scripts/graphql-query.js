@@ -356,3 +356,30 @@ export const categoryDeatails = (slug, page) => {
         }
     `
 }
+
+export const categoryListWithRelation = () => {
+    return `
+        query {
+            categories(filters: {
+                status: { eq: true },
+                category: { id: { null: true } }
+            }) {
+                data {
+                    attributes {
+                        slug
+                        title_en
+                        title_bn
+                        categories {
+                            data {
+                                attributes {
+                                    slug
+                                    title_en
+                                    title_bn
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }`
+}

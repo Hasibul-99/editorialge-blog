@@ -4,6 +4,20 @@ import LeftToggleMenu from "./LeftToggleMenu";
 import MobileMenuToggle from "./MobileMenuToggle";
 import Logo from "../../../assets/img/logo/logo.png";
 import WLogo from "../../../assets/img/logo/w_logo.png";
+import { categoryListWithRelation } from "@/scripts/graphql-query";
+import { tansation } from "@/scripts/helpets";
+
+const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    query: categoryListWithRelation(),
+  }),
+});
+
+const json = await response.json();
+const { categories } = json.data;
+console.log("categories", categories);
 ---
 
 <div id="sticky-header" class="menu-area menu-style-six">
@@ -22,42 +36,45 @@ import WLogo from "../../../assets/img/logo/w_logo.png";
               <LeftToggleMenu client:load />
             </div>
             <div class="navbar-wrap main-menu d-none d-lg-flex">
-              <ul class="navigation">
-                <li class="active menu-item-has-children">
-                  <a href="#">Home</a>
-                  <ul class="sub-menu">
-                    <li><a href="/">Home 01 - Default</a></li>
-                    <li><a href="/">Home 02 - Gaming</a></li>
-                    <li><a href="/">Home 03 - Technology</a></li>
-                    <li><a href="/">Home 04 - Travel</a></li>
-                    <li><a href="/">Home 05 - Crypto</a></li>
-                    <li class="active"><a href="/">Home 06 - Newspaper</a></li>
-                  </ul>
-                </li>
-                <li><a href="">About Us</a></li>
-                <li class="menu-item-has-children">
-                  <a href="#">Features</a>
-                  <ul class="sub-menu">
-                    <li class="menu-item-has-children">
-                      <a href="#">Single Post Layout</a>
-                      <ul class="sub-menu">
-                        <li><a href="">Single post 01</a></li>
-                        <li><a href="">Single post 02</a></li>
-                      </ul>
+              {
+                categories?.data?.length ? (
+                  <ul class="navigation">
+                    {categories.data.map((cat: any) => (
+                      // class="active"
+                      <li
+                        class={
+                          cat.attributes?.categories?.data?.length
+                            ? " menu-item-has-children"
+                            : ""
+                        }
+                      >
+                        <a href={"/category/" + cat.attributes.slug}>
+                          {tansation(cat.attributes, "title")}
+                        </a>
+                        {cat.attributes?.categories?.data?.length ? (
+                          <ul class="sub-menu">
+                            {cat.attributes.categories.data.map(
+                              (subCat: any) => (
+                                // class="active"
+                                <li>
+                                  <a
+                                    href={"/category/" + subCat.attributes.slug}
+                                  >
+                                    {tansation(subCat.attributes, "title")}
+                                  </a>
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        ) : null}
+                      </li>
+                    ))}
+                    <li>
+                      <a href="/contact">Contact</a>
                     </li>
-                    <li><a href="">Author Details</a></li>
                   </ul>
-                </li>
-                <li class="menu-item-has-children">
-                  <a href="#">Categories</a>
-                  <ul class="sub-menu">
-                    <li><a href="">Blog Default</a></li>
-                    <li><a href="">Blog Layout 02</a></li>
-                    <li><a href="">Blog Layout 03</a></li>
-                  </ul>
-                </li>
-                <li><a href="/contact">Contact</a></li>
-              </ul>
+                ) : null
+              }
             </div>
             <div class="header-search-wrap header-search-wrap-three">
               <!-- <form action="#">
