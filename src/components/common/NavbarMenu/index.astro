@@ -17,7 +17,6 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
 
 const json = await response.json();
 const { categories } = json.data;
-console.log("categories", categories);
 ---
 
 <div id="sticky-header" class="menu-area menu-style-six">
