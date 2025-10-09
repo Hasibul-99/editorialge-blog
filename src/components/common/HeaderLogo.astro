@@ -1,12 +1,7 @@
 ---
 import logo from "../../assets/img/logo/logo.png";
 import wLogo from "../../assets/img/logo/w_logo.png";
-import { LanguageSelector } from "astro-i18next/components";
-const {
-  icon = "",
-  languageMapping = { en: "English", it: "Italiano" },
-  ...rest
-} = Astro.props;
+import LanguageSwitcher from "./LanguageSwitcher.jsx";
 ---
 
 <div class="header-logo-area-four">
@@ -33,12 +28,7 @@ const {
       </div>
       <div class="col-lg-4">
         <div class="hl-right-side-four">
-          <LanguageSelector
-            showFlag={false}
-            languageMapping={languageMapping}
-            class="appearance-none cursor-pointer pl-3 pr-2 py-1.5 rounded-md dark:bg-stone-950 dark:text-white focus-visible:outline-none"
-            aria-label="Choose a language"
-          />
+          <LanguageSwitcher client:load />
           <div class="sign-in">
             <a href="contact.html"><i class="flaticon-user"></i>Sign In</a>
           </div>

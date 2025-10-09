@@ -12,7 +12,7 @@ export const postList = () => {
     `
 }
 
-export const postDetails = (slug) => {
+export const postDetails = (slug, locale = 'en') => {
     return `
     query {
       posts(
@@ -20,6 +20,7 @@ export const postDetails = (slug) => {
           slug: { eq: "${slug}" }
           status: { eq: true }
         }
+        locale: "${locale}"
       ) {
         data {
           id
@@ -29,20 +30,15 @@ export const postDetails = (slug) => {
               firstname
               lastname
             }
-            title_en
-            title_bn
-            breadcrumb_en
-            breadcrumb_bn
-            content_first_en
-            content_first_bn
-            content_sec_en
-            content_sec_bn
+            title
+            breadcrumb
+            content_first
+            content_sec
             rating
             category {
               data {
                 attributes {
-                  title_en
-                  title_bn
+                  title
                   slug
                 }
               }
@@ -50,8 +46,7 @@ export const postDetails = (slug) => {
             tags {
               data {
                 attributes {
-                  title_en
-                  title_bn
+                  title
                 }
               }
             }
@@ -75,8 +70,7 @@ export const postDetails = (slug) => {
         data {
           id
           attributes {
-            title_en
-            title_bn
+            title
             cover_image {
               data {
                 attributes {
@@ -94,14 +88,12 @@ export const postDetails = (slug) => {
     ) {
       data {
         attributes {
-          title_en
-          title_bn
+          title
           slug
           category {
             data {
                 attributes {
-                  title_en
-                  title_bn
+                  title
                   slug
                 }
             }
@@ -120,19 +112,17 @@ export const postDetails = (slug) => {
   `
 }
 
-export const home = () => {
+export const home = (locale = 'en') => {
     return `{
     topPost:posts(sort: "createdAt:desc", pagination: { limit: 3 }, filters: {top_post: {eq: true}}) {
         data {
             attributes {
                 slug
-                title_en
-                title_bn
+                title
                 category{
                     data {
                         attributes {
-                            title_en
-                            title_bn
+                            title
                             slug
                         }
                     }
@@ -151,8 +141,7 @@ export const home = () => {
                     lastname
                 }
                 createdAt
-                content_first_en
-                content_first_bn 
+                content_first
             }
         }
     }
@@ -160,13 +149,11 @@ export const home = () => {
         data{
             attributes {
                 slug
-                title_en
-                title_bn
+                title
                 category{
                     data {
                         attributes {
-                            title_en
-                            title_bn
+                            title
                             slug
                         }
                     }
@@ -187,15 +174,13 @@ export const home = () => {
     hotCategories:categories(sort: "rating:desc", pagination: { limit: 8 }) {
         data {
             attributes {
-                title_en
-                title_bn
+                title
                 slug
                 posts(sort: "createdAt:desc", pagination: { limit: 5 }) {
                     data {
                         attributes {
                             slug
-                            title_en
-                            title_bn
+                            title
                             image{
                                 data{
                                     attributes {
@@ -219,8 +204,7 @@ export const home = () => {
                                 lastname
                             }
                             createdAt
-                            content_first_en
-                            content_first_bn 
+                            content_first
                         }
                     }
                 }
@@ -231,8 +215,7 @@ export const home = () => {
         pagination: { limit: 5 }, filters: { rating: { gte: 4 } }) {
         data {
             attributes {
-                title_en
-                title_bn
+                title
                 slug
                 createdAt
             }
@@ -255,17 +238,15 @@ export const categoryList = () => {
     `
 }
 
-export const categoryDeatails = (slug, page) => {
+export const categoryDeatails = (slug, page, locale = 'en') => {
     return `
         query {
-            category:categories(filters: {slug: {eq: "${slug}"}}) {
+            category:categories(filters: {slug: {eq: "${slug}"}}, locale: "${locale}") {
                 data {
                     attributes {
-                        title_en
-                        title_bn
+                        title
                         slug
-                        breadcrumb_en
-                        breadcrumb_bn
+                        breadcrumb
                         description
                         keywords
                         image {
@@ -282,11 +263,11 @@ export const categoryDeatails = (slug, page) => {
                 filters: { status: { eq: true }, category: { slug: { eq: "${slug}" } } }
                 sort: "createdAt:desc"
                 pagination: { page: ${page}, pageSize: 12 }
+                locale: "${locale}"
             ) {
                 data {
                     attributes {
-                        title_en
-                        title_bn
+                        title
                         slug
                         image {
                             data {
@@ -297,8 +278,7 @@ export const categoryDeatails = (slug, page) => {
                                 }
                             }
                         }
-                        content_first_en
-                        content_first_bn
+                        content_first
                         createdAt
                     }
                 }
@@ -314,8 +294,7 @@ export const categoryDeatails = (slug, page) => {
             hotCategories:categories(filters: {is_hot: {eq: true}}, pagination: { limit: 8 } ) {
                 data{
                     attributes {
-                        title_en
-                        title_bn
+                        title
                         slug
                         cover_image {
                             data {
@@ -338,13 +317,11 @@ export const categoryDeatails = (slug, page) => {
                 data{
                     attributes {
                         slug
-                        title_en
-                        title_bn
+                        title
                         category{
                             data {
                                 attributes {
-                                    title_en
-                                    title_bn
+                                    title
                                     slug
                                 }
                             }
@@ -367,14 +344,12 @@ export const categoryListWithRelation = () => {
                 data {
                     attributes {
                         slug
-                        title_en
-                        title_bn
+                        title
                         categories {
                             data {
                                 attributes {
                                     slug
-                                    title_en
-                                    title_bn
+                                    title
                                 }
                             }
                         }

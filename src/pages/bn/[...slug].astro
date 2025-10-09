@@ -36,7 +36,7 @@ const data = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-        query: postDetails(slug),
+        query: postDetails(slug, "bn"),
     }),
 });
 const json = await data.json();
