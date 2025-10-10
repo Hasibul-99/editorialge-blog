@@ -1,12 +1,8 @@
 export const postList = () => {
     return `
         query {
-            posts(filters: { status: { eq: true } }, pagination: { limit: -1 }) {
-                data {
-                    attributes {
-                        slug
-                    }
-                }
+            posts(filters: { is_active: { eq: true } }, pagination: { limit: -1 }) {
+                slug
             }
         }
     `
@@ -14,127 +10,55 @@ export const postList = () => {
 
 export const postDetails = (slug, locale = 'en') => {
     return `
-    query {
-      posts(
-        filters: {
-          slug: { eq: "${slug}" }
-          status: { eq: true }
+        query {
+            posts(filters: { slug: { eq: "${slug}" }, is_active: { eq: true } }) {
+                slug
+                title
+                content
+                content_first
+                category{
+                    title
+                    slug
+                }
+                image{
+                    url
+                    height
+                    width
+                }
+                cover_image{
+                    url
+                    height
+                    width
+                }
+                createdBy {
+                    firstname
+                    lastname
+                }
+                createdAt
+                updatedAt
+                tags{
+                    title
+                    slug
+                }
+            }
         }
-        locale: "${locale}"
-      ) {
-        data {
-          id
-          attributes {
-            createdBy {
-              id
-              firstname
-              lastname
-            }
-            title
-            breadcrumb
-            content_first
-            content_sec
-            rating
-            category {
-              data {
-                attributes {
-                  title
-                  slug
-                }
-              }
-            }
-            tags {
-              data {
-                attributes {
-                  title
-                }
-              }
-            }
-            createdAt
-            updatedAt
-            description
-            keywords
-            image {
-              data {
-                attributes {
-                  url
-                }
-              }
-            }
-          }
-        }
-      }
-      categories(filters: { is_hot: { eq: true } }
-      sort: ["createdAt:desc"]
-      pagination: { limit: 5 }) {
-        data {
-          id
-          attributes {
-            title
-            cover_image {
-              data {
-                attributes {
-                  url
-                }
-              }
-            }
-            slug
-          }
-        }
-      }
-      latestPosts: posts(
-      sort: ["createdAt:desc"]
-      pagination: { limit: 5 }
-    ) {
-      data {
-        attributes {
-          title
-          slug
-          category {
-            data {
-                attributes {
-                  title
-                  slug
-                }
-            }
-          }
-          image {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-        }
-      }
-    }
-    }
-  `
+    `
 }
 
 export const home = (locale = 'en') => {
-    return `{
-    topPost:posts(sort: "createdAt:desc", pagination: { limit: 3 }, filters: {top_post: {eq: true}}) {
-        data {
-            attributes {
+    return `
+        query {
+            topPost:posts(sort: "createdAt:desc", pagination: { limit: 3 }, filters: {top_post: {eq: true}, is_active: {eq: true}}) {
                 slug
                 title
                 category{
-                    data {
-                        attributes {
-                            title
-                            slug
-                        }
-                    }
+                    title
+                    slug
                 }
                 image{
-                    data{
-                        attributes {
-                            url
-                            height
-                            width
-                        }
-                    }
+                    url
+                    height
+                    width
                 }
                 createdBy {
                     firstname
@@ -143,218 +67,134 @@ export const home = (locale = 'en') => {
                 createdAt
                 content_first
             }
-        }
-    }
-    justInRecent:posts(sort: "createdAt:desc", pagination: { limit: 4 }) {
-        data{
-            attributes {
+            justInRecent:posts(sort: "createdAt:desc", pagination: { limit: 4 }, filters: {is_active: {eq: true}}) {
                 slug
                 title
                 category{
-                    data {
-                        attributes {
-                            title
-                            slug
-                        }
-                    }
+                    title
+                    slug
                 }
                 image {
-                    data {
-                        attributes{
-                            url
-                            width
-                            height
-                        }
-                    }
+                    url
+                    width
+                    height
                 }
                 createdAt
             }
-        }
-    }
-    hotCategories:categories(sort: "rating:desc", pagination: { limit: 8 }) {
-        data {
-            attributes {
+            hotCategories:categories(sort: "rating:desc", pagination: { limit: 8 }, filters: {is_active: {eq: true}}) {
                 title
                 slug
-                posts(sort: "createdAt:desc", pagination: { limit: 5 }) {
-                    data {
-                        attributes {
-                            slug
-                            title
-                            image{
-                                data{
-                                    attributes {
-                                        url                                        
-                                        width
-                                        height
-                                    }
-                                }
-                            }
-                            cover_image{
-                                data{
-                                    attributes {
-                                        url                                        
-                                        width
-                                        height
-                                    }
-                                }
-                            }
-                            createdBy {
-                                firstname
-                                lastname
-                            }
-                            createdAt
-                            content_first
-                        }
+                posts(sort: "createdAt:desc", pagination: { limit: 5 }, filters: {is_active: {eq: true}}) {
+                    slug
+                    title
+                    image{
+                        url                                        
+                        width
+                        height
                     }
+                    cover_image{
+                        url                                        
+                        width
+                        height
+                    }
+                    createdBy {
+                        firstname
+                        lastname
+                    }
+                    createdAt
+                    content_first
                 }
             }
-        }
-    }
-    topRating:posts( sort: "createdAt:desc"
-        pagination: { limit: 5 }, filters: { rating: { gte: 4 } }) {
-        data {
-            attributes {
+            topRating:posts( sort: "createdAt:desc"
+                pagination: { limit: 5 }, filters: { rating: { gte: 4 }, is_active: {eq: true} }) {
                 title
                 slug
                 createdAt
             }
         }
-    }
-}`
+    `
 }
 
-export const categoryList = () => {
+export const categoryList = (locale = 'en') => {
     return `
         query {
-            categories(filters: {status: {eq: true}}, pagination: { limit: -1 }){
-                data {
-                    attributes {
-                        slug
-                    }
+            categories(sort: "createdAt:desc", pagination: { limit: 10 }, filters: {is_active: {eq: true}}) {
+                title
+                slug
+                description
+                cover_image{
+                    url
+                    height
+                    width
                 }
+                createdAt
             }
         }
     `
 }
 
-export const categoryDeatails = (slug, page, locale = 'en') => {
+export const categoryDeatails = (slug, locale = 'en') => {
     return `
         query {
-            category:categories(filters: {slug: {eq: "${slug}"}}, locale: "${locale}") {
-                data {
-                    attributes {
-                        title
-                        slug
-                        breadcrumb
-                        description
-                        keywords
-                        image {
-                            data {
-                                attributes {
-                                    url
-                                }
-                            }
-                        }
-                    }
+            categories(filters: { slug: { eq: "${slug}" }, is_active: { eq: true } }) {
+                title
+                slug
+                description
+                cover_image{
+                    url
+                    height
+                    width
                 }
-            }
-            categoryPost:posts(
-                filters: { status: { eq: true }, category: { slug: { eq: "${slug}" } } }
-                sort: "createdAt:desc"
-                pagination: { page: ${page}, pageSize: 12 }
-                locale: "${locale}"
-            ) {
-                data {
-                    attributes {
-                        title
-                        slug
-                        image {
-                            data {
-                                attributes {
-                                    url
-                                    width
-                                    height
-                                }
-                            }
-                        }
-                        content_first
-                        createdAt
+                posts(sort: "createdAt:desc", pagination: { limit: 10 }, filters: {is_active: {eq: true}}) {
+                    slug
+                    title
+                    image{
+                        url
+                        height
+                        width
                     }
-                }
-                meta {
-                    pagination {
-                        total         
-                        page          
-                        pageSize      
-                        pageCount     
+                    createdBy {
+                        firstname
+                        lastname
                     }
+                    createdAt
+                    content_first
                 }
-            }
-            hotCategories:categories(filters: {is_hot: {eq: true}}, pagination: { limit: 8 } ) {
-                data{
-                    attributes {
-                        title
-                        slug
-                        cover_image {
-                            data {
-                                attributes {
-                                    url
-                                }
-                            }
-                        }
-                        image {
-                            data {
-                                attributes {
-                                    url
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            justInRecent:posts(sort: "createdAt:desc", pagination: { limit: 4 }) {
-                data{
-                    attributes {
-                        slug
-                        title
-                        category{
-                            data {
-                                attributes {
-                                    title
-                                    slug
-                                }
-                            }
-                        }
-                        createdAt
-                    }
-                }
+                createdAt
             }
         }
     `
 }
 
-export const categoryListWithRelation = () => {
+export const categoryListWithRelation = (locale = 'en') => {
     return `
         query {
-            categories(filters: {
-                status: { eq: true },
-                category: { id: { null: true } }
-            }) {
-                data {
-                    attributes {
-                        slug
-                        title
-                        categories {
-                            data {
-                                attributes {
-                                    slug
-                                    title
-                                }
-                            }
-                        }
-                    }
+            categories(sort: "createdAt:desc", pagination: { limit: 10 }, filters: {is_active: {eq: true}}) {
+                title
+                slug
+                description
+                cover_image{
+                    url
+                    height
+                    width
                 }
+                posts(sort: "createdAt:desc", pagination: { limit: 5 }, filters: {is_active: {eq: true}}) {
+                    slug
+                    title
+                    image{
+                        url
+                        height
+                        width
+                    }
+                    createdBy {
+                        firstname
+                        lastname
+                    }
+                    createdAt
+                    content_first
+                }
+                createdAt
             }
-        }`
+        }
+    `
 }
