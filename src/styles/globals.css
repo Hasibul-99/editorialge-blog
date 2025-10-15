@@ -1,6 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Mobile menu trigger button styles */
+.mobile-menu-trigger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.mobile-menu-trigger:focus {
+  outline: none;
+}
  
 @layer base {
   :root {

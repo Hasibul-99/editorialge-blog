@@ -13,6 +13,9 @@ type Props = {
 };
 
 const { post } = Astro.props;
+const imageUrl = showImage(post?.image);
+const imageHeight = getImageHeightAndWeight(post?.image, "height");
+const imageWidth = getImageHeightAndWeight(post?.image, "width");
 ---
 
 <div>
@@ -21,14 +24,27 @@ const { post } = Astro.props;
       <div class="sports-post">
         <div class="sports-post-thumb">
           <a href={"/" + post.slug}>
-            <Image
-              src={showImage(post.image)}
-              height={getImageHeightAndWeight(post.image, "height")}
-              width={getImageHeightAndWeight(post.image, "width")}
-              alt="image"
-              format="avif"
-              quality={"mid"}
-            />
+            {
+              imageUrl && imageHeight && imageWidth ? (
+                <Image
+                  src={imageUrl}
+                  height={imageHeight}
+                  width={imageWidth}
+                  alt="image"
+                  format="avif"
+                  quality={"mid"}
+                />
+              ) : (
+                <Image
+                  src={Banner}
+                  height={300}
+                  width={400}
+                  alt="image"
+                  format="avif"
+                  quality={"mid"}
+                />
+              )
+            }
           </a>
           <div class="sports-post-content">
             {/* <a href="blog.html" class="post-tag-four">

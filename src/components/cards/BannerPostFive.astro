@@ -13,13 +13,13 @@ const { post } = Astro.props;
 
 <div class="banner-post-five">
   {
-    post ? (
+    post && post.image?.data?.length ? (
       <div class="banner-post-thumb-five">
         <a href={post.slug}>
           <Image
             src={showImage(post.image)}
-            height={getImageHeightAndWeight(post.image, "height")}
-            width={getImageHeightAndWeight(post.image, "width")}
+            height={getImageHeightAndWeight(post.image, "height") || 300}
+            width={getImageHeightAndWeight(post.image, "width") || 400}
             alt="image"
           />
         </a>
@@ -42,6 +42,27 @@ const { post } = Astro.props;
               </li>
             </ul>
           </div>
+        </div>
+      </div>
+    ) : post ? (
+      <div class="banner-post-content-five">
+        <a href={post?.category?.data?.attributes.slug} class="post-tag-four">
+          {tansation(post?.category?.data?.attributes, "title")}
+        </a>
+        <h2 class="post-title">
+          <a href={post.slug}>{tansation(post, "title")}</a>
+        </h2>
+        <div class="blog-post-meta">
+          <ul class="list-wrap">
+            <li>
+              <i class="flaticon-user" />
+              by<a href="#">{post.createdBy?.firstname}</a>
+            </li>
+            <li>
+              <i class="flaticon-calendar" />
+              {dayjs(post.createdAt).format("DD MMMM, YYYY")}
+            </li>
+          </ul>
         </div>
       </div>
     ) : null

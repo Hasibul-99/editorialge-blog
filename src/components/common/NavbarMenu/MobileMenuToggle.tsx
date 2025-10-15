@@ -15,7 +15,9 @@ export default function MobileMenuToggle({ }: Props) {
         <Fragment>
             <Sheet>
                 <SheetTrigger asChild>
-                    <FaBars />
+                    <button type="button" className="mobile-menu-trigger">
+                        <FaBars />
+                    </button>
                 </SheetTrigger>
 
                 <SheetContent side={"right"} className='mobile-menu'>

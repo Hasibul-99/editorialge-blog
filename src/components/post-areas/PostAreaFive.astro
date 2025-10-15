@@ -5,7 +5,7 @@ import SportsPost from "../cards/SportsPost.astro";
 
 const { category } = Astro.props;
 const firstPost = category?.posts?.data?.at(0);
-const otherPosts = category?.posts?.data?.slice(1, 5);
+const otherPosts = category?.posts?.data?.slice(1, 5) || [];
 ---
 
 <div class="sports-post-wrap">

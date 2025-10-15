@@ -1,7 +1,7 @@
-export const postList = () => {
+export const postList = (locale = 'en') => {
     return `
         query {
-            posts(filters: { is_active: { eq: true } }, pagination: { limit: -1 }) {
+            posts(filters: { is_active: { eq: true } }, pagination: { limit: -1 }, locale: "${locale}") {
                 slug
             }
         }
@@ -11,10 +11,10 @@ export const postList = () => {
 export const postDetails = (slug, locale = 'en') => {
     return `
         query {
-            posts(filters: { slug: { eq: "${slug}" }, is_active: { eq: true } }) {
+            posts(filters: { slug: { eq: "${slug}" }, is_active: { eq: true } }, locale: "${locale}") {
                 slug
                 title
-                content
+                content_sec
                 content_first
                 category{
                     title
@@ -38,7 +38,6 @@ export const postDetails = (slug, locale = 'en') => {
                 updatedAt
                 tags{
                     title
-                    slug
                 }
             }
         }

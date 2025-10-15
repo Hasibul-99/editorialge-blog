@@ -13,19 +13,35 @@ type Props = {
 };
 
 const { post } = Astro.props;
+const imageUrl = showImage(post?.image);
+const imageHeight = getImageHeightAndWeight(post?.image, "height");
+const imageWidth = getImageHeightAndWeight(post?.image, "width");
 ---
 
 <div class="editor-post-three">
   <div class="editor-post-thumb-three">
     <a href={"/" + post?.slug}>
-      <Image
-        src={showImage(post?.image)}
-        height={getImageHeightAndWeight(post?.image, "height")}
-        width={getImageHeightAndWeight(post?.image, "width")}
-        alt="image"
-        format="avif"
-        quality={"mid"}
-      />
+      {
+        imageUrl && imageHeight && imageWidth ? (
+          <Image
+            src={imageUrl}
+            height={imageHeight}
+            width={imageWidth}
+            alt="image"
+            format="avif"
+            quality={"mid"}
+          />
+        ) : (
+          <Image
+            src={Banner}
+            height={300}
+            width={400}
+            alt="image"
+            format="avif"
+            quality={"mid"}
+          />
+        )
+      }
       <!-- <a href="https://www.youtube.com/watch?v=G_AEL-Xo5l8" class="paly-btn popup-video"><i class="fas fa-play"></i></a> -->
     </a>
     <div class="editor-post-content-three">

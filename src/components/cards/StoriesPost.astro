@@ -9,6 +9,9 @@ import {
 import dayjs from "dayjs";
 
 const { post } = Astro.props;
+const imageUrl = showImage(post?.image);
+const imageHeight = getImageHeightAndWeight(post?.image, "height");
+const imageWidth = getImageHeightAndWeight(post?.image, "width");
 ---
 
 {
@@ -16,12 +19,23 @@ const { post } = Astro.props;
     <div class="stories-post">
       <div class="stories-post-thumb">
         <a href={post.slug}>
-          <Image
-            src={showImage(post.image)}
-            height={getImageHeightAndWeight(post.image, "height")}
-            width={getImageHeightAndWeight(post.image, "width")}
-            alt="image"
-          />
+          {
+            imageUrl && imageHeight && imageWidth ? (
+              <Image
+                src={imageUrl}
+                height={imageHeight}
+                width={imageWidth}
+                alt="image"
+              />
+            ) : (
+              <Image
+                src={Banner}
+                height={300}
+                width={400}
+                alt="image"
+              />
+            )
+          }
         </a>
       </div>
       <div class="stories-post-content">

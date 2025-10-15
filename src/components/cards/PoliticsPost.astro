@@ -7,6 +7,9 @@ import { tansation } from "@/scripts/helpets";
 import dayjs from "dayjs";
 
 const { post } = Astro.props;
+const imageUrl = showImage(post?.attributes?.image);
+const imageHeight = getImageHeightAndWeight(post?.attributes?.image, "height");
+const imageWidth = getImageHeightAndWeight(post?.attributes?.image, "width");
 ---
 
 {
@@ -14,14 +17,27 @@ const { post } = Astro.props;
     <div class="politics-post">
       <div class="politics-post-thumb">
         <a href={"/" + post?.attributes?.slug}>
-          <Image
-            src={showImage(post?.attributes?.image)}
-            height={getImageHeightAndWeight(post?.attributes?.image, "height")}
-            width={getImageHeightAndWeight(post?.attributes?.image, "width")}
-            alt="image"
-            format="avif"
-            quality={"mid"}
-          />
+          {
+            imageUrl && imageHeight && imageWidth ? (
+              <Image
+                src={imageUrl}
+                height={imageHeight}
+                width={imageWidth}
+                alt="image"
+                format="avif"
+                quality={"mid"}
+              />
+            ) : (
+              <Image
+                src={BannerO1}
+                height={400}
+                width={600}
+                alt="image"
+                format="avif"
+                quality={"mid"}
+              />
+            )
+          }
         </a>
       </div>
       <div class="politics-post-content">

@@ -5,10 +5,15 @@ import { showImage } from "@/scripts/helpets";
 type Props = { image: any; slug: string };
 
 const { image, slug } = Astro.props;
+const imageUrl = showImage(image);
 ---
 
-<div class="hot-post-thumb">
-  <a href={"/" + slug || "#"}>
-    <Image src={showImage(image)} width={200} height={220} alt="Banner" />
-  </a>
-</div>
+{
+  imageUrl ? (
+    <div class="hot-post-thumb">
+      <a href={"/" + slug || "#"}>
+        <Image src={imageUrl} width={200} height={220} alt="Banner" />
+      </a>
+    </div>
+  ) : null
+}

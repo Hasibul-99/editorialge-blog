@@ -20,15 +20,17 @@ export const tansation = (data, context) => {
 }
 
 export const showImage = (data) => {
-    if (data) {
-        return import.meta.env.PUBLIC_BASEURL + data.data?.at(0)?.attributes.url;
-    } else return '/hello';
+    if (data?.data?.length && data.data[0]?.attributes?.url) {
+        return import.meta.env.PUBLIC_BASEURL + data.data[0].attributes.url;
+    } else return null;
 }
 
 export const getImageHeightAndWeight = (image, context) => {
+    if (!image?.data?.length) return 0;
+    
     if (context === 'height') {
-        return image.data.at(0).attributes.height
-    } else return image.data.at(0).attributes.width
+        return image.data.at(0)?.attributes?.height || 0
+    } else return image.data.at(0)?.attributes?.width || 0
 }
 
 export const getCategorySEOmeta = (data) => {

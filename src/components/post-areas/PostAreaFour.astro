@@ -5,7 +5,7 @@ import TopNewsPost from "../cards/TopNewsPost.astro";
 
 const { category } = Astro.props;
 const firstPost = category?.posts?.data?.at(0);
-const otherPosts = category?.posts?.data?.slice(1, 4);
+const otherPosts = category?.posts?.data?.slice(1, 4) || [];
 ---
 
 <div class="world-top-news">

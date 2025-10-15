@@ -14,6 +14,9 @@ type Props = {
 };
 
 const { post } = Astro.props;
+const imageUrl = showImage(post?.image);
+const imageHeight = getImageHeightAndWeight(post?.image, "height");
+const imageWidth = getImageHeightAndWeight(post?.image, "width");
 ---
 
 {
@@ -21,12 +24,23 @@ const { post } = Astro.props;
     <div class="weekly-post-three">
       <div class="weekly-post-thumb">
         <a href={post.slug}>
-          <Image
-            src={showImage(post.image)}
-            height={getImageHeightAndWeight(post.image, "height")}
-            width={getImageHeightAndWeight(post.image, "width")}
-            alt="image"
-          />
+          {
+            imageUrl && imageHeight && imageWidth ? (
+              <Image
+                src={imageUrl}
+                height={imageHeight}
+                width={imageWidth}
+                alt="image"
+              />
+            ) : (
+              <Image
+                src={BannerO1}
+                height={300}
+                width={400}
+                alt="image"
+              />
+            )
+          }
           {/* <!-- <a href="blog.html" class="post-tag">Politics</a> --> */}
         </a>
         <div class="weekly-post-content">

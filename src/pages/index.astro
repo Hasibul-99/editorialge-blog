@@ -31,6 +31,7 @@ if (!json || !json.data) {
 }
 
 const { topPost, justInRecent, hotCategories, topRating } = json.data;
+console.log("hotCategories", hotCategories)
 const firstCategory = hotCategories?.at(0);
 const secCategory = hotCategories?.at(1);
 const thirdCategory = hotCategories?.at(2);
