@@ -4,8 +4,10 @@ import PoliticsPost from "../cards/PoliticsPost.astro";
 import PoliticsPostTwo from "../cards/PoliticsPostTwo.astro";
 
 const { category } = Astro.props;
-const firstPost = category?.posts?.data?.at(0);
-const otherPosts = category?.posts?.data?.slice(1, 4) || [];
+console.log("category", category)
+const firstPost = category?.posts?.at(0);
+const otherPosts = category?.posts?.slice(1, 4) || [];
+console.log("otherPosts", otherPosts)
 ---
 
 <section class="politics-post-area">
@@ -27,9 +29,6 @@ const otherPosts = category?.posts?.data?.slice(1, 4) || [];
               {otherPosts.map((post: any) => (
                 <PoliticsPostTwo post={post} />
               ))}
-              {/* <PoliticsPostTwo />
-              <PoliticsPostTwo />
-              <PoliticsPostTwo /> */}
             </div>
           ) : null
         }

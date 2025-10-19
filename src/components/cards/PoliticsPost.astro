@@ -13,10 +13,10 @@ const imageWidth = getImageHeightAndWeight(post?.attributes?.image, "width");
 ---
 
 {
-  post?.attributes ? (
+  post ? (
     <div class="politics-post">
       <div class="politics-post-thumb">
-        <a href={"/" + post?.attributes?.slug}>
+        <a href={"/" + post.slug}>
           {
             imageUrl && imageHeight && imageWidth ? (
               <Image
@@ -43,28 +43,28 @@ const imageWidth = getImageHeightAndWeight(post?.attributes?.image, "width");
       <div class="politics-post-content">
         {/* <a href="blog.html" class="post-tag-four">Politics</a> */}
         <h2 class="post-title">
-          <a href={"/" + post?.attributes?.slug}>
-            {tansation(post?.attributes, "title")}
+          <a href={"/" + post.slug}>
+            {post.title}
           </a>
         </h2>
         <div class="blog-post-meta">
           <ul class="list-wrap">
             <li>
               <i class="flaticon-user" />
-              by<a href="/">{post.attributes.createdBy?.firstname}</a>
+              by<a href="/">{post.createdBy?.firstname}</a>
             </li>
             <li>
               <i class="flaticon-calendar" />
-              {dayjs(post.attributes?.createdAt).format("DD MMMM, YYYY")}
+              {dayjs(post.createdAt).format("DD MMMM, YYYY")}
             </li>
           </ul>
         </div>
         <RTEDrawer
-          content={tansation(post?.attributes, "content_first")}
+          content={post.content_first}
           className="line-ellipsis-4"
         />
         <div class="view-all-btn">
-          <a href={"/" + post?.attributes?.slug} class="link-btn">
+          <a href={"/" + post.slug} class="link-btn">
             Read More
             <span class="svg-icon">
               <svg

@@ -24,6 +24,8 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
 });
 const json = await response.json();
 
+
+console.log("hson", json )
 // Add error handling and null checks
 if (!json || !json.data) {
     console.error('GraphQL response error:', json);
