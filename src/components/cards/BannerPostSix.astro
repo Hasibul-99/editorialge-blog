@@ -13,7 +13,7 @@ const { post } = Astro.props;
 
 <div class="banner-post-six">
   {
-    post && post.image?.data?.length ? (<div class="banner-post-thumb-six">
+    post && post.image?.length ? (<div class="banner-post-thumb-six">
     <a href={post.slug}>
       <Image
         src={showImage(post.image)}
@@ -27,10 +27,10 @@ const { post } = Astro.props;
   </div>
   <div class="banner-post-content-six">
     <a href={post?.category?.data?.attributes.slug} class="post-tag-two"
-      >{tansation(post?.category?.data?.attributes, "title")}</a
+      >{post?.category?.data?.attributes?.title}</a
     >
     <h2 class="post-title bold-underline">
-      <a href={post.slug}>{tansation(post, "title")}</a>
+      <a href={post.slug}>{post?.title}</a>
     </h2>
     <div class="blog-post-meta">
       <ul class="list-wrap">
@@ -47,16 +47,16 @@ const { post } = Astro.props;
       </ul>
     </div>
     <RTEDrawer
-      content={tansation(post, "content_first")}
-      className="line-ellipsis-4"
-    />
+        content={post?.content_first}
+        className="line-ellipsis-4"
+      />
   </div>) : post ? (
     <div class="banner-post-content-six">
       <a href={post?.category?.data?.attributes.slug} class="post-tag-two"
-        >{tansation(post?.category?.data?.attributes, "title")}</a
-      >
-      <h2 class="post-title bold-underline">
-        <a href={post.slug}>{tansation(post, "title")}</a>
+          >{post?.category?.data?.attributes?.title}</a
+        >
+        <h2 class="post-title bold-underline">
+          <a href={post.slug}>{post?.title}</a>
       </h2>
       <div class="blog-post-meta">
         <ul class="list-wrap">
@@ -73,7 +73,7 @@ const { post } = Astro.props;
         </ul>
       </div>
       <RTEDrawer
-        content={tansation(post, "content_first")}
+        content={post?.content_first}
         className="line-ellipsis-4"
       />
     </div>

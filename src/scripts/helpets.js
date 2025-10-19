@@ -20,17 +20,35 @@ export const tansation = (data, context) => {
 }
 
 export const showImage = (data) => {
-    if (data?.data?.length && data.data[0]?.attributes?.url) {
+    // Handle new REST API format (direct array of image objects)
+    if (data?.length && data[0]?.url) {
+        return data[0].url; // Cloudinary URLs are absolute, no need to prepend baseurl
+    }
+    // Handle old GraphQL format (data.data[0].attributes.url)
+    else if (data?.data?.length && data.data[0]?.attributes?.url) {
         return import.meta.env.PUBLIC_BASEURL + data.data[0].attributes.url;
-    } else return null;
+    } 
+    else return null;
 }
 
 export const getImageHeightAndWeight = (image, context) => {
-    if (!image?.data?.length) return 0;
-    
-    if (context === 'height') {
-        return image.data.at(0)?.attributes?.height || 0
-    } else return image.data.at(0)?.attributes?.width || 0
+    // Handle new REST API format (direct array of image objects)
+    if (image?.length && image[0]) {
+        if (context === 'height') {
+            return image[0]?.height || 0;
+        } else {
+            return image[0]?.width || 0;
+        }
+    }
+    // Handle old GraphQL format (image.data[0].attributes)
+    else if (image?.data?.length) {
+        if (context === 'height') {
+            return image.data.at(0)?.attributes?.height || 0;
+        } else {
+            return image.data.at(0)?.attributes?.width || 0;
+        }
+    }
+    return 0;
 }
 
 export const getCategorySEOmeta = (data) => {

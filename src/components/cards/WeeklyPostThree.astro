@@ -45,7 +45,7 @@ const imageWidth = getImageHeightAndWeight(post?.image, "width");
         </a>
         <div class="weekly-post-content">
           <h2 class="post-title">
-            <a href={"/" + post.slug}>{tansation(post, "title")}</a>
+            <a href={"/" + post.slug}>{post?.title}</a>
           </h2>
           <div class="blog-post-meta">
             <ul class="list-wrap">
@@ -56,9 +56,9 @@ const imageWidth = getImageHeightAndWeight(post?.image, "width");
             </ul>
           </div>
           <RTEDrawer
-            content={tansation(post, "content_first")}
-            className="line-ellipsis-3"
-          />
+              content={post?.content_first}
+              className="line-ellipsis-3"
+            />
         </div>
       </div>
     </div>

@@ -40,10 +40,10 @@ const imageWidth = getImageHeightAndWeight(post?.image, "width");
       </div>
       <div class="stories-post-content">
         <a href={post?.category?.data?.attributes.slug} class="post-tag-four">
-          {tansation(post?.category?.data?.attributes, "title")}
+          {post?.category?.data?.attributes?.title}
         </a>
         <h5 class="post-title">
-          <a href={post.slug}>{tansation(post, "title")}</a>
+          <a href={post.slug}>{post?.title}</a>
         </h5>
         <div class="blog-post-meta">
           <ul class="list-wrap">

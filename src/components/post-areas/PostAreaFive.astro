@@ -1,30 +1,30 @@
 ---
-import { tansation } from "@/scripts/helpets";
 import HorizontalPostFour from "../cards/HorizontalPostFour.astro";
 import SportsPost from "../cards/SportsPost.astro";
 
 const { category } = Astro.props;
-const firstPost = category?.posts?.data?.at(0);
-const otherPosts = category?.posts?.data?.slice(1, 5) || [];
+
+const firstPost = category?.posts?.at(0);
+const otherPosts = category?.posts?.slice(1, 5) || [];
 ---
 
 <div class="sports-post-wrap">
   <div class="section-title-wrap mb-30">
     <div class="section-title section-title-four">
-      <h2 class="title">{tansation(category, "title")}</h2>
+      <h2 class="title">{category?.title}</h2>
     </div>
     <div class="section-title-line"></div>
   </div>
   <div class="row">
     <div class="col-lg-8">
-      <SportsPost post={firstPost?.attributes} />
+      <SportsPost post={firstPost} />
     </div>
     {
       otherPosts?.length ? (
         <div class="col-lg-4">
           <div class="sidebar-wrap sidebar-wrap-four">
             {otherPosts.map((post: any) => (
-              <HorizontalPostFour post={post.attributes} />
+              <HorizontalPostFour post={post} />
             ))}
           </div>
         </div>
