@@ -46,10 +46,31 @@ const data = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
 });
 const json = await data.json();
 console.log("json", json)
+
+// Check if json.data exists, if not the GraphQL query failed
+if (!json.data) {
+    console.error("GraphQL query failed:", json);
+    throw new Error("Failed to fetch post data");
+}
+
 const { posts, categories, latestPosts } = json.data;
-console.log("posts", posts[0])
-const post = posts.data?.length ? posts.data[0] : null;
-const hotCategories = categories.data;
+console.log("posts", posts)
+
+// Extract the post data correctly - posts is an array from GraphQL
+const post = posts?.length ? posts[0] : null;
+
+// If no post found, this is a 404
+if (!post) {
+    console.error("Post not found for slug:", slug);
+    throw new Error("Post not found");
+}
+
+const attributes = post; // The post object contains all the attributes directly
+
+// Handle categories and latestPosts data
+const hotCategories = categories || [];
+const latestPostsData = latestPosts || [];
+
 const imageUrl = showImage(attributes?.image);
 ---
 
@@ -122,15 +143,15 @@ const imageUrl = showImage(attributes?.image);
                   <div class="row align-items-center">
                     <div class="col-lg-6">
                       {
-                        attributes.tags?.data.length ? (
+                        attributes.tags?.length ? (
                           <div class="post-tags">
                             <h5 class="title">Tags:</h5>
                             <ul class="list-wrap">
-                              {attributes.tags.data.map(
+                              {attributes.tags.map(
                                 (tag: any, idx: number) => (
                                   <li>
                                     <a href="#">
-                                      {tansation(tag.attributes, "title")}
+                                      {tansation(tag, "title")}
                                     </a>
                                   </li>
                                 )
@@ -302,7 +323,7 @@ const imageUrl = showImage(attributes?.image);
             </div>
           </div>
           <div class="col-30">
-            <SidebarWrap categories={hotCategories} latestPosts={latestPosts} />
+            <SidebarWrap categories={hotCategories} latestPosts={latestPostsData} />
           </div>
         </div>
       </div>

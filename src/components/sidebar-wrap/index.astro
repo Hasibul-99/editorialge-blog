@@ -50,7 +50,7 @@ const { categories = [], latestPosts } = Astro.props;
   </div>
 
   {
-    latestPosts?.data?.length ? (
+    latestPosts?.length ? (
       <div class="sidebar-widget sidebar-widget-two">
         <div class="widget-title mb-30">
           <h6 class="title">Recent News</h6>
@@ -58,38 +58,38 @@ const { categories = [], latestPosts } = Astro.props;
         </div>
         <div class="hot-post-wrap">
           <HotPostThumb
-            image={latestPosts?.data?.at(0)?.attributes?.image}
-            slug={latestPosts?.data?.at(0)?.attributes?.slug}
+            image={latestPosts?.at(0)?.image}
+            slug={latestPosts?.at(0)?.slug}
           />
-          {latestPosts?.data.map((post: any, idx: number) => (
+          {latestPosts?.map((post: any, idx: number) => (
             <div class="hot-post-item">
-              {post?.attributes ? (
+              {post ? (
                 <div class="hot-post-content">
-                  {post.attributes?.category?.data?.attributes ? (
+                  {post?.category ? (
                     <a
                       href={
                         "/category/" +
-                        post.attributes?.category?.data?.attributes?.slug
+                        post?.category?.slug
                       }
                       class="post-tag"
                     >
                       {tansation(
-                        post.attributes?.category?.data?.attributes,
+                        post?.category,
                         "title"
                       )}
                     </a>
                   ) : null}
 
                   <h4 class="post-title">
-                    <a href={"/" + post.attributes.slug}>
-                      {tansation(post.attributes, "title")}
+                    <a href={"/" + post.slug}>
+                      {tansation(post, "title")}
                     </a>
                   </h4>
                   <div class="blog-post-meta">
                     <ul class="list-wrap">
                       <li>
                         <i class="flaticon-calendar" />
-                        {dayjs(post?.attributes?.createdAt).format(
+                        {dayjs(post?.createdAt).format(
                           "DD MMMM, YYYY"
                         )}
                       </li>

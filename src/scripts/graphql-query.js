@@ -40,6 +40,44 @@ export const postDetails = (slug, locale = 'en') => {
                     title
                 }
             }
+            categories(sort: "rating:desc", pagination: { limit: 8 }, filters: {is_active: {eq: true}}, locale: "${locale}") {
+                title
+                slug
+                posts(sort: "createdAt:desc", pagination: { limit: 5 }, filters: {is_active: {eq: true}}) {
+                    slug
+                    title
+                    image{
+                        url                                        
+                        width
+                        height
+                    }
+                    cover_image{
+                        url                                        
+                        width
+                        height
+                    }
+                    createdBy {
+                        firstname
+                        lastname
+                    }
+                    createdAt
+                    content_first
+                }
+            }
+            latestPosts: posts(sort: "createdAt:desc", pagination: { limit: 5 }, filters: {is_active: {eq: true}}, locale: "${locale}") {
+                slug
+                title
+                category{
+                    title
+                    slug
+                }
+                image {
+                    url
+                    width
+                    height
+                }
+                createdAt
+            }
         }
     `
 }
@@ -47,7 +85,7 @@ export const postDetails = (slug, locale = 'en') => {
 export const home = (locale = 'en') => {
     return `
         query {
-            topPost:posts(sort: "createdAt:desc", pagination: { limit: 3 }, filters: {top_post: {eq: true}, is_active: {eq: true}}) {
+            topPost:posts(sort: "createdAt:desc", pagination: { limit: 3 }, filters: {top_post: {eq: true}, is_active: {eq: true}}, locale: "${locale}" ) {
                 slug
                 title
                 category{
@@ -66,7 +104,7 @@ export const home = (locale = 'en') => {
                 createdAt
                 content_first
             }
-            justInRecent:posts(sort: "createdAt:desc", pagination: { limit: 4 }, filters: {is_active: {eq: true}}) {
+            justInRecent:posts(sort: "createdAt:desc", pagination: { limit: 4 }, filters: {is_active: {eq: true}},locale: "${locale}") {
                 slug
                 title
                 category{
@@ -80,7 +118,7 @@ export const home = (locale = 'en') => {
                 }
                 createdAt
             }
-            hotCategories:categories(sort: "rating:desc", pagination: { limit: 8 }, filters: {is_active: {eq: true}}) {
+            hotCategories:categories(sort: "rating:desc", pagination: { limit: 8 }, filters: {is_active: {eq: true}}, locale: "${locale}") {
                 title
                 slug
                 posts(sort: "createdAt:desc", pagination: { limit: 5 }, filters: {is_active: {eq: true}}) {
@@ -105,7 +143,7 @@ export const home = (locale = 'en') => {
                 }
             }
             topRating:posts( sort: "createdAt:desc"
-                pagination: { limit: 5 }, filters: { rating: { gte: 4 }, is_active: {eq: true} }) {
+                pagination: { limit: 5 }, filters: { rating: { gte: 4 }, is_active: {eq: true} }, locale: "${locale}") {
                 title
                 slug
                 createdAt
@@ -117,7 +155,20 @@ export const home = (locale = 'en') => {
 export const categoryList = (locale = 'en') => {
     return `
         query {
-            categories(sort: "createdAt:desc", pagination: { limit: 10 }, filters: {is_active: {eq: true}}) {
+            categories(sort: "createdAt:desc", pagination: { limit: 3 }, filters: {is_active: {eq: true}}, locale: "${locale}") {
+                title
+                slug
+            }
+        }
+    `
+}
+
+export const categoryDeatails = (slug, page = 1, locale = 'en') => {
+    const limit = 10;
+    const start = (page - 1) * limit;
+    return `
+        query {
+            categories(filters: { slug: { eq: "${slug}" }, is_active: { eq: true } }, locale: "${locale}") {
                 title
                 slug
                 description
@@ -128,29 +179,36 @@ export const categoryList = (locale = 'en') => {
                 }
                 createdAt
             }
-        }
-    `
-}
-
-export const categoryDeatails = (slug, locale = 'en') => {
-    return `
-        query {
-            categories(filters: { slug: { eq: "${slug}" }, is_active: { eq: true } }) {
-                title
+            categoryPost: posts(sort: "createdAt:desc", pagination: { page: ${page}, pageSize: ${limit} }, filters: { category: { slug: { eq: "${slug}" } }, is_active: { eq: true } }, locale: "${locale}") {
                 slug
-                description
-                cover_image{
+                title
+                image{
                     url
                     height
                     width
                 }
-                posts(sort: "createdAt:desc", pagination: { limit: 10 }, filters: {is_active: {eq: true}}) {
+                createdBy {
+                    firstname
+                    lastname
+                }
+                createdAt
+                content_first
+            }
+            hotCategories: categories(sort: "rating:desc", pagination: { limit: 8 }, filters: {is_active: {eq: true}}, locale: "${locale}") {
+                title
+                slug
+                posts(sort: "createdAt:desc", pagination: { limit: 5 }, filters: {is_active: {eq: true}}) {
                     slug
                     title
                     image{
-                        url
-                        height
+                        url                                        
                         width
+                        height
+                    }
+                    cover_image{
+                        url                                        
+                        width
+                        height
                     }
                     createdBy {
                         firstname
@@ -158,6 +216,19 @@ export const categoryDeatails = (slug, locale = 'en') => {
                     }
                     createdAt
                     content_first
+                }
+            }
+            justInRecent: posts(sort: "createdAt:desc", pagination: { limit: 5 }, filters: {is_active: {eq: true}}, locale: "${locale}") {
+                slug
+                title
+                category{
+                    title
+                    slug
+                }
+                image {
+                    url
+                    width
+                    height
                 }
                 createdAt
             }
