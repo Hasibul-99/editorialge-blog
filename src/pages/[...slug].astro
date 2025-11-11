@@ -54,10 +54,10 @@ if (!json.data) {
 }
 
 const { posts, categories, latestPosts } = json.data;
-console.log("posts", posts)
 
 // Extract the post data correctly - posts is an array from GraphQL
 const post = posts?.length ? posts[0] : null;
+console.log("posts", post)
 
 // If no post found, this is a 404
 if (!post) {
@@ -151,7 +151,7 @@ const imageUrl = showImage(attributes?.image);
                                 (tag: any, idx: number) => (
                                   <li>
                                     <a href="#">
-                                      {tansation(tag, "title")}
+                                      {tag.title}
                                     </a>
                                   </li>
                                 )
@@ -159,7 +159,7 @@ const imageUrl = showImage(attributes?.image);
                             </ul>
                           </div>
                         ) : (
-                          ""
+                          null
                         )
                       }
                     </div>
