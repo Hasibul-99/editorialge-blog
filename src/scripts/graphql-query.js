@@ -243,3 +243,14 @@ export const categoryListWithRelation = (locale = 'en') => {
         }
     `
 }
+
+export const latestPostsList = (limit = 8, locale = 'en') => {
+    return `
+        query {
+            latestPosts: posts(sort: "createdAt:desc", pagination: { limit: ${limit} }, filters: {is_active: {eq: true}}, locale: "${locale}") {
+                slug
+                title
+            }
+        }
+    `
+}
