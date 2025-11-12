@@ -16,7 +16,7 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
 });
 
 const json = await response.json();
-const { categories } = json.data;
+const categories = json?.data?.categories ?? [];
 
 console.log("categories ---", categories);
 
@@ -45,7 +45,7 @@ console.log("categories ---", categories);
                       // class="active"
                       <li
                         class={
-                          cat.attributes?.categories?.data?.length
+                          cat?.categories?.length
                             ? " menu-item-has-children"
                             : ""
                         }
@@ -53,16 +53,16 @@ console.log("categories ---", categories);
                         <a href={"/category/" + cat.slug}>
                           {cat.title}
                         </a>
-                        {cat.attributes?.categories?.data?.length ? (
+                        {cat?.categories?.length ? (
                           <ul class="sub-menu">
-                            {cat.attributes.categories.data.map(
+                            {cat.categories.map(
                               (subCat: any) => (
                                 // class="active"
                                 <li>
                                   <a
-                                    href={"/category/" + subCat.attributes.slug}
+                                    href={"/category/" + subCat.slug}
                                   >
-                                    {tansation(subCat.attributes, "title")}
+                                    {subCat.title}
                                   </a>
                                 </li>
                               )

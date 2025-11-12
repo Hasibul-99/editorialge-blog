@@ -225,7 +225,7 @@ export const categoryDeatails = (slug, page = 1, locale = 'en') => {
 export const categoryListWithRelation = (locale = 'en') => {
     return `
         query {
-            categories(sort: "createdAt:desc", pagination: { limit: 10 }, filters: {is_active: {eq: true}}) {
+            categories(sort: "createdAt:desc", pagination: { limit: 10 }, filters: {is_active: {eq: true}}, locale: "${locale}") {
                 title
                 slug
                 description
@@ -235,6 +235,10 @@ export const categoryListWithRelation = (locale = 'en') => {
                     width
                 }
                 createdAt
+                categories {
+                    title
+                    slug
+                }
             }
         }
     `
