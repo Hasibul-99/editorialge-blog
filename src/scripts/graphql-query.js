@@ -43,25 +43,10 @@ export const postDetails = (slug, locale = 'en') => {
             categories(sort: "rating:desc", pagination: { limit: 8 }, filters: {is_active: {eq: true}}, locale: "${locale}") {
                 title
                 slug
-                posts(sort: "createdAt:desc", pagination: { limit: 5 }, filters: {is_active: {eq: true}}) {
-                    slug
-                    title
-                    image{
-                        url                                        
-                        width
-                        height
-                    }
-                    cover_image{
-                        url                                        
-                        width
-                        height
-                    }
-                    createdBy {
-                        firstname
-                        lastname
-                    }
-                    createdAt
-                    content_first
+                cover_image{
+                    url                                        
+                    width
+                    height
                 }
             }
             latestPosts: posts(sort: "createdAt:desc", pagination: { limit: 5 }, filters: {is_active: {eq: true}}, locale: "${locale}") {

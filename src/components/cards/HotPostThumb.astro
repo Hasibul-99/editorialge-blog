@@ -5,6 +5,8 @@ import { showImage } from "@/scripts/helpets";
 type Props = { image: any; slug: string };
 
 const { image, slug } = Astro.props;
+console.log("image", image);
+
 const imageUrl = showImage(image);
 ---
 

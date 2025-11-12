@@ -4,24 +4,28 @@ import Banner from "@/assets/img/images/t_cat_img01.jpg";
 import { tansation, showImage } from "@/scripts/helpets";
 
 type Props = {
-  id: string;
-  attributes: any;
+  slug: string;
+  title: string;
+  cover_image: {
+    url: string;
+    width: number;
+    height: number;
+  };
 };
 
-const { id, attributes } = Astro.props;
-const imageUrl = showImage(attributes?.cover_image);
+const { title, slug, cover_image } = Astro.props;
+const imageUrl = showImage(cover_image);
 ---
 
 <li>
   <a
-    href={"/category/" + attributes?.slug}
+    href={"/category/" + slug}
     style={{
       backgroundImage: imageUrl ? `url(${imageUrl})` : `url(${Banner.src})`,
       //  height: "972px",
     }}
   >
-    <span class="post-tag post-tag-three">{attributes?.title}</span>
-    >
+    <span class="post-tag post-tag-three">{title}</span>
     <span class="right-arrow">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
         <path

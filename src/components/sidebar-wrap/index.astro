@@ -1,7 +1,6 @@
 ---
 import SidebarCategories from "@/components/cards/SidebarCategories.astro";
 import HotPostThumb from "@/components/cards/HotPostThumb.astro";
-import { tansation } from "@/scripts/helpets";
 import dayjs from "dayjs";
 
 type Props = {
@@ -10,6 +9,8 @@ type Props = {
 };
 
 const { categories = [], latestPosts } = Astro.props;
+console.log("latestPosts", latestPosts);
+
 ---
 
 <div class="sidebar-wrap">
@@ -73,16 +74,13 @@ const { categories = [], latestPosts } = Astro.props;
                       }
                       class="post-tag"
                     >
-                      {tansation(
-                        post?.category,
-                        "title"
-                      )}
+                      {post?.category?.title }
                     </a>
                   ) : null}
 
                   <h4 class="post-title">
                     <a href={"/" + post.slug}>
-                      {tansation(post, "title")}
+                      {post?.title}
                     </a>
                   </h4>
                   <div class="blog-post-meta">
@@ -93,10 +91,6 @@ const { categories = [], latestPosts } = Astro.props;
                           "DD MMMM, YYYY"
                         )}
                       </li>
-                      {/* <li>
-                      <i class="flaticon-history" />
-                      20 Mins
-                    </li> */}
                     </ul>
                   </div>
                 </div>
