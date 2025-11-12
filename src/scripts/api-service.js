@@ -10,5 +10,4 @@ export const postData = async (query, data) => {
         console.log(error);
         return false;
     }
-    
 }

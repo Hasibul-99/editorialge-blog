@@ -14,6 +14,7 @@ export const postDetails = (slug, locale = 'en') => {
             posts(filters: { slug: { eq: "${slug}" }, is_active: { eq: true } }, locale: "${locale}") {
                 slug
                 title
+                breadcrumb
                 content_sec
                 content_first
                 category{
