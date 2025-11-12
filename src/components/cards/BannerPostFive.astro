@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import BannerO1 from "@/assets/img/blog/nw_banner_post01.jpg";
+import defaultImage from "@/assets/img/default/default_website_dailylume.jpg";
 import {
   getImageHeightAndWeight,
   showImage,
@@ -9,23 +9,27 @@ import {
 import dayjs from "dayjs";
 
 const { post } = Astro.props;
+
+console.log("post", post);
+
 ---
 
 <div class="banner-post-five">
   {
-    post && post.image?.length ? (
+    post ? (
       <div class="banner-post-thumb-five">
         <a href={post.slug}>
           <Image
-            src={showImage(post.image)}
+            src={showImage(post.image) || defaultImage}
             height={getImageHeightAndWeight(post.image, "height") || 300}
             width={getImageHeightAndWeight(post.image, "width") || 400}
-            alt="image"
+            alt={post.slug}
+            loading="lazy"
           />
         </a>
         <div class="banner-post-content-five">
-          <a href={post?.category?.data?.attributes.slug} class="post-tag-four">
-            {post?.category?.data?.attributes?.title}
+          <a href={(post?.category?.data?.attributes?.slug) ?? post?.category?.slug} class="post-tag-four">
+            {(post?.category?.data?.attributes?.title) ?? post?.category?.title}
           </a>
           <h2 class="post-title">
             <a href={post.slug}>{post?.title}</a>
@@ -42,27 +46,6 @@ const { post } = Astro.props;
               </li>
             </ul>
           </div>
-        </div>
-      </div>
-    ) : post ? (
-      <div class="banner-post-content-five">
-            <a href={post?.category?.data?.attributes.slug} class="post-tag-four">
-              {post?.category?.data?.attributes?.title}
-            </a>
-            <h2 class="post-title">
-              <a href={post.slug}>{post?.title}</a>
-        </h2>
-        <div class="blog-post-meta">
-          <ul class="list-wrap">
-            <li>
-              <i class="flaticon-user" />
-              by<a href="#">{post.createdBy?.firstname}</a>
-            </li>
-            <li>
-              <i class="flaticon-calendar" />
-              {dayjs(post.createdAt).format("DD MMMM, YYYY")}
-            </li>
-          </ul>
         </div>
       </div>
     ) : null

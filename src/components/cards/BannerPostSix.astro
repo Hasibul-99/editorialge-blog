@@ -9,6 +9,9 @@ import dayjs from "dayjs";
 import RTEDrawer from "@/components/RTE-drawer/index.astro";
 
 const { post } = Astro.props;
+console.log("post", post);
+
+
 ---
 
 <div class="banner-post-six">
@@ -26,8 +29,8 @@ const { post } = Astro.props;
     </a>
   </div>
   <div class="banner-post-content-six">
-    <a href={post?.category?.data?.attributes.slug} class="post-tag-two"
-      >{post?.category?.data?.attributes?.title}</a
+    <a href={post?.category?.slug} class="post-tag-two"
+      >{post?.category?.title}</a
     >
     <h2 class="post-title bold-underline">
       <a href={post.slug}>{post?.title}</a>
