@@ -2,6 +2,8 @@
 import logo from "../../assets/img/logo/logo.png";
 import wLogo from "../../assets/img/logo/w_logo.png";
 import LanguageSwitcher from "./LanguageSwitcher.jsx";
+const locale = Astro.url.pathname.startsWith('/bn') ? 'bn-BD' : 'en-US';
+const formattedDate = new Intl.DateTimeFormat(locale, { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date());
 ---
 
 <div class="header-logo-area-four">
@@ -10,7 +12,7 @@ import LanguageSwitcher from "./LanguageSwitcher.jsx";
       <div class="col-lg-4">
         <div class="hl-left-side-four">
           <span class="date"
-            ><i class="flaticon-calendar"></i>February 12, 2024</span
+            ><i class="flaticon-calendar"></i>{formattedDate}</span
           >
         </div>
       </div>
@@ -29,9 +31,9 @@ import LanguageSwitcher from "./LanguageSwitcher.jsx";
       <div class="col-lg-4">
         <div class="hl-right-side-four">
           <LanguageSwitcher client:load />
-          <div class="sign-in">
+          <!-- <div class="sign-in">
             <a href="contact.html"><i class="flaticon-user"></i>Sign In</a>
-          </div>
+          </div> -->
           <!-- <div class="subscribe-btn">
                         <a href="contact.html" class="btn btn-two">Subscribe</a>
                     </div> -->
