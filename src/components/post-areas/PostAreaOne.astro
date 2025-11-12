@@ -1,11 +1,13 @@
 ---
-import { tansation } from "@/scripts/helpets";
 import PoliticsPost from "../cards/PoliticsPost.astro";
 import PoliticsPostTwo from "../cards/PoliticsPostTwo.astro";
 
 const { category } = Astro.props;
 const firstPost = category?.posts?.at(0);
 const otherPosts = category?.posts?.slice(1, 4) || [];
+
+console.log("category", category);
+
 ---
 
 <section class="politics-post-area">

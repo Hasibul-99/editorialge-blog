@@ -4,14 +4,10 @@ import defaultImage from "@/assets/img/default/default_website_dailylume.jpg";
 import {
   getImageHeightAndWeight,
   showImage,
-  tansation,
 } from "@/scripts/helpets";
 import dayjs from "dayjs";
 
 const { post } = Astro.props;
-
-console.log("post", post);
-
 ---
 
 <div class="banner-post-five">
@@ -28,8 +24,8 @@ console.log("post", post);
           />
         </a>
         <div class="banner-post-content-five">
-          <a href={(post?.category?.data?.attributes?.slug) ?? post?.category?.slug} class="post-tag-four">
-            {(post?.category?.data?.attributes?.title) ?? post?.category?.title}
+          <a href={"category/" + post?.category?.slug} class="post-tag-four">
+            {post?.category?.title}
           </a>
           <h2 class="post-title">
             <a href={post.slug}>{post?.title}</a>
