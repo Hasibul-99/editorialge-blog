@@ -111,10 +111,14 @@ const seventhEighthCategory = hotCategories?.slice(6, 8);
                 <h2 class="title">Top Stories</h2>
               </div>
               {
-                topRating?.data?.length ? (
+                console.log("topRating", topRating)
+                
+              }
+              {
+                topRating?.length ? (
                   <div class="stories-post-wrap-two">
-                    {topRating.data.map((item: any, idx: number) => (
-                      <StoriesPostTwo post={item.attributes} idx={idx} />
+                    {topRating.map((item: any, idx: number) => (
+                      <StoriesPostTwo post={item} idx={idx} />
                     ))}
                   </div>
                 ) : null
