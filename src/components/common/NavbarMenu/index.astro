@@ -17,6 +17,9 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
 
 const json = await response.json();
 const { categories } = json.data;
+
+console.log("categories ---", categories);
+
 ---
 
 <div id="sticky-header" class="menu-area menu-style-six">
@@ -36,9 +39,9 @@ const { categories } = json.data;
             </div>
             <div class="navbar-wrap main-menu d-none d-lg-flex">
               {
-                categories?.data?.length ? (
+                categories?.length ? (
                   <ul class="navigation">
-                    {categories.data.map((cat: any) => (
+                    {categories.map((cat: any) => (
                       // class="active"
                       <li
                         class={
@@ -47,8 +50,8 @@ const { categories } = json.data;
                             : ""
                         }
                       >
-                        <a href={"/category/" + cat.attributes.slug}>
-                          {tansation(cat.attributes, "title")}
+                        <a href={"/category/" + cat.slug}>
+                          {cat.title}
                         </a>
                         {cat.attributes?.categories?.data?.length ? (
                           <ul class="sub-menu">

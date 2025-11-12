@@ -234,21 +234,6 @@ export const categoryListWithRelation = (locale = 'en') => {
                     height
                     width
                 }
-                posts(sort: "createdAt:desc", pagination: { limit: 5 }, filters: {is_active: {eq: true}}) {
-                    slug
-                    title
-                    image{
-                        url
-                        height
-                        width
-                    }
-                    createdBy {
-                        firstname
-                        lastname
-                    }
-                    createdAt
-                    content_first
-                }
                 createdAt
             }
         }
