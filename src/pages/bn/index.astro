@@ -19,36 +19,41 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-        query: home("bn"),
+        query: home("en"),
     }),
 });
 const json = await response.json();
+// Add error handling and null checks
+if (!json || !json.data) {
+    console.error("GraphQL response error:", json);
+    throw new Error("Failed to fetch data from GraphQL API");
+}
 const { topPost, justInRecent, hotCategories, topRating } = json.data;
-const firstCategory = hotCategories?.data?.at(0)?.attributes;
-const secCategory = hotCategories?.data?.at(1)?.attributes;
-const thirdCategory = hotCategories?.data?.at(2)?.attributes;
-const fourthCategory = hotCategories?.data?.at(3)?.attributes;
-const fifthSixthCategory = hotCategories?.data?.slice(4, 6);
-const seventhEighthCategory = hotCategories?.data?.slice(6, 8);
+const firstCategory = hotCategories?.at(0);
+const secCategory = hotCategories?.at(1);
+const thirdCategory = hotCategories?.at(2);
+const fourthCategory = hotCategories?.at(3);
+const fifthSixthCategory = hotCategories?.slice(4, 6);
+const seventhEighthCategory = hotCategories?.slice(6, 8);
 ---
 
-<Layout pageData={{ title: 'হোম', description: 'সর্বশেষ খবর, গল্প এবং নিবন্ধ' }}>
+<Layout pageData={{ title: 'Home', description: 'Latest news, stories, and articles' }}>
   <!-- banner-post-area -->
   <section class="banner-post-area-five pt-50">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-xl-9">
           {
-            topPost?.data?.length ? (
+            topPost?.length ? (
               <div class="news-banner-post-wrap">
                 <div class="row">
                   <div class="col-67 order-0 order-lg-2">
-                    <BannerPostSix post={topPost?.data?.at(0)?.attributes} />
+                    <BannerPostSix post={topPost?.at(0)} />
                   </div>
                   <div class="col-33">
                     <div class="news-banner-small-post">
-                      <BannerPostFive post={topPost?.data?.at(0)?.attributes} />
-                      <BannerPostFive post={topPost?.data?.at(0)?.attributes} />
+                      <BannerPostFive post={topPost?.at(1)} />
+                      <BannerPostFive post={topPost?.at(2)} />
                     </div>
                   </div>
                 </div>
@@ -80,10 +85,10 @@ const seventhEighthCategory = hotCategories?.data?.slice(6, 8);
                 <h2 class="title">Just In</h2>
               </div>
               {
-                justInRecent?.data?.length ? (
+                justInRecent?.length ? (
                   <div class="stories-post-wrap">
-                    {justInRecent.data.map((item: any) => (
-                      <StoriesPost post={item.attributes} />
+                    {justInRecent.map((item: any) => (
+                      <StoriesPost post={item} />
                     ))}
                   </div>
                 ) : null
@@ -104,10 +109,10 @@ const seventhEighthCategory = hotCategories?.data?.slice(6, 8);
                 <h2 class="title">Top Stories</h2>
               </div>
               {
-                topRating?.data?.length ? (
+                topRating?.length ? (
                   <div class="stories-post-wrap-two">
-                    {topRating.data.map((item: any, idx: number) => (
-                      <StoriesPostTwo post={item.attributes} idx={idx} />
+                    {topRating.map((item: any, idx: number) => (
+                      <StoriesPostTwo post={item} idx={idx} />
                     ))}
                   </div>
                 ) : null
@@ -157,7 +162,7 @@ const seventhEighthCategory = hotCategories?.data?.slice(6, 8);
             fifthSixthCategory?.length ? (
               <>
                 {fifthSixthCategory.map((item: any) => (
-                  <PostAreaFive category={item.attributes} />
+                  <PostAreaFive category={item} />
                 ))}
               </>
             ) : null
@@ -194,7 +199,7 @@ const seventhEighthCategory = hotCategories?.data?.slice(6, 8);
               seventhEighthCategory?.length ? (
                 <>
                   {seventhEighthCategory.map((item: any, idx: number) => (
-                    <PostAreaSix category={item.attributes} idx={idx} />
+                    <PostAreaSix category={item} idx={idx} />
                   ))}
                 </>
               ) : null

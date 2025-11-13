@@ -1,16 +1,14 @@
 ---
-import dayjs from "dayjs";
-import { changeLanguage } from "i18next";
 import Breadcrumb from "@/components/common/Breadcrumb.astro";
-import Layout from "../layouts/Layout.astro";
+import RTEDrawer from "@/components/RTE-drawer/index.astro";
 import SidebarWrap from "@/components/sidebar-wrap/index.astro";
-import { showImage, getPostSEOMeta } from "@/scripts/helpets";
 import BlogDetailsSocial from "@/components/social/BlogDetailsSocial.astro";
 import PostShare from "@/components/social/PostShare.astro";
-import RTEDrawer from "@/components/RTE-drawer/index.astro";
-import { postList } from "@/scripts/graphql-query";
-import { postDetails } from "@/scripts/graphql-query";
-import i18next from "i18next";
+import { postDetails, postList } from "@/scripts/graphql-query";
+import { getPostSEOMeta, showImage } from "@/scripts/helpets";
+import dayjs from "dayjs";
+import i18next, { changeLanguage } from "i18next";
+import Layout from "../layouts/Layout.astro";
 
 changeLanguage("en");
 
@@ -34,7 +32,6 @@ export async function getStaticPaths() {
 }
 type Props = any;
 const { slug } = Astro.params;
-
 const lan = i18next.language;
 const data = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
     method: "POST",
@@ -44,30 +41,23 @@ const data = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
     }),
 });
 const json = await data.json();
-
 // Check if json.data exists, if not the GraphQL query failed
 if (!json.data) {
     console.error("GraphQL query failed:", json);
     throw new Error("Failed to fetch post data");
 }
-
 const { posts, categories, latestPosts } = json.data;
-
 // Extract the post data correctly - posts is an array from GraphQL
 const post = posts?.length ? posts[0] : null;
-
 // If no post found, this is a 404
 if (!post) {
     console.error("Post not found for slug:", slug);
     throw new Error("Post not found");
 }
-
 const attributes = post; // The post object contains all the attributes directly
-
 // Handle categories and latestPosts data
 const hotCategories = categories || [];
 const latestPostsData = latestPosts || [];
-
 const imageUrl = showImage(attributes?.image);
 ---
 
@@ -85,7 +75,10 @@ const imageUrl = showImage(attributes?.image);
                 <div class="blog-details-content-top">
                   {
                     attributes?.category ? (
-                      <a href={'/category/' + attributes?.category?.slug} class="post-tag">
+                      <a
+                        href={"/category/" + attributes?.category?.slug}
+                        class="post-tag"
+                      >
                         {attributes?.category?.title}
                       </a>
                     ) : (
@@ -120,13 +113,18 @@ const imageUrl = showImage(attributes?.image);
                   </div>
                 </div>
                 <div class="blog-details-thumb">
-                  {imageUrl ? (
-                    <img src={imageUrl} alt="" />
-                  ) : (
-                    <div class="no-image-placeholder" style="height: 300px; background-color: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #666;">
-                      No image available
-                    </div>
-                  )}
+                  {
+                    imageUrl ? (
+                      <img src={imageUrl} alt="" />
+                    ) : (
+                      <div
+                        class="no-image-placeholder"
+                        style="height: 300px; background-color: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #666;"
+                      >
+                        No image available
+                      </div>
+                    )
+                  }
                 </div>
 
                 <RTEDrawer
@@ -147,20 +145,14 @@ const imageUrl = showImage(attributes?.image);
                           <div class="post-tags">
                             <h5 class="title">Tags:</h5>
                             <ul class="list-wrap">
-                              {attributes.tags.map(
-                                (tag: any, idx: number) => (
-                                  <li>
-                                    <a href="#">
-                                      {tag.title}
-                                    </a>
-                                  </li>
-                                )
-                              )}
+                              {attributes.tags.map((tag: any, idx: number) => (
+                                <li>
+                                  <a href="#">{tag.title}</a>
+                                </li>
+                              ))}
                             </ul>
                           </div>
-                        ) : (
-                          null
-                        )
+                        ) : null
                       }
                     </div>
                     <div class="col-lg-6">
@@ -169,11 +161,13 @@ const imageUrl = showImage(attributes?.image);
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
           <div class="col-30">
-            <SidebarWrap categories={hotCategories} latestPosts={latestPostsData} />
+            <SidebarWrap
+              categories={hotCategories}
+              latestPosts={latestPostsData}
+            />
           </div>
         </div>
       </div>

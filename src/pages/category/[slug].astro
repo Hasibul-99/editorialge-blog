@@ -1,85 +1,72 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { categoryDeatails, categoryList } from '../../scripts/graphql-query.js';
-import SidebarWrap from '@/components/sidebar-wrap/index.astro';
-import Pagination from '@/components/common/Pagination.astro';
-import { getCategorySEOmeta } from '@/scripts/helpets.js';
-import Breadcrumb from '@/components/common/Breadcrumb.astro';
+import { changeLanguage } from "i18next";
+import Breadcrumb from "@/components/common/Breadcrumb.astro";
+import SidebarWrap from "@/components/sidebar-wrap/index.astro";
+import { getCategorySEOmeta } from "@/scripts/helpets.js";
+import Layout from "../../layouts/Layout.astro";
+import { categoryDeatails, categoryList } from "../../scripts/graphql-query.js";
+
+changeLanguage("en");
 
 export async function getStaticPaths() {
     const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            query: categoryList('en'),
+            query: categoryList("en"),
         }),
     });
     const json = await response.json();
-    
     if (!json.data || !json.data.categories) {
-        console.error('Failed to fetch categories:', json);
+        console.error("Failed to fetch categories:", json);
         return [];
     }
-
     return json.data.categories.map((category: any) => ({
         params: { slug: category.slug },
         props: { category },
     }));
 }
-
 const { slug } = Astro.params;
 const { category } = Astro.props;
-const currentPage = parseInt(Astro.url.searchParams.get('page') || '1');
-
+const currentPage = parseInt(Astro.url.searchParams.get("page") || "1");
 // Fetch category details and posts
 const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
     },
     body: JSON.stringify({
-        query: categoryDeatails(slug, currentPage, 'en'),
+        query: categoryDeatails(slug, currentPage, "en"),
     }),
 });
-
 const json = await response.json();
-
 // Error handling for GraphQL response
 if (!json.data) {
-    console.error('GraphQL Error:', json.errors || 'Unknown error');
-    throw new Error(`Failed to fetch category data: ${JSON.stringify(json.errors || 'Unknown error')}`);
+    console.error("GraphQL Error:", json.errors || "Unknown error");
+    throw new Error(`Failed to fetch category data: ${JSON.stringify(json.errors || "Unknown error")}`);
 }
-
 // Extract data from response
 const categories = json.data.categories || [];
 const categoryPost = json.data.categoryPost || [];
 const hotCategories = json.data.hotCategories || [];
 const justInRecent = json.data.justInRecent || [];
-
 // Get the current category details
 const currentCategory = categories.length > 0 ? categories[0] : null;
-
 if (!currentCategory) {
-    console.error('Category not found:', slug);
+    console.error("Category not found:", slug);
     throw new Error(`Category not found: ${slug}`);
 }
-
-console.log('Category data:', {
-    currentCategory,
-    categoryPostCount: categoryPost.length,
-    hotCategoriesCount: hotCategories.length,
-    justInRecentCount: justInRecent.length
-});
-
 // Pagination logic
 const totalPosts = categoryPost.length; // This should ideally come from the API
 const postsPerPage = 10;
 const totalPages = Math.ceil(totalPosts / postsPerPage);
 ---
 
-<Layout pageData={currentCategory ? getCategorySEOmeta(currentCategory) : undefined}>
+<Layout
+  pageData={currentCategory ? getCategorySEOmeta(currentCategory) : undefined}
+>
   <Breadcrumb data={currentCategory ? currentCategory.breadcrumb : undefined} />
   <!-- blog-area -->
   <section class="blog-area pt-60 pb-60">
@@ -96,20 +83,18 @@ const totalPages = Math.ceil(totalPosts / postsPerPage);
                         <div class="weekly-post-three">
                           <div class="weekly-post-thumb">
                             <a href={`/${post.slug}`}>
-                              {
-                                post.image?.url ? (
-                                  <img
-                                    src={post.image.url}
-                                    height={post.image.height || 300}
-                                    width={post.image.width || 400}
-                                    alt={post.title}
-                                  />
-                                ) : (
-                                  <div style="height: 300px; width: 400px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-                                    <span>No Image</span>
-                                  </div>
-                                )
-                              }
+                              {post.image?.url ? (
+                                <img
+                                  src={post.image.url}
+                                  height={post.image.height || 300}
+                                  width={post.image.width || 400}
+                                  alt={post.title}
+                                />
+                              ) : (
+                                <div style="height: 300px; width: 400px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                                  <span>No Image</span>
+                                </div>
+                              )}
                             </a>
                             <div class="weekly-post-content">
                               <h2 class="post-title">
@@ -119,21 +104,25 @@ const totalPages = Math.ceil(totalPosts / postsPerPage);
                                 <ul class="list-wrap">
                                   <li>
                                     <i class="flaticon-calendar" />
-                                    {new Date(post.createdAt).toLocaleDateString()}
+                                    {new Date(
+                                      post.createdAt,
+                                    ).toLocaleDateString()}
                                   </li>
                                   {post.createdBy && (
                                     <li>
                                       <i class="flaticon-user" />
-                                      by {post.createdBy.firstname} {post.createdBy.lastname}
+                                      by {post.createdBy.firstname}{" "}
+                                      {post.createdBy.lastname}
                                     </li>
                                   )}
                                 </ul>
                               </div>
-                              {post.content_first && typeof post.content_first === 'string' && (
-                                <div class="line-ellipsis-3">
-                                  {post.content_first.substring(0, 150)}...
-                                </div>
-                              )}
+                              {post.content_first &&
+                                typeof post.content_first === "string" && (
+                                  <div class="line-ellipsis-3">
+                                    {post.content_first.substring(0, 150)}...
+                                  </div>
+                                )}
                             </div>
                           </div>
                         </div>
@@ -148,21 +137,30 @@ const totalPages = Math.ceil(totalPosts / postsPerPage);
               )
             }
 
-            {totalPages > 1 && (
-              <div class="pagination-wrap mt-30">
-                <nav aria-label="Page navigation">
-                  <ul class="pagination list-wrap">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <li class={`page-item ${page === currentPage ? 'active' : ''}`}>
-                        <a class="page-link" href={`/category/${slug}?page=${page}`}>
-                          {page}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </div>
-            )}
+            {
+              totalPages > 1 && (
+                <div class="pagination-wrap mt-30">
+                  <nav aria-label="Page navigation">
+                    <ul class="pagination list-wrap">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                        (page) => (
+                          <li
+                            class={`page-item ${page === currentPage ? "active" : ""}`}
+                          >
+                            <a
+                              class="page-link"
+                              href={`/category/${slug}?page=${page}`}
+                            >
+                              {page}
+                            </a>
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </nav>
+                </div>
+              )
+            }
           </div>
           <div class="col-30">
             <SidebarWrap

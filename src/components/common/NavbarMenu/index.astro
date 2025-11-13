@@ -1,10 +1,9 @@
 ---
-import { IoSearchOutline } from "react-icons/io5";
-import LeftToggleMenu from "./LeftToggleMenu";
-import MobileMenuToggle from "./MobileMenuToggle";
+import { categoryListWithRelation } from "@/scripts/graphql-query";
 import Logo from "../../../assets/img/logo/logo.png";
 import WLogo from "../../../assets/img/logo/w_logo.png";
-import { categoryListWithRelation } from "@/scripts/graphql-query";
+import LeftToggleMenu from "./LeftToggleMenu";
+import MobileMenuToggle from "./MobileMenuToggle";
 
 const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
   method: "POST",
@@ -16,9 +15,6 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
 
 const json = await response.json();
 const categories = json?.data?.categories ?? [];
-
-console.log("categories ---", categories);
-
 ---
 
 <div id="sticky-header" class="menu-area menu-style-six">
@@ -49,23 +45,17 @@ console.log("categories ---", categories);
                             : ""
                         }
                       >
-                        <a href={"/category/" + cat.slug}>
-                          {cat.title}
-                        </a>
+                        <a href={"/category/" + cat.slug}>{cat.title}</a>
                         {cat?.categories?.length ? (
                           <ul class="sub-menu">
-                            {cat.categories.map(
-                              (subCat: any) => (
-                                // class="active"
-                                <li>
-                                  <a
-                                    href={"/category/" + subCat.slug}
-                                  >
-                                    {subCat.title}
-                                  </a>
-                                </li>
-                              )
-                            )}
+                            {cat.categories.map((subCat: any) => (
+                              // class="active"
+                              <li>
+                                <a href={"/category/" + subCat.slug}>
+                                  {subCat.title}
+                                </a>
+                              </li>
+                            ))}
                           </ul>
                         ) : null}
                       </li>

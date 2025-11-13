@@ -23,13 +23,11 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
     }),
 });
 const json = await response.json();
-
 // Add error handling and null checks
 if (!json || !json.data) {
-    console.error('GraphQL response error:', json);
-    throw new Error('Failed to fetch data from GraphQL API');
+    console.error("GraphQL response error:", json);
+    throw new Error("Failed to fetch data from GraphQL API");
 }
-
 const { topPost, justInRecent, hotCategories, topRating } = json.data;
 const firstCategory = hotCategories?.at(0);
 const secCategory = hotCategories?.at(1);
@@ -159,10 +157,7 @@ const seventhEighthCategory = hotCategories?.slice(6, 8);
 						</div>
 					</div> -->
           <!-- End Start  -->
-{
-  console.log("fifthSixthCategory", fifthSixthCategory)
-  
-}
+
           {
             fifthSixthCategory?.length ? (
               <>

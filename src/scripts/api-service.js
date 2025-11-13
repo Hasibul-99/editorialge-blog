@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const base_url = import.meta.env.PUBLIC_BASEURL
 
