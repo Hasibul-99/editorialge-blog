@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import {
     Sheet,
     SheetClose,
@@ -8,10 +8,40 @@ import {
 import { FaBars } from "react-icons/fa";
 import Logo from "../../../assets/img/logo/logo.png"
 import WLogo from "../../../assets/img/logo/w_logo.png"
+import { categoryListWithRelation } from "@/scripts/graphql-query";
 type Props = {}
 
 export default function MobileMenuToggle({ }: Props) {
-    return (
+  // Fetch categories and handle locale-aware base path
+  const [categories, setCategories] = useState<any[]>([]);
+  const [locale, setLocale] = useState<string>('en');
+  const basePath = locale === 'bn' ? '/bn' : '';
+  // Collapsible states
+  const [openRoot, setOpenRoot] = useState<boolean>(false);
+  const [openCats, setOpenCats] = useState<Record<string, boolean>>({});
+
+  const toggleRoot = () => setOpenRoot(v => !v);
+  const toggleCat = (slug: string) => setOpenCats(prev => ({ ...prev, [slug]: !prev[slug] }));
+
+  useEffect(() => {
+    const loc = window.location.pathname.startsWith('/bn') ? 'bn' : 'en';
+    setLocale(loc);
+    (async () => {
+      try {
+        const res = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: categoryListWithRelation(loc) }),
+        });
+        const json = await res.json();
+        setCategories(json?.data?.categories ?? []);
+      } catch (e) {
+        console.error('Failed to load categories', e);
+      }
+    })();
+  }, []);
+
+  return (
         <Fragment>
             <Sheet>
                 <SheetTrigger asChild>
@@ -24,10 +54,10 @@ export default function MobileMenuToggle({ }: Props) {
                     <nav className="menu-box">
                         {/* <div className="close-btn"><i className="fas fa-times" /></div> */}
                         <div className="nav-logo">
-                            <a href="/"><img src={Logo.src} alt="Logo" /></a>
+                            <a href={basePath || "/"}><img src={Logo.src} alt="Logo" /></a>
                         </div>
                         <div className="nav-logo d-none">
-                            <a href="/"><img src={WLogo.src} alt="Logo" /></a>
+                            <a href={basePath || "/"}><img src={WLogo.src} alt="Logo" /></a>
                         </div>
                         <div className="mobile-search">
                             {/* <form action="#">
@@ -37,35 +67,44 @@ export default function MobileMenuToggle({ }: Props) {
                         </div>
                         <div className="menu-outer">
                             <ul className="navigation">
-                                <li className="active menu-item-has-children"><a href="#">Home</a>
-                                    <ul className="sub-menu" style={{ display: 'block' }}>
-                                        <li><a href="/">Home 01 - Default</a></li>
-                                        <li><a href="/">Home 02 - Gaming</a></li>
-                                        <li><a href="/">Home 03 - Technology</a></li>
-                                        <li><a href="/">Home 04 - Travel</a></li>
-                                        <li><a href="/">Home 05 - Crypto</a></li>
-                                        <li className="active"><a href="/">Home 06 - Newspaper</a></li>
-                                    </ul>
-                                    <div className="dropdown-btn open"><span className="fas fa-angle-down" /></div></li>
-                                <li><a href="/">About Us</a></li>
-                                <li className="menu-item-has-children"><a href="#">Features</a>
-                                    <ul className="sub-menu">
-                                        <li className="menu-item-has-children"><a href="#">Single Post Layout</a>
-                                            <ul className="sub-menu">
-                                                <li><a href="/">Single post 01</a></li>
-                                                <li><a href="/">Single post 02</a></li>
-                                            </ul>
-                                            <div className="dropdown-btn"><span className="fas fa-angle-down" /></div></li>
-                                        <li><a href="/">Author Details</a></li>
-                                    </ul>
-                                    <div className="dropdown-btn"><span className="fas fa-angle-down" /></div></li>
-                                <li className="menu-item-has-children"><a href="#">Categories</a>
-                                    <ul className="sub-menu">
-                                        <li><a href="/">Blog Default</a></li>
-                                        <li><a href="/">Blog Layout 02</a></li>
-                                        <li><a href="/">Blog Layout 03</a></li>
-                                    </ul>
-                                    <div className="dropdown-btn"><span className="fas fa-angle-down" /></div></li>
+                                <li><a href={`${basePath}/`}>Home</a></li>
+                                {categories?.length ? (
+                                    <li className="menu-item-has-children">
+                                        <a href="#" onClick={(e)=>e.preventDefault()}>Categories</a>
+                                        <ul className="sub-menu" style={{ display: openRoot ? 'block' : 'none' }}>
+                                            {categories.map((cat: any) => (
+                                                <li key={cat.slug} className={cat?.categories?.length ? "menu-item-has-children" : undefined}>
+                                                    <a href={`${basePath}/category/${cat.slug}`}>{cat.title}</a>
+                                                    {cat?.categories?.length ? (
+                                                        <ul className="sub-menu" style={{ display: openCats[cat.slug] ? 'block' : 'none' }}>
+                                                            {cat.categories.map((sub: any) => (
+                                                                <li key={sub.slug}><a href={`${basePath}/category/${sub.slug}`}>{sub.title}</a></li>
+                                                            ))}
+                                                        </ul>
+                                                    ) : null}
+                                                    {cat?.categories?.length ? (
+                                                        <div
+                                                            className={`dropdown-btn${openCats[cat.slug] ? ' open' : ''}`}
+                                                            role="button"
+                                                            aria-expanded={!!openCats[cat.slug]}
+                                                            onClick={() => toggleCat(cat.slug)}
+                                                        >
+                                                            <span className="fas fa-angle-down" />
+                                                        </div>
+                                                    ) : null}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        <div
+                                            className={`dropdown-btn${openRoot ? ' open' : ''}`}
+                                            role="button"
+                                            aria-expanded={openRoot}
+                                            onClick={toggleRoot}
+                                        >
+                                            <span className="fas fa-angle-down" />
+                                        </div>
+                                    </li>
+                                ) : null}
                                 <li><a href="/contact">Contact</a></li>
                             </ul>
 
@@ -84,5 +123,5 @@ export default function MobileMenuToggle({ }: Props) {
                 </SheetContent>
             </Sheet>
         </Fragment>
-    )
+  )
 }
