@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import { categoryDeatails, categoryList } from '../../scripts/graphql-query.js';
 import SidebarWrap from '@/components/sidebar-wrap/index.astro';
 import Pagination from '@/components/common/Pagination.astro';
-import { tansation, getCategorySEOmeta, showImage } from '@/scripts/helpets.js';
+import { getCategorySEOmeta } from '@/scripts/helpets.js';
 import Breadcrumb from '@/components/common/Breadcrumb.astro';
 
 export async function getStaticPaths() {
@@ -80,7 +80,7 @@ const totalPages = Math.ceil(totalPosts / postsPerPage);
 ---
 
 <Layout pageData={currentCategory ? getCategorySEOmeta(currentCategory) : undefined}>
-  <Breadcrumb data={currentCategory ? tansation(currentCategory, "breadcrumb") : undefined} />
+  <Breadcrumb data={currentCategory ? currentCategory.breadcrumb : undefined} />
   <!-- blog-area -->
   <section class="blog-area pt-60 pb-60">
     <div class="container">

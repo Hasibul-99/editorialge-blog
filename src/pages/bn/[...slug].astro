@@ -48,7 +48,7 @@ const imageUrl = showImage(attributes?.image);
 ---
 
 <Layout pageData={getPostSEOMeta(attributes, slug)}>
-  <Breadcrumb data={tansation(attributes, "breadcrumb")} />
+  <Breadcrumb data={attributes.breadcrumb} />
 
   <!-- blog-details-area -->
   <section class="blog-details-area pt-60 pb-60">

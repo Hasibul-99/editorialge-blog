@@ -53,20 +53,51 @@ export const getImageHeightAndWeight = (image, context) => {
 
 export const getCategorySEOmeta = (data) => {
     return {
-        title: tansation(data, 'title'),
+        title: data.title,
         description: data.description,
         keywords: data.keywords,
         image: showImage(data.image),
-        slug: data.slug
+        imageWidth: getImageHeightAndWeight(data.image, 'width'),
+        imageHeight: getImageHeightAndWeight(data.image, 'height'),
+        imageAlt: data.title,
+        slug: data.slug,
+        type: 'collection'
     };
 }
 
+export const getTagTitles = (data) => {
+    if (Array.isArray(data?.tags)) {
+        return data.tags.map((t) => t.title).filter(Boolean);
+    } else if (data?.tags?.data?.length) {
+        return data.tags.data.map((t) => t.attributes?.title).filter(Boolean);
+    }
+    return [];
+}
+
+export const getCategoryTitle = (data) => {
+    if (data?.category?.title || data?.category?.['title_en'] || data?.category?.['title_bn']) {
+        return data.category.title;
+    } else if (data?.category?.data?.attributes) {
+        return data.category.title;
+    }
+    return '';
+}
+
 export const getPostSEOMeta = (data, slug) => {
+    const tagTitles = getTagTitles(data);
     return {
-        title: tansation(data, 'title'),
+        title: data.title,
         description: data.description,
-        keywords: data.keywords,
+        keywords: data.keywords || tagTitles.join(', '),
         image: showImage(data.image),
-        slug: slug
+        imageWidth: getImageHeightAndWeight(data.image, 'width'),
+        imageHeight: getImageHeightAndWeight(data.image, 'height'),
+        imageAlt: data.title,
+        slug: slug,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt,
+        author: data?.createdBy ? `${data.createdBy.firstname || ''} ${data.createdBy.lastname || ''}`.trim() : undefined,
+        articleSection: getCategoryTitle(data),
+        type: 'article'
     }
 }
