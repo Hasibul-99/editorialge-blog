@@ -1,10 +1,9 @@
 ---
 import { Image } from "astro:assets";
-import Banner from "@/assets/img/blog/top_news_post02.jpg";
+import Banner from "@/assets/img/default/default_website_dailylume.jpg";
 import {
   getImageHeightAndWeight,
   showImage,
-  tansation,
 } from "@/scripts/helpets";
 import dayjs from "dayjs";
 
@@ -13,6 +12,9 @@ type Props = {
 };
 
 const { post } = Astro.props;
+const imageUrl = showImage(post?.image);
+const imageHeight = getImageHeightAndWeight(post?.image, "height");
+const imageWidth = getImageHeightAndWeight(post?.image, "width");
 ---
 
 <div>
@@ -21,14 +23,27 @@ const { post } = Astro.props;
       <div class="horizontal-post-four">
         <div class="horizontal-post-thumb-four">
           <a href={"/" + post?.slug}>
-            <Image
-              src={showImage(post?.image)}
-              height={getImageHeightAndWeight(post?.image, "height")}
-              width={getImageHeightAndWeight(post?.image, "width")}
-              alt="image"
-              format="avif"
-              quality={"mid"}
-            />
+            {
+              imageUrl && imageHeight && imageWidth ? (
+                <Image
+                  src={imageUrl}
+                  height={imageHeight}
+                  width={imageWidth}
+                  alt="image"
+                  format="avif"
+                  quality={"mid"}
+                />
+              ) : (
+                <Image
+                  src={Banner}
+                  height={200}
+                  width={300}
+                  alt="image"
+                  format="avif"
+                  quality={"mid"}
+                />
+              )
+            }
           </a>
         </div>
         <div class="horizontal-post-content-four">
@@ -36,7 +51,7 @@ const { post } = Astro.props;
             Politics
           </a> */}
           <h4 class="post-title line-ellipsis-4">
-            <a href={"/" + post?.slug}>{tansation(post, "title")}</a>
+            <a href={"/" + post?.slug}>{post?.title}</a>
           </h4>
           <div class="blog-post-meta">
             <ul class="list-wrap">

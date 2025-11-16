@@ -1,12 +1,9 @@
 ---
 import logo from "../../assets/img/logo/logo.png";
 import wLogo from "../../assets/img/logo/w_logo.png";
-import { LanguageSelector } from "astro-i18next/components";
-const {
-  icon = "",
-  languageMapping = { en: "English", it: "Italiano" },
-  ...rest
-} = Astro.props;
+import LanguageSwitcher from "./LanguageSwitcher.jsx";
+const locale = Astro.url.pathname.startsWith('/bn') ? 'bn-BD' : 'en-US';
+const formattedDate = new Intl.DateTimeFormat(locale, { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date());
 ---
 
 <div class="header-logo-area-four">
@@ -15,7 +12,7 @@ const {
       <div class="col-lg-4">
         <div class="hl-left-side-four">
           <span class="date"
-            ><i class="flaticon-calendar"></i>February 12, 2024</span
+            ><i class="flaticon-calendar"></i>{formattedDate}</span
           >
         </div>
       </div>
@@ -33,15 +30,10 @@ const {
       </div>
       <div class="col-lg-4">
         <div class="hl-right-side-four">
-          <LanguageSelector
-            showFlag={false}
-            languageMapping={languageMapping}
-            class="appearance-none cursor-pointer pl-3 pr-2 py-1.5 rounded-md dark:bg-stone-950 dark:text-white focus-visible:outline-none"
-            aria-label="Choose a language"
-          />
-          <div class="sign-in">
+          <LanguageSwitcher client:load />
+          <!-- <div class="sign-in">
             <a href="contact.html"><i class="flaticon-user"></i>Sign In</a>
-          </div>
+          </div> -->
           <!-- <div class="subscribe-btn">
                         <a href="contact.html" class="btn btn-two">Subscribe</a>
                     </div> -->

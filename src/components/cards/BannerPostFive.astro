@@ -1,10 +1,9 @@
 ---
 import { Image } from "astro:assets";
-import BannerO1 from "@/assets/img/blog/nw_banner_post01.jpg";
+import defaultImage from "@/assets/img/default/default_website_dailylume.jpg";
 import {
   getImageHeightAndWeight,
   showImage,
-  tansation,
 } from "@/scripts/helpets";
 import dayjs from "dayjs";
 
@@ -17,18 +16,19 @@ const { post } = Astro.props;
       <div class="banner-post-thumb-five">
         <a href={post.slug}>
           <Image
-            src={showImage(post.image)}
-            height={getImageHeightAndWeight(post.image, "height")}
-            width={getImageHeightAndWeight(post.image, "width")}
-            alt="image"
+            src={showImage(post.image) || defaultImage}
+            height={getImageHeightAndWeight(post.image, "height") || 300}
+            width={getImageHeightAndWeight(post.image, "width") || 400}
+            alt={post.slug}
+            loading="lazy"
           />
         </a>
         <div class="banner-post-content-five">
-          <a href={post?.category?.data?.attributes.slug} class="post-tag-four">
-            {tansation(post?.category?.data?.attributes, "title")}
+          <a href={"category/" + post?.category?.slug} class="post-tag-four">
+            {post?.category?.title}
           </a>
           <h2 class="post-title">
-            <a href={post.slug}>{tansation(post, "title")}</a>
+            <a href={post.slug}>{post?.title}</a>
           </h2>
           <div class="blog-post-meta">
             <ul class="list-wrap">

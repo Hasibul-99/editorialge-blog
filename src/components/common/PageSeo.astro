@@ -3,70 +3,102 @@ interface Props {
   data?: any;
 }
 const { data } = Astro.props;
+
+// Build canonical, locale, and alternates
+const url = new URL(Astro.request.url);
+const origin = url.origin;
+const pathname = url.pathname;
+const isBn = pathname.startsWith('/bn');
+const siteName = import.meta.env.PUBLIC_SITE_NAME || 'Editorialge';
+const twitterSite = import.meta.env.PUBLIC_TWITTER_SITE || '@editorialge';
+const twitterCreator = import.meta.env.PUBLIC_TWITTER_CREATOR || '@editorialge';
+const title = data?.title || siteName;
+const description = data?.description || 'Latest news, stories, and articles';
+const image = data?.image || `${origin}/favicon.svg`;
+const publisherLogo = import.meta.env.PUBLIC_PUBLISHER_LOGO || `${origin}/favicon.svg`;
+const canonical = `${origin}${pathname}`;
+const ogLocale = isBn ? 'bn_BD' : 'en_US';
+const enHref = `${origin}${pathname.replace(/^\/bn/, '') || '/'}`;
+const bnHref = `${origin}${pathname.startsWith('/bn') ? pathname : '/bn' + pathname}`;
+const dataType = data?.type;
+const ogType = dataType === 'article' ? 'article' : 'website';
+
+const jsonLd = dataType === 'article'
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      headline: title,
+      description,
+      image: [image],
+      url: canonical,
+      mainEntityOfPage: canonical,
+      datePublished: data?.createdAt,
+      dateModified: data?.updatedAt,
+      articleSection: data?.articleSection,
+      keywords: data?.keywords || '',
+      author: data?.author ? { '@type': 'Person', name: data.author } : undefined,
+      publisher: { '@type': 'Organization', name: siteName, logo: { '@type': 'ImageObject', url: publisherLogo } },
+    }
+  : dataType === 'collection'
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      description,
+      url: canonical,
+      isPartOf: { '@type': 'WebSite', name: siteName, url: origin },
+    }
+  : {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: siteName,
+      url: origin,
+    };
 ---
 
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="generator" content={Astro.generator} />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1"
-  />
-  <title>{data?.title || "Astro"}</title>
-  <meta name="description" content={data?.description || "Astro"} />
-  <meta name="keywords" content={data?.keywords || "Astro"} />
-  <meta name="robots" content="index, follow, nocache" />
-  <meta
-    name="googlebot"
-    content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"
-  />
-  <meta name="category" content="education" />
-  <link rel="canonical" href="https://10minuteschool.com/" />
-  <link
-    rel="alternate"
-    hreflang="en-US"
-    href="https://10minuteschool.com/en/"
-  />
-  <link
-    rel="alternate"
-    hreflang="bn-BD"
-    href="https://10minuteschool.com/bn/"
-  />
-  <meta property="og:title" content={data?.title || "Astro"} />
-  <meta property="og:description" content={data?.description || "Astro"} />
-  <meta property="og:url" content="https://10minuteschool.com/" />
-  <meta property="og:site_name" content="10minuteschool" />
-  <meta property="og:locale" content="bn_BD" />
-  <meta property="og:image" content={data?.image || "Astro"} />
-  <meta property="og:image:width" content="800" />
-  <meta property="og:image:height" content="600" />
-  <meta property="og:image:alt" content="10 Minute School" />
-  <meta property="og:type" content="website" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content={data?.keywords || ''} />
+  <meta name="robots" content={data?.robots || 'index, follow'} />
+  <meta name="googlebot" content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href={canonical} />
+  <link rel="alternate" hreflang="en-US" href={enHref} />
+  <link rel="alternate" hreflang="bn-BD" href={bnHref} />
+  <link rel="alternate" hreflang="x-default" href={enHref} />
+
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content={siteName} />
+  <meta property="og:locale" content={ogLocale} />
+  <meta property="og:image" content={image} />
+  <meta property="og:image:alt" content={data?.imageAlt || title} />
+  <meta property="og:image:width" content={data?.imageWidth || '1200'} />
+  <meta property="og:image:height" content={data?.imageHeight || '630'} />
+  <meta property="og:type" content={ogType} />
+
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@10minuteschool" />
-  <meta name="twitter:creator" content="@10minuteschool" />
-  <meta name="twitter:title" content={data?.title || "Astro"} />
-  <meta name="twitter:description" content={data?.description || "Astro"} />
-  <meta name="twitter:image" content={data?.image || "Astro"} />
-  <meta name="twitter:image:width" content="800" />
-  <meta name="twitter:image:height" content="600" />
-  <meta name="twitter:image:alt" content="10 Minute School" />
-  <meta property="al:web:url" content="https://10minuteschool.com" />
-  <meta property="al:web:should_fallback" content="true" />
+  <meta name="twitter:site" content={twitterSite} />
+  <meta name="twitter:creator" content={twitterCreator} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={image} />
+  <meta name="twitter:image:alt" content={data?.imageAlt || title} />
+
+  <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
 
   <!-- Google tag (gtag.js) -->
-  <script
-    async
-    src=`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_G_ANALYTICS}`
-  ></script>
+  <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_G_ANALYTICS}`}></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-
-    gtag("config", import.meta.env.PUBLIC_G_ANALYTICS);
+    const w = window as any;
+    w.dataLayer = w.dataLayer || [];
+    const gtag = (...args: any[]) => { w.dataLayer.push(args); };
+    gtag('js', new Date());
+    gtag('config', import.meta.env.PUBLIC_G_ANALYTICS);
   </script>
 </head>

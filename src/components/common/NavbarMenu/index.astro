@@ -1,11 +1,9 @@
 ---
-import { IoSearchOutline } from "react-icons/io5";
-import LeftToggleMenu from "./LeftToggleMenu";
-import MobileMenuToggle from "./MobileMenuToggle";
+import { categoryListWithRelation } from "@/scripts/graphql-query";
 import Logo from "../../../assets/img/logo/logo.png";
 import WLogo from "../../../assets/img/logo/w_logo.png";
-import { categoryListWithRelation } from "@/scripts/graphql-query";
-import { tansation } from "@/scripts/helpets";
+import LeftToggleMenu from "./LeftToggleMenu";
+import MobileMenuToggle from "./MobileMenuToggle";
 
 const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
   method: "POST",
@@ -16,7 +14,7 @@ const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
 });
 
 const json = await response.json();
-const { categories } = json.data;
+const categories = json?.data?.categories ?? [];
 ---
 
 <div id="sticky-header" class="menu-area menu-style-six">
@@ -36,34 +34,28 @@ const { categories } = json.data;
             </div>
             <div class="navbar-wrap main-menu d-none d-lg-flex">
               {
-                categories?.data?.length ? (
+                categories?.length ? (
                   <ul class="navigation">
-                    {categories.data.map((cat: any) => (
+                    {categories.map((cat: any) => (
                       // class="active"
                       <li
                         class={
-                          cat.attributes?.categories?.data?.length
+                          cat?.categories?.length
                             ? " menu-item-has-children"
                             : ""
                         }
                       >
-                        <a href={"/category/" + cat.attributes.slug}>
-                          {tansation(cat.attributes, "title")}
-                        </a>
-                        {cat.attributes?.categories?.data?.length ? (
+                        <a href={"/category/" + cat.slug}>{cat.title}</a>
+                        {cat?.categories?.length ? (
                           <ul class="sub-menu">
-                            {cat.attributes.categories.data.map(
-                              (subCat: any) => (
-                                // class="active"
-                                <li>
-                                  <a
-                                    href={"/category/" + subCat.attributes.slug}
-                                  >
-                                    {tansation(subCat.attributes, "title")}
-                                  </a>
-                                </li>
-                              )
-                            )}
+                            {cat.categories.map((subCat: any) => (
+                              // class="active"
+                              <li>
+                                <a href={"/category/" + subCat.slug}>
+                                  {subCat.title}
+                                </a>
+                              </li>
+                            ))}
                           </ul>
                         ) : null}
                       </li>

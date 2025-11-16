@@ -1,5 +1,4 @@
 ---
-import { tansation } from "@/scripts/helpets";
 import dayjs from "dayjs";
 
 const { post, idx } = Astro.props;
@@ -11,8 +10,8 @@ const { post, idx } = Astro.props;
       <h2 class="number">{idx + 1}.</h2>
       <div class="stories-post-content">
         <h5 class="post-title">
-          <a href={"/" + post.slug}>{tansation(post, "title")}</a>
-        </h5>
+            <a href={"/" + post.slug}>{post?.title}</a>
+          </h5>
         <div class="blog-post-meta">
           <ul class="list-wrap">
             <li>

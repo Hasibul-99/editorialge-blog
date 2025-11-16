@@ -1,17 +1,16 @@
 ---
-import { tansation } from "@/scripts/helpets";
 import PoliticsPost from "../cards/PoliticsPost.astro";
 import PoliticsPostTwo from "../cards/PoliticsPostTwo.astro";
 
 const { category } = Astro.props;
-const firstPost = category?.posts?.data?.at(0);
-const otherPosts = category?.posts?.data?.slice(1, 4);
+const firstPost = category?.posts?.at(0);
+const otherPosts = category?.posts?.slice(1, 4) || [];
 ---
 
 <section class="politics-post-area">
   <div class="section-title-wrap">
     <div class="section-title section-title-four">
-      <h2 class="title">{tansation(category, "title")}</h2>
+      <h2 class="title">{category?.title}</h2>
       <div class="section-title-line"></div>
     </div>
   </div>
@@ -27,9 +26,6 @@ const otherPosts = category?.posts?.data?.slice(1, 4);
               {otherPosts.map((post: any) => (
                 <PoliticsPostTwo post={post} />
               ))}
-              {/* <PoliticsPostTwo />
-              <PoliticsPostTwo />
-              <PoliticsPostTwo /> */}
             </div>
           ) : null
         }

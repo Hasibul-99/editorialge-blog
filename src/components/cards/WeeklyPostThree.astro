@@ -4,7 +4,6 @@ import BannerO1 from "@/assets/img/blog/author_post01.jpg";
 import {
   getImageHeightAndWeight,
   showImage,
-  tansation,
 } from "@/scripts/helpets";
 import dayjs from "dayjs";
 import RTEDrawer from "@/components/RTE-drawer/index.astro";
@@ -14,6 +13,9 @@ type Props = {
 };
 
 const { post } = Astro.props;
+const imageUrl = showImage(post?.image);
+const imageHeight = getImageHeightAndWeight(post?.image, "height");
+const imageWidth = getImageHeightAndWeight(post?.image, "width");
 ---
 
 {
@@ -21,17 +23,28 @@ const { post } = Astro.props;
     <div class="weekly-post-three">
       <div class="weekly-post-thumb">
         <a href={post.slug}>
-          <Image
-            src={showImage(post.image)}
-            height={getImageHeightAndWeight(post.image, "height")}
-            width={getImageHeightAndWeight(post.image, "width")}
-            alt="image"
-          />
+          {
+            imageUrl && imageHeight && imageWidth ? (
+              <Image
+                src={imageUrl}
+                height={imageHeight}
+                width={imageWidth}
+                alt="image"
+              />
+            ) : (
+              <Image
+                src={BannerO1}
+                height={300}
+                width={400}
+                alt="image"
+              />
+            )
+          }
           {/* <!-- <a href="blog.html" class="post-tag">Politics</a> --> */}
         </a>
         <div class="weekly-post-content">
           <h2 class="post-title">
-            <a href={"/" + post.slug}>{tansation(post, "title")}</a>
+            <a href={"/" + post.slug}>{post?.title}</a>
           </h2>
           <div class="blog-post-meta">
             <ul class="list-wrap">
@@ -42,9 +55,9 @@ const { post } = Astro.props;
             </ul>
           </div>
           <RTEDrawer
-            content={tansation(post, "content_first")}
-            className="line-ellipsis-3"
-          />
+              content={post?.content_first}
+              className="line-ellipsis-3"
+            />
         </div>
       </div>
     </div>

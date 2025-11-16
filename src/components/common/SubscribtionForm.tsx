@@ -11,15 +11,27 @@ type Inputs = {
 export default function SubscribtionForm() {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
     const [showMessage, setShowMessage] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const onSubmit = async (data: Inputs) => {
-        let res = await postData(CREATE_SUBSCRIBERS, { data: data });
+        setIsLoading(true);
+        setErrorMessage('');
+        setShowMessage(false);
 
-        if (res?.data?.id) {
-            alert("Message sent successfully");
-            reset();
-        } else {
-            alert("Message failed to send");
+        try {
+            let res = await postData(CREATE_SUBSCRIBERS, { data: data });
+
+            if (res?.data?.id) {
+                setShowMessage(true);
+                reset();
+            } else {
+                setErrorMessage("Failed to subscribe. Please try again.");
+            }
+        } catch (error) {
+            setErrorMessage("Network error. Please check your connection and try again.");
+        } finally {
+            setIsLoading(false);
         }
     };
     return (
@@ -27,15 +39,23 @@ export default function SubscribtionForm() {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-grp">
                     <input
-                        id="name" placeholder="Name*"
+                        id="name" 
+                        placeholder="Name*"
+                        aria-label="Name"
+                        aria-required="true"
+                        aria-invalid={errors.name ? 'true' : 'false'}
                         {...register("name", { required: "Name is required" })}
                     />
-                    {errors.name && <p>{errors.name.message}</p>}
+                    {errors.name && <p className="error-message" role="alert">{errors.name.message}</p>}
                 </div>
                 <div className="form-grp">
                     <input
                         id="email"
-                        type="email" placeholder="Email*"
+                        type="email" 
+                        placeholder="Email*"
+                        aria-label="Email"
+                        aria-required="true"
+                        aria-invalid={errors.email ? 'true' : 'false'}
                         {...register("email", {
                             required: "Email is required",
                             pattern: {
@@ -44,11 +64,14 @@ export default function SubscribtionForm() {
                             }
                         })}
                     />
-                    {errors.email && <p>{errors.email.message}</p>}
+                    {errors.email && <p className="error-message" role="alert">{errors.email.message}</p>}
                 </div>
-                <button type="submit" className="btn">Submit Now</button>
+                <button type="submit" className="btn" disabled={isLoading}>
+                    {isLoading ? 'Submitting...' : 'Submit Now'}
+                </button>
             </form>
-            <p className='mx-auto'>Your submission was successful.</p>
+            {showMessage && <p className='mx-auto'>Your submission was successful.</p>}
+            {errorMessage && <p className='mx-auto text-red-500'>{errorMessage}</p>}
         </div>
     )
 }

@@ -1,11 +1,10 @@
 ---
 import { Image } from "astro:assets";
-import Banner from "@/assets/img/blog/top_news_post01.jpg";
+import Banner from "@/assets/img/default/default_website_dailylume.jpg";
 import RTEDrawer from "@/components/RTE-drawer/index.astro";
 import {
   getImageHeightAndWeight,
   showImage,
-  tansation,
 } from "@/scripts/helpets";
 import dayjs from "dayjs";
 
@@ -14,6 +13,9 @@ type Props = {
 };
 
 const { post } = Astro.props;
+const imageUrl = showImage(post?.image);
+const imageHeight = getImageHeightAndWeight(post?.image, "height");
+const imageWidth = getImageHeightAndWeight(post?.image, "width");
 ---
 
 <div>
@@ -22,14 +24,27 @@ const { post } = Astro.props;
       <div class="top-news-post">
         <div class="top-news-post-thumb">
           <a href={"/" + post?.slug}>
-            <Image
-              src={showImage(post?.image)}
-              height={getImageHeightAndWeight(post?.image, "height")}
-              width={getImageHeightAndWeight(post?.image, "width")}
-              alt="image"
-              format="avif"
-              quality={"mid"}
-            />
+            {
+              imageUrl && imageHeight && imageWidth ? (
+                <Image
+                  src={imageUrl}
+                  height={imageHeight}
+                  width={imageWidth}
+                  alt="image"
+                  format="avif"
+                  quality={"mid"}
+                />
+              ) : (
+                <Image
+                  src={Banner}
+                  height={400}
+                  width={600}
+                  alt="image"
+                  format="avif"
+                  quality={"mid"}
+                />
+              )
+            }
           </a>
           {/* <a
             href="https://www.youtube.com/watch?v=G_AEL-Xo5l8"
@@ -43,7 +58,7 @@ const { post } = Astro.props;
             Sports
           </a> */}
           <h2 class="post-title bold-underline">
-            <a href={"/" + post?.slug}>{tansation(post, "title")}</a>
+            <a href={"/" + post?.slug}>{post?.title}</a>
           </h2>
           <div class="blog-post-meta">
             <ul class="list-wrap">
@@ -58,9 +73,9 @@ const { post } = Astro.props;
             </ul>
           </div>
           <RTEDrawer
-            content={tansation(post, "content_first")}
-            className="line-ellipsis-4"
-          />
+              content={post?.content_first}
+              className="line-ellipsis-4"
+            />
           <div class="view-all-btn">
             <a href={"/" + post?.slug} class="link-btn">
               Read More

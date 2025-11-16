@@ -1,11 +1,10 @@
 ---
-import { tansation } from "@/scripts/helpets";
 import HorizontalPostFour from "../cards/HorizontalPostFour.astro";
 import TopNewsPost from "../cards/TopNewsPost.astro";
 
 const { category } = Astro.props;
-const firstPost = category?.posts?.data?.at(0);
-const otherPosts = category?.posts?.data?.slice(1, 4);
+const firstPost = category?.posts?.at(0);
+const otherPosts = category?.posts?.slice(1, 4) || [];
 ---
 
 <div class="world-top-news">
@@ -13,7 +12,7 @@ const otherPosts = category?.posts?.data?.slice(1, 4);
     <div class="col-lg-12">
       <div class="section-title-wrap mb-30">
         <div class="section-title section-title-four">
-          <h2 class="title">{tansation(category, "title")}</h2>
+          <h2 class="title">{category?.title}</h2>
         </div>
         <div class="section-title-line"></div>
       </div>
@@ -21,14 +20,14 @@ const otherPosts = category?.posts?.data?.slice(1, 4);
   </div>
   <div class="row">
     <div class="col-12">
-      <TopNewsPost post={firstPost?.attributes} />
+      <TopNewsPost post={firstPost} />
     </div>
     {
       otherPosts?.length ? (
         <>
           {otherPosts.map((post: any) => (
             <div class="col-lg-4">
-              <HorizontalPostFour post={post?.attributes} />
+              <HorizontalPostFour post={post} />
             </div>
           ))}
         </>

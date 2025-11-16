@@ -1,53 +1,68 @@
 ---
-import dayjs from "dayjs";
-import { changeLanguage } from "i18next";
 import Breadcrumb from "@/components/common/Breadcrumb.astro";
-import Layout from "../layouts/Layout.astro";
+import RTEDrawer from "@/components/RTE-drawer/index.astro";
 import SidebarWrap from "@/components/sidebar-wrap/index.astro";
-import { tansation, showImage, getPostSEOMeta } from "@/scripts/helpets";
 import BlogDetailsSocial from "@/components/social/BlogDetailsSocial.astro";
 import PostShare from "@/components/social/PostShare.astro";
-import RTEDrawer from "@/components/RTE-drawer/index.astro";
-import { postList } from "@/scripts/graphql-query";
-import { postDetails } from "@/scripts/graphql-query";
+import { postDetails, postList } from "@/scripts/graphql-query";
+import { getPostSEOMeta, showImage } from "@/scripts/helpets";
+import dayjs from "dayjs";
+import i18next, { changeLanguage } from "i18next";
+import Layout from "../layouts/Layout.astro";
 
 changeLanguage("en");
 
 export const prerender = true;
 // Fetch all slugs during build time for static paths
 export async function getStaticPaths() {
+    const lan = i18next.language;
     const response = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            query: postList(),
+            query: postList(lan),
         }),
     });
     const json = await response.json();
-    const { posts } = json.data;
-    const paths = posts.data.map((post: any) => ({
-        params: { slug: post.attributes.slug },
+    const { posts = [] } = json.data;
+    const paths = posts.map((post: any) => ({
+        params: { slug: post.slug },
     }));
     return paths;
 }
 type Props = any;
 const { slug } = Astro.params;
+const lan = i18next.language;
 const data = await fetch(`${import.meta.env.PUBLIC_BASEURL}/graphql`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-        query: postDetails(slug),
+        query: postDetails(slug, lan),
     }),
 });
 const json = await data.json();
+// Check if json.data exists, if not the GraphQL query failed
+if (!json.data) {
+    console.error("GraphQL query failed:", json);
+    throw new Error("Failed to fetch post data");
+}
 const { posts, categories, latestPosts } = json.data;
-const post = posts.data[0];
-const { id, attributes } = post;
-const hotCategories = categories.data;
+// Extract the post data correctly - posts is an array from GraphQL
+const post = posts?.length ? posts[0] : null;
+// If no post found, this is a 404
+if (!post) {
+    console.error("Post not found for slug:", slug);
+    throw new Error("Post not found");
+}
+const attributes = post; // The post object contains all the attributes directly
+// Handle categories and latestPosts data
+const hotCategories = categories || [];
+const latestPostsData = latestPosts || [];
+const imageUrl = showImage(attributes?.image);
 ---
 
 <Layout pageData={getPostSEOMeta(attributes, slug)}>
-  <Breadcrumb data={tansation(attributes, "breadcrumb")} />
+  <Breadcrumb data={attributes?.breadcrumb || []} />
 
   <!-- blog-details-area -->
   <section class="blog-details-area pt-60 pb-60">
@@ -58,9 +73,20 @@ const hotCategories = categories.data;
             <div class="blog-details-wrap">
               <div class="blog-details-content">
                 <div class="blog-details-content-top">
-                  <a href="blog.html" class="post-tag">Appitizer</a>
+                  {
+                    attributes?.category ? (
+                      <a
+                        href={"/category/" + attributes?.category?.slug}
+                        class="post-tag"
+                      >
+                        {attributes?.category?.title}
+                      </a>
+                    ) : (
+                      ""
+                    )
+                  }
                   <h2 class="title">
-                    {tansation(attributes, "title")}
+                    {attributes.title || ""}
                   </h2>
                   <div class="bd-content-inner">
                     <div class="blog-post-meta">
@@ -80,11 +106,6 @@ const hotCategories = categories.data;
                           <i class="flaticon-calendar"></i>
                           {dayjs(attributes.createdAt).format("DD MMMM, YYYY")}
                         </li>
-                        <!-- <li>
-                          <i class="flaticon-chat"></i><a
-                            href="blog-details.html">05 Comments</a>
-                        </li> -->
-                        <!-- <li><i class="flaticon-history"></i>20 Mins</li> -->
                       </ul>
                     </div>
 
@@ -92,16 +113,27 @@ const hotCategories = categories.data;
                   </div>
                 </div>
                 <div class="blog-details-thumb">
-                  <img src={showImage(attributes.image)} alt="" />
+                  {
+                    imageUrl ? (
+                      <img src={imageUrl} alt="" />
+                    ) : (
+                      <div
+                        class="no-image-placeholder"
+                        style="height: 300px; background-color: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #666;"
+                      >
+                        No image available
+                      </div>
+                    )
+                  }
                 </div>
 
                 <RTEDrawer
-                  content={tansation(attributes, "content_first")}
+                  content={attributes.content_first || ""}
                   showFirst={true}
                 />
 
                 <RTEDrawer
-                  content={tansation(attributes, "content_sec")}
+                  content={attributes.content_sec || ""}
                   showFirst={true}
                 />
 
@@ -109,24 +141,18 @@ const hotCategories = categories.data;
                   <div class="row align-items-center">
                     <div class="col-lg-6">
                       {
-                        attributes.tags?.data.length ? (
+                        attributes.tags?.length ? (
                           <div class="post-tags">
                             <h5 class="title">Tags:</h5>
                             <ul class="list-wrap">
-                              {attributes.tags.data.map(
-                                (tag: any, idx: number) => (
-                                  <li>
-                                    <a href="#">
-                                      {tansation(tag.attributes, "title")}
-                                    </a>
-                                  </li>
-                                )
-                              )}
+                              {attributes.tags.map((tag: any, idx: number) => (
+                                <li>
+                                  <a href="#">{tag.title}</a>
+                                </li>
+                              ))}
                             </ul>
                           </div>
-                        ) : (
-                          ""
-                        )
+                        ) : null
                       }
                     </div>
                     <div class="col-lg-6">
@@ -135,161 +161,13 @@ const hotCategories = categories.data;
                   </div>
                 </div>
               </div>
-
-              <!-- <div class="blog-avatar-wrap mb-50">
-                <div class="blog-avatar-img">
-                  <a href="#"
-                    ><img src="assets/img/images/avatar.png" alt="img" /></a
-                  >
-                </div>
-                <div class="blog-avatar-info">
-                  <span class="designation">Author</span>
-                  <h4 class="name">
-                    <a href="author.html">Cameron Williamson</a>
-                  </h4>
-                  <p>
-                    Finanappreciate your trust greatly Our clients choose
-                    dentace ducts because kneer ow we are the best area
-                    Awaitingare really.
-                  </p>
-                </div>
-              </div> -->
-
-              <!-- <div class="pev-next-post-wrap">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="post-item">
-                      <div class="thumb">
-                        <a href="blog-details.html"
-                          ><img src="assets/img/blog/bd_post01.jpg" alt="" /></a
-                        >
-                      </div>
-                      <div class="content">
-                        <span>Previous Post</span>
-                        <h5 class="post-title">
-                          <a href="blog-details.html"
-                            >Make May Magnificent <br /> Wallpapers Edition</a
-                          >
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="post-item next-post">
-                      <div class="thumb">
-                        <a href="blog-details.html"
-                          ><img src="assets/img/blog/bd_post02.jpg" alt="" /></a
-                        >
-                      </div>
-                      <div class="content">
-                        <span>Next Post</span>
-                        <h5 class="post-title">
-                          <a href="blog-details.html"
-                            >Write Better By Borrowing <br /> Ideas JavaScript Functions</a
-                          >
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-
-              <!-- <div class="comments-wrap">
-                <h3 class="comments-wrap-title">02 Comments</h3>
-                <div class="latest-comments">
-                  <ul class="list-wrap">
-                    <li>
-                      <div class="comments-box">
-                        <div class="comments-avatar">
-                          <img
-                            src="assets/img/images/comment01.png"
-                            alt="img"
-                          />
-                        </div>
-                        <div class="comments-text">
-                          <div class="avatar-name">
-                            <h6 class="name">Alebary keon</h6>
-                            <span class="date">27 August, 2024</span>
-                          </div>
-                          <p>
-                            Finanappreciate your trust greatly Our clients
-                            choose dentace ducts because know we are the best
-                            area Awaitingare really.
-                          </p>
-                          <a href="#" class="reply-btn">Reply</a>
-                        </div>
-                      </div>
-                      <ul class="children">
-                        <li>
-                          <div class="comments-box">
-                            <div class="comments-avatar">
-                              <img
-                                src="assets/img/images/comment02.png"
-                                alt="img"
-                              />
-                            </div>
-                            <div class="comments-text">
-                              <div class="avatar-name">
-                                <h6 class="name">Lukas Javeb</h6>
-                                <span class="date">27 August, 2024</span>
-                              </div>
-                              <p>
-                                Finanappreciate your trust greatly Our clients
-                                choose dentace ducts because know we are the
-                                best area Awaitingare really.
-                              </p>
-                              <a href="#" class="reply-btn">Reply</a>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </div> -->
-
-              <!-- <div class="comment-respond">
-                <h3 class="comment-reply-title">Post a comment</h3>
-                <form action="#" class="comment-form">
-                  <p class="comment-notes">
-                    Your email address will not be published. Required fields
-                    are marked *
-                  </p>
-                  <div class="form-grp">
-                    <textarea name="comment" placeholder="Comment"></textarea>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-grp">
-                        <input type="text" placeholder="Name" />
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-grp">
-                        <input type="email" placeholder="Email" />
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-grp">
-                        <input type="url" placeholder="Website" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-grp checkbox-grp">
-                    <input type="checkbox" id="checkbox_two" />
-                    <label for="checkbox_two"
-                      >Save my name, email, and website in this browser for the
-                      next time I comment.</label
-                    >
-                  </div>
-                  <button type="submit" class="btn btn-two">Post Comment</button
-                  >
-                </form>
-              </div> -->
             </div>
           </div>
           <div class="col-30">
-            <SidebarWrap categories={hotCategories} latestPosts={latestPosts} />
+            <SidebarWrap
+              categories={hotCategories}
+              latestPosts={latestPostsData}
+            />
           </div>
         </div>
       </div>

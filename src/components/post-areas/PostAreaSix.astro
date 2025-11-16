@@ -1,14 +1,13 @@
 ---
-import { tansation } from "@/scripts/helpets";
 import HotPostItemTwo from "../cards/HotPostItemTwo.astro";
 
-const { category } = Astro.props;
+const { category, idx } = Astro.props;
 ---
 
 <div class="sidebar-widget-three">
   <div class="widget-title widget-title-three mb-20">
     <div class="section-title-line"></div>
-    <h2 class="title">{tansation(category, "title")}</h2>
+    <h2 class="title">{category?.title}</h2>
   </div>
   <div class="hot-post-wrap">
     <!-- Start Ad  -->
@@ -16,14 +15,14 @@ const { category } = Astro.props;
                           <a href="blog-details.html"><img src="assets/img/blog/nw_banner_post01.jpg" alt=""></a>
                       </div> -->
     <!-- End Ad  -->
-    {
-      category?.posts?.data?.length ? (
-        <>
-          {category.posts.data.map((post: any) => (
-            <HotPostItemTwo post={post.attributes} />
-          ))}
-        </>
-      ) : null
-    }
-  </div>
+        {
+          category?.posts?.length ? (
+            category.posts.map((post: any) => (
+              <HotPostItemTwo post={post} />
+            ))
+          ) : (
+            <p>No posts available for {category?.title}</p>
+          )
+        }
+      </div>
 </div>

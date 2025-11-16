@@ -1,5 +1,4 @@
 ---
-import { tansation } from "@/scripts/helpets";
 import dayjs from "dayjs";
 
 type Props = {
@@ -17,7 +16,7 @@ const { post } = Astro.props;
           {post.createdBy?.firstname}
         </a>
         <h4 class="post-title">
-          <a href={"/" + post?.slug}>{tansation(post, "title")}</a>
+          <a href={"/" + post?.slug}>{post?.title}</a>
         </h4>
         <div class="blog-post-meta">
           <ul class="list-wrap">
